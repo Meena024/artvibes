@@ -1,0 +1,45 @@
+.header {
+  width: 100%;
+  padding: 25px 40px;
+  background: linear-gradient(90deg, #ffe1b3, #ffd9e8, #e4f1fe);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+}
+
+.title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #3b2f2f;
+  font-family: "Playfair Display", serif;
+  letter-spacing: 1px;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: #5e4b3c;
+  margin-top: 6px;
+  font-style: italic;
+  text-align: center;
+  letter-spacing: 0.4px;
+  opacity: 0.9;
+  font-family: "Cormorant Garamond", serif;
+}
