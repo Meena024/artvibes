@@ -1,5 +1,14 @@
+import SellerProfile from "./SellerProfile";
+import UserProfile from "./UserProfile";
+
 const ProfileMain = () => {
-  return <h1>My Profile</h1>;
+  const seller = true;
+  return (
+    <div>
+      {seller && <SellerProfile />}
+      {!seller && <UserProfile />}
+    </div>
+  );
 };
 
 export default ProfileMain;

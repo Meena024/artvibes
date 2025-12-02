@@ -31,7 +31,7 @@ const SignUp = () => {
 
     try {
       const data = await signUp({ email, password });
-      console.log("Signup success:");
+      console.log("Signup success:", data);
 
       const role = location.pathname === "/SignUp" ? "user" : "seller";
 
@@ -124,7 +124,7 @@ const SignUp = () => {
               className={form_classes.linkBtn}
               onClick={() => navigate("/SignUp")}
             >
-              User Account?
+              Create User Account?
             </button>
           ) : (
             <button
@@ -132,7 +132,7 @@ const SignUp = () => {
               className={form_classes.linkBtn}
               onClick={() => navigate("/SellerSignUp")}
             >
-              Seller Account?
+              Create Seller Account?
             </button>
           )}
 

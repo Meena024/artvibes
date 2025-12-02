@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   name: null,
-  profileUrl: null,
   email: null,
+  role: null,
 };
 
 const ProfileSlice = createSlice({
@@ -13,8 +13,8 @@ const ProfileSlice = createSlice({
     setName: (state, action) => {
       state.name = action.payload;
     },
-    setProfileUrl: (state, action) => {
-      state.profileUrl = action.payload;
+    setRole: (state, action) => {
+      state.role = action.payload;
     },
     setEmailInfo: (state, action) => {
       const { email } = action.payload;
@@ -22,9 +22,8 @@ const ProfileSlice = createSlice({
     },
     reset: (state) => {
       state.name = null;
-      state.profileUrl = null;
+      state.role = null;
       state.email = null;
-      state.emailVerified = false;
     },
   },
 });

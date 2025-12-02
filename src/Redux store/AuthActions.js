@@ -32,11 +32,9 @@ export const fetchAuthData = (token) => {
       dispatch(AuthAction.setUserId(userId));
       // --- Update Profile slice ---
       dispatch(ProfileActions.setName(user.displayName || null));
-      dispatch(ProfileActions.setProfileUrl(user.photoUrl || null));
       dispatch(
         ProfileActions.setEmailInfo({
           email: user.email,
-          emailVerified: user.emailVerified,
         })
       );
 
