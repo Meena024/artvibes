@@ -1,0 +1,93 @@
+.head {
+  width: 100%;
+  padding: 10px 20px;
+
+  background: linear-gradient(90deg, #e8effb 10%, #f5e0d9 40%, #e8effb 100%);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Left section */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.logo {
+  height: 45px;
+  width: 45px;
+}
+
+/* ----------- NAVIGATION ----------- */
+.nav {
+  display: flex;
+  gap: 25px;
+}
+
+/* Default inactive link */
+.navItem {
+  text-decoration: none;
+  font-size: 16px;
+  color: #444;
+
+  padding: 8px 16px;
+  border-radius: 20px;
+
+  transition: all 0.25s ease-in-out;
+}
+
+/* Active tab — pastel glass pill */
+.activeNavItem {
+  text-decoration: none;
+  color: #111;
+
+  padding: 8px 16px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  font-weight: 600;
+  transform: translateY(-2px);
+}
+
+/* Hover animation */
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  color: #111;
+}
+
+/* ----------- LOGOUT BUTTON ----------- */
+.logoutBtn {
+  padding: 8px 20px;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  border-radius: 20px;
+
+  font-size: 15px;
+  cursor: pointer;
+
+  transition: 0.2s ease-in-out;
+}
+
+.logoutBtn:hover {
+  background-color: #c62828;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+}
