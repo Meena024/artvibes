@@ -1,8 +1,11 @@
 import { useState } from "react";
 import styles from "../../../../UI/CSS/Form.module.css";
 import Card from "../../../../UI/Card/Card";
+import { ModalActions } from "../../../../Redux store/ModalSlice";
+import { useDispatch } from "react-redux";
 
 const AddProductForm = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -106,8 +109,15 @@ const AddProductForm = () => {
               className={`${styles.input} ${styles.fileInput}`}
             />
           </div>
-
-          <button type="submit">Submit Product</button>
+          <div>
+            <button type="submit">Add Product</button>
+            <button
+              type="button"
+              onClick={() => dispatch(ModalActions.unsetModal())}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </Card>
     </div>

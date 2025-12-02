@@ -1,14 +1,19 @@
-import SellerProfile from "./SellerProfile";
-import UserProfile from "./UserProfile";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProfileMain = () => {
-  const seller = true;
-  return (
-    <div>
-      {seller && <SellerProfile />}
-      {!seller && <UserProfile />}
-    </div>
-  );
+  const navigate = useNavigate();
+  const seller = true; // replace with real state later
+
+  useEffect(() => {
+    if (seller) {
+      navigate("/SellerProfile");
+    } else {
+      navigate("/UserProfile");
+    }
+  }, [seller, navigate]);
+
+  return null; // no need to render anything here
 };
 
 export default ProfileMain;

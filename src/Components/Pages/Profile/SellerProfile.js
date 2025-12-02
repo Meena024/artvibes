@@ -1,15 +1,9 @@
-import { useState } from "react";
-import AddProductForm from "./Seller/AddProductForm";
-import Styles from "../../../UI/CSS/SellerProfile.module.css";
+import { Outlet } from "react-router-dom";
 
 const SellerProfile = () => {
-  const [form, setForm] = useState(true);
   return (
-    <div>
-      <button className={Styles.button} onClick={() => setForm(!form)}>
-        Add Products
-      </button>
-      {form && <AddProductForm />}
+    <div style={{ padding: "20px" }}>
+      <Outlet />
     </div>
   );
 };

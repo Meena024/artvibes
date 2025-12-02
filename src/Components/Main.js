@@ -10,7 +10,10 @@ import ForgotPassword from "./Pages/Authentication/ForgotPassword";
 import { useAuthInitializer } from "../Components/Pages/Authentication/AuthInitializer";
 import Head from "./Head";
 import SellerProduct from "./Pages/Profile/Seller/Products";
-import SellerCategory from "./Pages/Profile/Seller/Categories";
+import SellerCategory from "./Pages/Profile/Seller/Category";
+import SellerProfile from "./Pages/Profile/SellerProfile";
+import SellerOrders from "./Pages/Profile/Seller/Orders";
+import Modals from "../UI/Modal/Modals";
 
 const Main = () => {
   useAuthInitializer();
@@ -18,6 +21,7 @@ const Main = () => {
 
   return (
     <>
+      <Modals />
       {!isLoggedIn && <Header />}
       {isLoggedIn && <Head />}
       <Routes>
@@ -62,21 +66,19 @@ const Main = () => {
           }
         />
         <Route
-          path="/SellerProfile/Products"
+          path="/SellerProfile/*"
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <SellerProduct />
+              <SellerProfile />
             </ProtectedRoute>
           }
-        />
-        <Route
-          path="/SellerProfile/Category"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <SellerCategory />
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route index element={<SellerProduct />} />
+          <Route path="Products" element={<SellerProduct />} />
+          <Route path="Orders" element={<SellerOrders />} />
+          <Route path="Category" element={<SellerCategory />} />
+        </Route>
+
         <Route path="*" element={<h1>Page Not Found!</h1>} />
       </Routes>
     </>
