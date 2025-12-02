@@ -34,19 +34,27 @@ const Main = () => {
           }
         />
         <Route
+          path="/SellerSignUp"
+          element={
+            <PublicRoute isLoggedIn={isLoggedIn}>
+              <SignUp />
+            </PublicRoute>
+          }
+        />
+        <Route
           path="/ForgotPassword"
           element={
-            // <PublicRoute isLoggedIn={isLoggedIn}>
-            <ForgotPassword />
-            // </PublicRoute>
+            <PublicRoute isLoggedIn={isLoggedIn}>
+              <ForgotPassword />
+            </PublicRoute>
           }
         />
         <Route
           path="/"
           element={
-            // <PublicRoute isLoggedIn={isLoggedIn}>
-            <Login />
-            // </PublicRoute>
+            <PublicRoute isLoggedIn={isLoggedIn}>
+              <Login />
+            </PublicRoute>
           }
         />
         <Route path="*" element={<h1>Page Not Found!</h1>} />

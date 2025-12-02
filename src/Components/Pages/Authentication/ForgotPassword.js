@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useAuthApi } from "../../Hooks/useAuthApi";
 import Card from "../../../UI/Card/Card";
 import form_classes from "../../../UI/CSS/Form.module.css";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const { forgotPassword } = useAuthApi();
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,30 +20,20 @@ const ForgotPassword = () => {
     setError(null);
 
     try {
-      const response = await fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBTQ2asMnlPUffJVn8EKwscBGedzGW_e9c`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            requestType: "PASSWORD_RESET",
-            email,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error?.message || "Failed to send reset email!");
-      }
+      await forgotPassword(email);
 
       setMessage("Password reset link has been sent!");
       setEmail("");
     } catch (err) {
-      setError(err.message);
+      console.error("RESET PASSWORD ERROR:", err);
+
+      const safeMessage =
+        err?.message || "Something went wrong. Please try again.";
+
+      setError(safeMessage);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -70,7 +62,6 @@ const ForgotPassword = () => {
         {message && <p className={form_classes.successText}>{message}</p>}
         {error && <p className={form_classes.errorText}>{error}</p>}
 
-        {/* Centered link button */}
         <div className={form_classes.linkContainer}>
           <button
             type="button"

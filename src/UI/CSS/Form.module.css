@@ -119,6 +119,13 @@
   font-size: 0.92rem;
 }
 
+/* success */
+.successText {
+  margin-top: 8px;
+  color: #0c7d30;
+  font-size: 0.92rem;
+}
+
 /* mobile */
 @media (max-width: 600px) {
   .form input {

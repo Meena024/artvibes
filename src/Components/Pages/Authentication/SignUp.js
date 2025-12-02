@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Card from "../../../UI/Card/Card";
 import form_classes from "../../../UI/CSS/Form.module.css";
+import { useDbApi } from "../../Hooks/useDbApi";
+import { useAuthApi } from "../../Hooks/useAuthApi";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +13,10 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const api = useDbApi();
+  const { signUp } = useAuthApi();
 
   const signupHandler = async (e) => {
     e.preventDefault();
@@ -24,30 +30,36 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBTQ2asMnlPUffJVn8EKwscBGedzGW_e9c`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email,
-            password,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const data = await signUp({ email, password });
+      console.log("Signup success:");
+
+      const role = location.pathname === "/SignUp" ? "user" : "seller";
+
+      const userObj = {
+        email: data.email ?? "",
+        role,
+      };
+
+      try {
+        await api.put(`users/${data.localId}/userProfile`, userObj);
+      } catch (dbErr) {
+        console.error("DB Write Failed:", dbErr);
+
+        if (dbErr.response?.data) {
+          throw new Error("Failed to save user profile to database.");
+        } else {
+          throw new Error("Network error while saving profile.");
         }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error.message || "Signup failed!");
       }
 
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      console.error("Signup Error:", err);
+
+      const safeMessage =
+        err?.message || "An unexpected error occurred. Please try again.";
+
+      setError(safeMessage);
     }
 
     setEmail("");
@@ -105,13 +117,33 @@ const SignUp = () => {
           </button>
         </form>
 
-        <button
-          type="button"
-          className={form_classes.linkBtn}
-          onClick={() => navigate("/")}
-        >
-          Already have an Account? <strong>SIGN IN</strong>
-        </button>
+        <div className={form_classes.linkContainer}>
+          {location.pathname === "/SellerSignUp" ? (
+            <button
+              type="button"
+              className={form_classes.linkBtn}
+              onClick={() => navigate("/SignUp")}
+            >
+              User Account?
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={form_classes.linkBtn}
+              onClick={() => navigate("/SellerSignUp")}
+            >
+              Seller Account?
+            </button>
+          )}
+
+          <button
+            type="button"
+            className={form_classes.linkBtn}
+            onClick={() => navigate("/")}
+          >
+            Already have an Account? <strong>SIGN IN</strong>
+          </button>
+        </div>
       </Card>
     </div>
   );

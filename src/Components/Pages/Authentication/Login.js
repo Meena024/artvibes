@@ -5,10 +5,12 @@ import form_classes from "../../../UI/CSS/Form.module.css";
 import { AuthAction } from "../../../Redux store/AuthSlice";
 import { useDispatch } from "react-redux";
 import { fetchAuthData } from "../../../Redux store/AuthActions";
+import { useAuthApi } from "../../Hooks/useAuthApi";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { login } = useAuthApi();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,20 +23,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBTQ2asMnlPUffJVn8EKwscBGedzGW_e9c`,
-        {
-          method: "POST",
-          body: JSON.stringify({ email, password, returnSecureToken: true }),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error?.message || "Login failed!");
-      }
+      const data = await login({ email, password });
 
       localStorage.setItem("token", data.idToken);
 
@@ -43,7 +32,12 @@ const Login = () => {
 
       navigate("/UserProfile");
     } catch (err) {
-      setError(err.message);
+      console.error("LOGIN ERROR:", err);
+
+      const safeMessage =
+        err?.message || "An unexpected error occurred. Please try again.";
+
+      setError(safeMessage);
     } finally {
       setLoading(false);
     }
