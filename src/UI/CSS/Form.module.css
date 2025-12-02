@@ -9,7 +9,7 @@
   --text-hover: #b68ca2;
 }
 
-/* entire area */
+/* Center form area */
 .authFormCenter {
   display: flex;
   justify-content: center;
@@ -18,7 +18,7 @@
   padding-top: 60px;
 }
 
-/* title */
+/* Title */
 .title {
   font-family: "Merriweather", serif;
   font-size: 1.9rem;
@@ -30,32 +30,45 @@
   justify-content: center;
 }
 
-/* form container */
+/* Form container */
 .form {
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: "Merriweather", serif;
+  width: 100%;
 }
 
-/* spacing for input */
+/* Wrapper containing each input */
 .inputWrapper {
-  margin: 16px 0;
+  margin: 5px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-/* input fields */
+/* ✨ UNIFIED INPUT STYLING FOR ALL FIELDS ✨ */
+.input,
+.textarea,
+.select,
+.fileInput,
+.form input[type="text"],
 .form input[type="email"],
-.form input[type="password"] {
-  width: 260px;
+.form input[type="password"],
+.form input[type="number"],
+.form input[type="file"],
+.form select,
+.form textarea {
+  width: 360px; /* 🎯 unified width */
   padding: 13px 18px;
   background: var(--pastel-input-bg);
   border: 1.6px solid var(--pastel-border) !important;
   border-radius: 14px;
-  text-align: center;
   font-size: 1rem;
   color: #3d3d3d;
+  text-align: left;
 
-  /* aesthetic pastel shadow */
+  /* pastel shadow */
   box-shadow: 0 2px 10px rgba(255, 200, 220, 0.25),
     0 0 10px rgba(220, 200, 255, 0.18);
 
@@ -64,8 +77,19 @@
   -webkit-appearance: none !important;
 }
 
-/* focus state */
-.form input:focus {
+/* Center text for email/password only */
+.form input[type="email"],
+.form input[type="password"] {
+  text-align: center;
+}
+
+/* Focus effect */
+.input:focus,
+.textarea:focus,
+.select:focus,
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
   background: #fff4fa;
   border-color: var(--pastel-focus) !important;
   box-shadow: 0 0 16px rgba(255, 165, 205, 0.65),
@@ -73,7 +97,21 @@
   outline: none;
 }
 
-/* main button */
+/* Textarea adjustments */
+.textarea,
+.form textarea {
+  min-height: 120px; /* ✔ slightly bigger vertically */
+  resize: vertical;
+}
+
+/* File input */
+.fileInput,
+.form input[type="file"] {
+  padding: 10px;
+  background: #fff;
+}
+
+/* Main button */
 .form button {
   background: linear-gradient(90deg, #3d3d3d, #000);
   color: white;
@@ -95,7 +133,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32), 0 0 16px rgba(255, 180, 210, 0.55);
 }
 
-/* link buttons (reset bootstrap) */
+/* Link buttons */
 .linkBtn {
   all: unset;
   display: inline-block;
@@ -112,31 +150,21 @@
   color: var(--text-hover);
 }
 
-/* error */
+/* Error message */
 .errorText {
   margin-top: 8px;
   color: #d9534f;
   font-size: 0.92rem;
 }
 
-/* success */
+/* Success message */
 .successText {
   margin-top: 8px;
   color: #0c7d30;
   font-size: 0.92rem;
 }
 
-/* mobile */
-@media (max-width: 600px) {
-  .form input {
-    width: 210px;
-  }
-
-  .card {
-    padding: 35px 40px !important;
-  }
-}
-
+/* Container for link buttons */
 .linkContainer {
   display: flex;
   flex-direction: column;
@@ -144,4 +172,19 @@
   justify-content: center;
   margin-top: 12px;
   gap: 6px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .form input,
+  .input,
+  .textarea,
+  .select,
+  .fileInput {
+    width: 210px;
+  }
+
+  .card {
+    padding: 35px 40px !important;
+  }
 }
