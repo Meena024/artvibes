@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 
 const ProfileMain = () => {
   const navigate = useNavigate();
-  const seller = true; // replace with real state later
+  const seller = true;
 
   useEffect(() => {
     if (seller) {
-      navigate("/SellerProfile");
+      navigate("/SellerProfile/Products");
     } else {
       navigate("/UserProfile");
     }
   }, [seller, navigate]);
 
-  return null; // no need to render anything here
+  return null;
 };
 
 export default ProfileMain;

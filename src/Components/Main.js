@@ -9,7 +9,7 @@ import SignUp from "./Pages/Authentication/SignUp";
 import ForgotPassword from "./Pages/Authentication/ForgotPassword";
 import { useAuthInitializer } from "../Components/Pages/Authentication/AuthInitializer";
 import Head from "./Head";
-import SellerProduct from "./Pages/Profile/Seller/Products";
+import SellerProduct from "./Pages/Profile/Seller/Products/Products";
 import SellerCategory from "./Pages/Profile/Seller/Category";
 import SellerProfile from "./Pages/Profile/SellerProfile";
 import SellerOrders from "./Pages/Profile/Seller/Orders";

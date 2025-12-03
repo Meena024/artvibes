@@ -2,16 +2,19 @@ import { useState } from "react";
 import styles from "../../../../UI/CSS/Form.module.css";
 import Card from "../../../../UI/Card/Card";
 import { ModalActions } from "../../../../Redux store/ModalSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { SellerProductsActions } from "../../../../Redux store/Seller/SellerProductsSlice";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
+  const sellerId = useSelector((state) => state.auth.userId);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     price: "",
     category: "",
     image: null,
+    sellerId,
   });
 
   const categories = [
@@ -33,7 +36,12 @@ const AddProductForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Product Details:", formData);
+
+    dispatch(SellerProductsActions.addProduct(formData));
+
+    console.log("Product Added:", formData);
+
+    dispatch(ModalActions.unsetModal());
   };
 
   return (
