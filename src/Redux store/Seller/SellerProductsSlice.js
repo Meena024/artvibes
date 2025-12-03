@@ -12,6 +12,11 @@ const SellerProductsSlice = createSlice({
   reducers: {
     /* ------------------ PRODUCTS ------------------ */
 
+    setProducts: (state, action) => {
+      state.products = action.payload;
+      console.log(action.payload, "setProducts");
+    },
+
     addProduct: (state, action) => {
       state.products.push(action.payload);
     },
@@ -39,6 +44,10 @@ const SellerProductsSlice = createSlice({
     },
 
     /* ------------------ CATEGORY CRUD ------------------ */
+
+    setCategories: (state, action) => {
+      state.category = action.payload; // <-- NEW
+    },
 
     addCategory: (state, action) => {
       if (!state.category.some((cat) => cat.id === action.payload.id)) {
