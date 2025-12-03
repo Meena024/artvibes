@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import styles from "../../../../../UI/CSS/CategoryListing.module.css";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
-import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductsSlice";
+import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductActions";
 
 const CategoryListing = ({ category }) => {
   const dispatch = useDispatch();

@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import styles from "../../../../../UI/CSS/ProductListing.module.css";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
-import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductsSlice";
+import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductActions";
 
 const ProductListing = ({ product }) => {
   const dispatch = useDispatch();

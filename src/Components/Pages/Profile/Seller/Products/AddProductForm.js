@@ -3,13 +3,13 @@ import styles from "../../../../../UI/CSS/Form.module.css";
 import Card from "../../../../../UI/Card/Card";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductsSlice";
+import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductActions";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
-
   const editProduct = useSelector((state) => state.sellerProducts.edit_product);
-  const categori = useSelector((state) => state.sellerProducts.category);
+  const categoriesState = useSelector((state) => state.sellerProducts.category);
+
   const isEdit = Boolean(editProduct);
 
   const [formData, setFormData] = useState({
@@ -18,7 +18,6 @@ const AddProductForm = () => {
     price: "",
     category: "",
     image: "",
-    productId: Date.now(),
   });
 
   useEffect(() => {
@@ -27,26 +26,20 @@ const AddProductForm = () => {
     }
   }, [editProduct]);
 
-  const categories = categori?.map((cat) => cat.title) || [];
+  const categories = categoriesState?.map((cat) => cat.title) || [];
 
-  const capitalize = (text) => {
-    if (!text) return "";
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  };
+  const capitalize = (text) =>
+    text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
     let newValue = files ? files[0] : value;
 
-    if (name === "title" || name === "description") {
+    if (name === "title" || name === "description")
       newValue = capitalize(newValue);
-    }
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: newValue,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const handleSubmit = (e) => {

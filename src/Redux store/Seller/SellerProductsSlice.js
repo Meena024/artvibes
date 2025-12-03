@@ -13,10 +13,7 @@ const SellerProductsSlice = createSlice({
     /* ------------------ PRODUCTS ------------------ */
 
     addProduct: (state, action) => {
-      state.products.push({
-        id: Date.now(),
-        ...action.payload,
-      });
+      state.products.push(action.payload);
     },
 
     removeProduct: (state, action) => {
@@ -44,9 +41,8 @@ const SellerProductsSlice = createSlice({
     /* ------------------ CATEGORY CRUD ------------------ */
 
     addCategory: (state, action) => {
-      if (!state.category.includes(action.payload)) {
+      if (!state.category.some((cat) => cat.id === action.payload.id)) {
         state.category.push(action.payload);
-        console.log(action.payload);
       }
     },
 

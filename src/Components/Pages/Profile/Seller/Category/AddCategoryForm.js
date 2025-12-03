@@ -3,11 +3,10 @@ import styles from "../../../../../UI/CSS/Form.module.css";
 import Card from "../../../../../UI/Card/Card";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductsSlice";
+import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductActions";
 
 const AddCategoryForm = () => {
   const dispatch = useDispatch();
-
   const editCategory = useSelector(
     (state) => state.sellerProducts.edit_category
   );
@@ -15,33 +14,25 @@ const AddCategoryForm = () => {
   const isEdit = Boolean(editCategory);
 
   const [formData, setFormData] = useState({
-    id: Date.now(),
     title: "",
     image: "",
   });
 
-  // Load data when editing
   useEffect(() => {
     if (editCategory) {
       setFormData(editCategory);
     }
   }, [editCategory]);
 
-  // Capitalize title
-  const capitalize = (text) => {
-    if (!text) return "";
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  };
+  const capitalize = (text) =>
+    text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    let val = value;
-    if (name === "title") val = capitalize(value);
-
     setFormData((prev) => ({
       ...prev,
-      [name]: val,
+      [name]: name === "title" ? capitalize(value) : value,
     }));
   };
 
@@ -51,14 +42,13 @@ const AddCategoryForm = () => {
     if (isEdit) {
       dispatch(
         SellerProductsActions.updateCategory({
-          id: formData.id,
+          id: editCategory.id,
           data: formData,
         })
       );
     } else {
       dispatch(
         SellerProductsActions.addCategory({
-          id: formData.id,
           title: formData.title,
           image: formData.image,
         })
@@ -82,27 +72,25 @@ const AddCategoryForm = () => {
         </h1>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          {/* Category Title */}
           <div className={styles.inputWrapper}>
             <input
               type="text"
               name="title"
-              placeholder="Category Name"
               value={formData.title}
               onChange={handleChange}
+              placeholder="Category Name"
               required
               className={styles.input}
             />
           </div>
 
-          {/* Category Image */}
           <div className={styles.inputWrapper}>
             <input
               type="text"
               name="image"
-              placeholder="Category Image URL"
               value={formData.image}
               onChange={handleChange}
+              placeholder="Category Image URL"
               required
               className={styles.input}
             />
