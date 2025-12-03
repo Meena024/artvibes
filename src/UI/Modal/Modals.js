@@ -1,7 +1,8 @@
 import "./Modals.css";
 import { useSelector, useDispatch } from "react-redux";
 import { ModalActions } from "../../Redux store/ModalSlice";
-import AddProductForm from "../../Components/Pages/Profile/Seller/AddProductForm";
+import AddProductForm from "../../Components/Pages/Profile/Seller/Products/AddProductForm";
+import AddCategoryForm from "../../Components/Pages/Profile/Seller/Category/AddCategoryForm";
 
 const Modals = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,8 @@ const Modals = () => {
     switch (modalContent) {
       case "AddProduct":
         return <AddProductForm />;
+      case "AddCategory":
+        return <AddCategoryForm />;
       case "ZoomImage":
         return (
           <img

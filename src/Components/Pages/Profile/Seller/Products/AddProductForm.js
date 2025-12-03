@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import styles from "../../../../UI/CSS/Form.module.css";
-import Card from "../../../../UI/Card/Card";
-import { ModalActions } from "../../../../Redux store/ModalSlice";
+import styles from "../../../../../UI/CSS/Form.module.css";
+import Card from "../../../../../UI/Card/Card";
+import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { SellerProductsActions } from "../../../../Redux store/Seller/SellerProductsSlice";
+import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductsSlice";
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
 
-  const sellerId = useSelector((state) => state.auth.userId);
   const editProduct = useSelector((state) => state.sellerProducts.edit_product);
-
+  const categori = useSelector((state) => state.sellerProducts.category);
   const isEdit = Boolean(editProduct);
 
   const [formData, setFormData] = useState({
@@ -19,7 +18,7 @@ const AddProductForm = () => {
     price: "",
     category: "",
     image: "",
-    sellerId,
+    productId: Date.now(),
   });
 
   useEffect(() => {
@@ -28,13 +27,7 @@ const AddProductForm = () => {
     }
   }, [editProduct]);
 
-  const categories = [
-    "Art",
-    "Painting",
-    "Digital Print",
-    "Handmade Craft",
-    "Photography",
-  ];
+  const categories = categori?.map((cat) => cat.title) || [];
 
   const capitalize = (text) => {
     if (!text) return "";
