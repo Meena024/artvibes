@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 const ProfileMain = () => {
   const navigate = useNavigate();
-  const seller = true;
+  const seller = false;
 
   useEffect(() => {
     if (seller) {
       navigate("/SellerProfile/Products");
     } else {
-      navigate("/UserProfile");
+      navigate("/UserProfile/Products");
     }
   }, [seller, navigate]);
 

@@ -14,6 +14,8 @@ import SellerCategory from "./Pages/Profile/Seller/Category/Category";
 import SellerProfile from "./Pages/Profile/SellerProfile";
 import SellerOrders from "./Pages/Profile/Seller/Orders";
 import Modals from "../UI/Modal/Modals";
+import UserProducts from "./Pages/Profile/User/UserProducts";
+import UserProfile from "./Pages/Profile/UserProfile";
 
 const Main = () => {
   useAuthInitializer();
@@ -77,6 +79,17 @@ const Main = () => {
           <Route path="Products" element={<SellerProduct />} />
           <Route path="Orders" element={<SellerOrders />} />
           <Route path="Category" element={<SellerCategory />} />
+        </Route>
+        <Route
+          path="/UserProfile/*"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<UserProfile />} />
+          <Route path="Products" element={<UserProducts />} />
         </Route>
 
         <Route path="*" element={<h1>Page Not Found!</h1>} />
