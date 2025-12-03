@@ -1,0 +1,97 @@
+/* CARD-LIKE ROW */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr 1fr;
+  background: #ffffffd9;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 16px 22px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+}
+
+.row:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.12);
+}
+
+/* WRAPPER TD AROUND THE CARD */
+.rowWrapper {
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* CELL STYLING */
+.cell {
+  padding: 18px 22px;
+  font-size: 15px;
+  color: #3e3e3e;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid rgba(230, 200, 200, 0.25);
+}
+
+.cell:last-child {
+  border-bottom: none;
+}
+
+/* PRODUCT IMAGE */
+.productImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(230, 200, 200, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease;
+}
+
+.productImage:hover {
+  transform: scale(1.05);
+}
+
+/* ACTION BUTTON GROUP */
+.actionBtns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+
+/* BUTTON BASE STYLE */
+.editBtn,
+.deleteBtn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  font-size: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* EDIT BUTTON */
+.editBtn {
+  background: linear-gradient(135deg, #4d9fff, #1c6ddc);
+  color: white;
+}
+
+.editBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(76, 139, 255, 0.4);
+}
+
+/* DELETE BUTTON */
+.deleteBtn {
+  background: linear-gradient(135deg, #ff6b6b, #ff3b3b);
+  color: white;
+}
+
+.deleteBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 80, 80, 0.35);
+}

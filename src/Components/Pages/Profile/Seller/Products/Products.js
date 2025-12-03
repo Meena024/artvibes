@@ -6,20 +6,44 @@ import ProductListing from "./ProductListing";
 const Product = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.sellerProducts.products);
-  console.log(products);
-  const product_list = products.map((product) => (
-    <ProductListing product={product} />
-  ));
+
   const AddProductHandler = () => {
     dispatch(ModalActions.setModalContent("AddProduct"));
     dispatch(ModalActions.setModal());
   };
+
   return (
-    <div>
+    <div className={Styles.container}>
       <button className={Styles.button} onClick={AddProductHandler}>
         Add Products
       </button>
-      <div>{product_list}</div>
+
+      <table className={Styles.table}>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {products?.length > 0 ? (
+            products.map((product) => (
+              <ProductListing key={product.id} product={product} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" className={Styles.noProducts}>
+                No products added yet.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

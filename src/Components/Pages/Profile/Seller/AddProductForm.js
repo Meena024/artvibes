@@ -109,12 +109,13 @@ const AddProductForm = () => {
           {/* Image */}
           <div className={styles.inputWrapper}>
             <input
-              type="file"
+              type="text"
               name="image"
+              placeholder="Image URL"
+              value={formData.image}
               onChange={handleChange}
-              accept="image/*"
               required
-              className={`${styles.input} ${styles.fileInput}`}
+              className={styles.input}
             />
           </div>
           <div>

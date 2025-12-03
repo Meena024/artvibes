@@ -25,3 +25,44 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.32), 0 0 16px rgba(255, 180, 210, 0.55);
 }
+
+.container {
+  width: 95%;
+  margin: auto;
+  margin-top: 20px;
+}
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 16px;
+  margin-top: 26px;
+}
+
+.table thead tr {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.5fr 1fr 1fr 1fr;
+  background: #ffffffd9;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 16px 22px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+.table th {
+  font-size: 15px;
+  color: #4a3f3f;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: none;
+  background: transparent !important;
+  padding: 0; /* because grid handles spacing now */
+  display: flex;
+  align-items: center;
+}
+
+.noProducts {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #666;
+}
