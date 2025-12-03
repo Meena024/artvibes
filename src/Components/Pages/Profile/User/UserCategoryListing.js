@@ -1,6 +1,17 @@
+import Styles from "../../../../UI/CSS/UserCategoryListing.module.css";
+
 const UserCategoryListing = ({ category }) => {
-  console.log(category.title);
-  return <h1>{category.title}</h1>;
+  return (
+    <div className={Styles.categoryCard}>
+      <div className={Styles.categoryTitle}>{category.title}</div>
+
+      <img
+        src={category.image}
+        alt={category.title}
+        className={Styles.categoryImage}
+      />
+    </div>
+  );
 };
 
 export default UserCategoryListing;

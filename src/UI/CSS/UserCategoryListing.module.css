@@ -1,0 +1,53 @@
+.categoryCard {
+  width: 220px; /* FIXED width */
+  height: 260px; /* FIXED height */
+
+  flex: 0 0 auto; /* PREVENT shrinking in flexbox */
+  flex-shrink: 0; /* HARD stop shrinking */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  border-radius: 16px;
+  padding: 15px;
+
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+
+  transition: all 0.25s ease-in-out;
+}
+
+.categoryCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Title */
+.categoryTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Image */
+.categoryImage {
+  width: 100%; /* fixed card width */
+  height: 180px; /* fixed image height */
+
+  object-fit: cover;
+  border-radius: 14px;
+
+  opacity: 0.85;
+  transition: all 0.2s ease-in-out;
+}
+
+.categoryCard:hover .categoryImage {
+  opacity: 1;
+}
