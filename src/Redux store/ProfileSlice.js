@@ -10,16 +10,24 @@ const ProfileSlice = createSlice({
   name: "Profile",
   initialState,
   reducers: {
+    setProfile: (state, action) => {
+      state.name = action.payload.name ?? "";
+      state.role = action.payload.role ?? "";
+      state.email = action.payload.email ?? "";
+    },
+
     setName: (state, action) => {
       state.name = action.payload;
     },
+
     setRole: (state, action) => {
       state.role = action.payload;
     },
+
     setEmailInfo: (state, action) => {
-      const { email } = action.payload;
-      state.email = email;
+      state.email = action.payload;
     },
+
     reset: (state) => {
       state.name = null;
       state.role = null;
