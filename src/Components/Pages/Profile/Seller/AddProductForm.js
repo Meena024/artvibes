@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../../../../UI/CSS/Form.module.css";
 import Card from "../../../../UI/Card/Card";
 import { ModalActions } from "../../../../Redux store/ModalSlice";
@@ -7,15 +7,26 @@ import { SellerProductsActions } from "../../../../Redux store/Seller/SellerProd
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
+
   const sellerId = useSelector((state) => state.auth.userId);
+  const editProduct = useSelector((state) => state.sellerProducts.edit_product);
+
+  const isEdit = Boolean(editProduct);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     price: "",
     category: "",
-    image: null,
+    image: "",
     sellerId,
   });
+
+  useEffect(() => {
+    if (editProduct) {
+      setFormData(editProduct);
+    }
+  }, [editProduct]);
 
   const categories = [
     "Art",
@@ -25,29 +36,55 @@ const AddProductForm = () => {
     "Photography",
   ];
 
+  const capitalize = (text) => {
+    if (!text) return "";
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
+    let newValue = files ? files[0] : value;
+
+    if (name === "title" || name === "description") {
+      newValue = capitalize(newValue);
+    }
+
     setFormData((prev) => ({
       ...prev,
-      [name]: files ? files[0] : value,
+      [name]: newValue,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(SellerProductsActions.addProduct(formData));
+    if (isEdit) {
+      dispatch(
+        SellerProductsActions.updateProduct({
+          id: editProduct.id,
+          data: formData,
+        })
+      );
+    } else {
+      dispatch(SellerProductsActions.addProduct(formData));
+    }
 
-    console.log("Product Added:", formData);
+    dispatch(SellerProductsActions.resetEditProduct());
+    dispatch(ModalActions.unsetModal());
+  };
 
+  const handleCancel = () => {
+    dispatch(SellerProductsActions.setEditProduct(null));
     dispatch(ModalActions.unsetModal());
   };
 
   return (
     <div className={styles.authFormCenter}>
       <Card>
-        <h1 className={styles.title}>Add Product</h1>
+        <h1 className={styles.title}>
+          {isEdit ? "Edit Product" : "Add Product"}
+        </h1>
 
         <form className={styles.form} onSubmit={handleSubmit}>
           {/* Product Title */}
@@ -118,12 +155,12 @@ const AddProductForm = () => {
               className={styles.input}
             />
           </div>
+
+          {/* Buttons */}
           <div>
-            <button type="submit">Add Product</button>
-            <button
-              type="button"
-              onClick={() => dispatch(ModalActions.unsetModal())}
-            >
+            <button type="submit">{isEdit ? "Edit" : "Add Product"}</button>
+
+            <button type="button" onClick={handleCancel}>
               Cancel
             </button>
           </div>
