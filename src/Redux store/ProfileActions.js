@@ -10,7 +10,7 @@ export const fetchProfile = (userId) => {
 
     dispatch(
       SliceActions.setProfile({
-        name: data.userProfile.name || "",
+        name: data.userProfile.name ?? "user",
         email: data.userProfile.email,
         role: data.userProfile.role,
       })
@@ -20,17 +20,11 @@ export const fetchProfile = (userId) => {
 
 /* ------------------ UPDATE PROFILE ------------------ */
 
-export const updateProfile = (userId, profileData) => {
+export const updateName = (userId, profileData) => {
   return async (dispatch) => {
-    await dbApi.patch(`users/${userId}`, profileData);
+    await dbApi.patch(`users/${userId}/userProfile`, profileData);
 
-    dispatch(
-      SliceActions.setProfile({
-        name: profileData.name ?? "",
-        email: profileData.email ?? "",
-        role: profileData.role ?? "",
-      })
-    );
+    dispatch(SliceActions.setName(profileData.name ?? "user"));
   };
 };
 
@@ -47,6 +41,6 @@ export const resetProfile = () => {
 export const ProfileActions = {
   ...SliceActions,
   fetchProfile,
-  updateProfile,
+  updateName,
   resetProfile,
 };

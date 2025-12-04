@@ -1,15 +1,12 @@
 .head {
   width: 100%;
   padding: 12px 25px;
-
   background: linear-gradient(90deg, #e8effb 10%, #f5e0d9 40%, #e8effb 100%);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   position: sticky;
   top: 0;
   z-index: 100;
@@ -19,7 +16,7 @@
 .left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
 }
 
 .logo {
@@ -27,11 +24,19 @@
   width: 48px;
 }
 
+/* ---------- NAME + EDIT BUTTON (INLINE) ---------- */
+.nameBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .greet {
   font-size: 17px;
   font-weight: 500;
   color: #333;
 }
+
 .editBtn {
   background: rgba(255, 255, 255, 0.6);
   border: none;
@@ -39,21 +44,12 @@
   border-radius: 50%;
   cursor: pointer;
   font-size: 15px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   backdrop-filter: blur(4px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
   transition: 0.2s ease;
-}
-
-/* Mirrored pencil → slanted to the right */
-.editBtn span {
-  display: inline-block;
-  transform: scaleX(-1);
 }
 
 .editBtn:hover {
@@ -62,13 +58,55 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* CENTER (Seller Nav) */
+/* ---------- EDIT MODE ---------- */
+.editBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nameInput {
+  padding: 8px 14px;
+  border-radius: 18px;
+  border: none;
+  outline: none;
+  width: 150px;
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.2s;
+}
+
+.nameInput:focus {
+  background: white;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.saveBtn {
+  padding: 7px 16px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.4);
+}
+
+.saveBtn:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(59, 130, 246, 0.5);
+}
+
+/* Seller Nav */
 .nav {
   display: flex;
   gap: 25px;
 }
 
-/* Menu links */
 .navItem,
 .activeNavItem {
   text-decoration: none;
@@ -97,14 +135,13 @@
   transform: translateY(-2px);
 }
 
-/* RIGHT SIDE (User Menu + Logout) */
+/* RIGHT SIDE */
 .rightBox {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
-/* USER MENU */
 .userMenu {
   display: flex;
   align-items: center;
@@ -117,12 +154,9 @@
   border: none;
   outline: none;
   width: 180px;
-
   font-size: 15px;
-
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(5px);
-
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   transition: 0.2s ease;
 }
@@ -148,7 +182,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* LOGOUT BUTTON */
+/* LOGOUT */
 .logoutBtn {
   padding: 8px 20px;
   background-color: #e63946;

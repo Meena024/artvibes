@@ -4,18 +4,33 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { AuthAction } from "../Redux store/AuthSlice";
-import { ProfileActions } from "../Redux store/ProfileSlice";
+import { ProfileActions } from "../Redux store/ProfileActions";
+import { useState } from "react";
 
 const Head = () => {
   const user_name = useSelector((state) => state.profile.name);
+  const userId = useSelector((state) => state.auth.userId);
+  const [isEdit, setIsEdit] = useState(false);
+  const [newName, setNewName] = useState(user_name);
+
   const role = useSelector((state) => state.profile.role);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const editHandler = () => {
+    const finalName =
+      typeof newName === "string" && newName.trim().length > 0
+        ? newName.trim()
+        : "User";
+
+    dispatch(ProfileActions.updateName(userId, { name: finalName }));
+    setIsEdit(false);
+  };
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(AuthAction.reset());
-    dispatch(ProfileActions.reset());
+    dispatch(ProfileActions.resetProfile());
     navigate("/");
   };
 
@@ -23,10 +38,43 @@ const Head = () => {
     <header className={styles.head}>
       <div className={styles.left}>
         <img src={logo} className={styles.logo} alt="logo" />
-        <span className={styles.greet}>Hello {user_name},</span>
-        <button className={styles.editBtn}>
-          <span>✏️</span>
-        </button>
+
+        {!isEdit && (
+          <div className={styles.nameBox}>
+            <span className={styles.greet}>
+              Hello<strong> {user_name}</strong>,
+            </span>
+            <button className={styles.editBtn} onClick={() => setIsEdit(true)}>
+              ✏️
+            </button>
+          </div>
+        )}
+
+        {isEdit && (
+          <div className={styles.editBox}>
+            <input
+              type="text"
+              placeholder="Enter name"
+              value={newName}
+              onChange={(e) => {
+                let value = e.target.value;
+                value = value.replace(/\s+/g, " ").trim();
+
+                const updated =
+                  value.length > 0
+                    ? value.charAt(0).toUpperCase() + value.slice(1)
+                    : "";
+
+                setNewName(updated);
+              }}
+              className={styles.nameInput}
+            />
+
+            <button onClick={editHandler} className={styles.saveBtn}>
+              Save
+            </button>
+          </div>
+        )}
       </div>
 
       {role === "seller" && (
