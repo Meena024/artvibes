@@ -1,0 +1,161 @@
+/* ---------- MODAL CARD ---------- */
+.checkoutCard {
+  width: 420px;
+  padding: 28px 30px;
+  border-radius: 30px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 245, 245, 0.9) 100%
+  );
+  backdrop-filter: blur(14px);
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.18);
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ---------- TITLE ---------- */
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: #222;
+}
+
+/* ---------- AMOUNT BOX ---------- */
+.amountBox {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+
+  color: #444;
+
+  background: rgba(244, 179, 179, 0.7);
+  padding: 10px 0px;
+
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- PAYMENT OPTIONS ---------- */
+.optionsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  font-size: 16px;
+  font-weight: 500;
+  color: #444;
+
+  background: rgba(255, 255, 255, 0.75);
+
+  padding: 14px 18px;
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  transition: 0.25s ease;
+}
+
+.option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+}
+
+.option input {
+  display: none;
+}
+
+/* Custom Radio Button */
+.radioCustom {
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+  border: 2px solid #ff6b6b;
+
+  display: inline-block;
+  position: relative;
+}
+
+input:checked + .radioCustom::after {
+  content: "";
+  width: 11px;
+  height: 11px;
+
+  background: #ff6b6b;
+  border-radius: 50%;
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ---------- BUTTON ROW ---------- */
+.btnRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+/* PLACE ORDER BUTTON */
+.placeBtn {
+  flex: 1;
+  padding: 12px 16px;
+
+  background: #ff6b6b;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+
+  box-shadow: 0px 4px 14px rgba(255, 100, 100, 0.3);
+  transition: 0.25s ease;
+}
+
+.placeBtn:hover {
+  background: #ff4a4a;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 22px rgba(255, 100, 100, 0.4);
+}
+
+/* CANCEL BUTTON */
+.cancelBtn {
+  margin-left: 14px;
+  padding: 12px 16px;
+
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+
+  color: #555;
+  font-size: 15px;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.25s ease;
+}
+
+.cancelBtn:hover {
+  background: #f1f1f1;
+  transform: translateY(-2px);
+}

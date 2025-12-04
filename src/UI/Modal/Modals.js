@@ -6,6 +6,7 @@ import AddCategoryForm from "../../Components/Pages/Profile/Seller/Category/AddC
 import Cart from "../../Components/Pages/Profile/User/Cart/Cart";
 import Orders from "../../Components/Pages/Profile/User/Cart/Orders";
 import Fav from "../../Components/Pages/Profile/User/Cart/Fav";
+import Checkout from "../../Components/Pages/Profile/User/Cart/Checkout";
 
 const Modals = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,8 @@ const Modals = () => {
         return <Fav />;
       case "MyCart":
         return <Cart />;
+      case "Checkout":
+        return <Checkout />;
       case "MyOrders":
         return <Orders />;
       case "ZoomImage":

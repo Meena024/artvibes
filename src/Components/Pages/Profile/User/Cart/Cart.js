@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Styles from "../../../../../UI/CSS/Cart.module.css";
 import { FaTrash, FaPlus, FaMinus } from "react-icons/fa";
 import { CartActions } from "../../../../../Redux store/CartActions";
+import { ModalActions } from "../../../../../Redux store/ModalSlice";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,11 @@ const Cart = () => {
   const removeItem = (id) => {
     dispatch(CartActions.removeItem(id));
     dispatch(CartActions.updateCart(userId));
+  };
+
+  const checkoutHandler = () => {
+    dispatch(ModalActions.setModalContent("Checkout"));
+    dispatch(ModalActions.setModal());
   };
 
   return (
@@ -83,7 +89,9 @@ const Cart = () => {
             <span>₹{totalAmount}</span>
           </div>
 
-          <button className={Styles.checkoutBtn}>Proceed to Checkout</button>
+          <button className={Styles.checkoutBtn} onClick={checkoutHandler}>
+            Proceed to Checkout
+          </button>
         </div>
       )}
     </div>
