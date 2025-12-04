@@ -8,6 +8,7 @@ import { ProfileActions } from "../Redux store/ProfileSlice";
 
 const Head = () => {
   const user_name = useSelector((state) => state.profile.name);
+  const role = useSelector((state) => state.profile.role);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,41 +23,62 @@ const Head = () => {
     <header className={styles.head}>
       <div className={styles.left}>
         <img src={logo} className={styles.logo} alt="logo" />
-        <span>Hello {user_name},</span>
+        <span className={styles.greet}>Hello {user_name},</span>
+        <button className={styles.editBtn}>
+          <span>✏️</span>
+        </button>
       </div>
 
-      <nav className={styles.nav}>
-        <NavLink
-          to="/Profile/seller/products"
-          className={({ isActive }) =>
-            isActive ? styles.activeNavItem : styles.navItem
-          }
-        >
-          Products
-        </NavLink>
+      {role === "seller" && (
+        <nav className={styles.nav}>
+          <NavLink
+            to="/Profile/seller/products"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
+            Products
+          </NavLink>
 
-        <NavLink
-          to="/Profile/seller/orders"
-          className={({ isActive }) =>
-            isActive ? styles.activeNavItem : styles.navItem
-          }
-        >
-          Order Details
-        </NavLink>
+          <NavLink
+            to="/Profile/seller/orders"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
+            Order Details
+          </NavLink>
 
-        <NavLink
-          to="/Profile/seller/category"
-          className={({ isActive }) =>
-            isActive ? styles.activeNavItem : styles.navItem
-          }
-        >
-          Category
-        </NavLink>
-      </nav>
+          <NavLink
+            to="/Profile/seller/category"
+            className={({ isActive }) =>
+              isActive ? styles.activeNavItem : styles.navItem
+            }
+          >
+            Category
+          </NavLink>
+        </nav>
+      )}
 
-      <button className={styles.logoutBtn} onClick={logoutHandler}>
-        Logout
-      </button>
+      <div className={styles.rightBox}>
+        {role === "user" && (
+          <div className={styles.userMenu}>
+            <input
+              type="text"
+              placeholder="Search..."
+              className={styles.searchBox}
+            />
+
+            <button className={styles.iconBtn}>❤️</button>
+            <button className={styles.iconBtn}>🛒</button>
+            <button className={styles.iconBtn}>📦</button>
+          </div>
+        )}
+
+        <button className={styles.logoutBtn} onClick={logoutHandler}>
+          Logout
+        </button>
+      </div>
     </header>
   );
 };
