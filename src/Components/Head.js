@@ -27,7 +27,7 @@ const Head = () => {
 
       <nav className={styles.nav}>
         <NavLink
-          to="/SellerProfile/Products"
+          to="/Profile/seller/products"
           className={({ isActive }) =>
             isActive ? styles.activeNavItem : styles.navItem
           }
@@ -36,7 +36,7 @@ const Head = () => {
         </NavLink>
 
         <NavLink
-          to="/SellerProfile/Orders"
+          to="/Profile/seller/orders"
           className={({ isActive }) =>
             isActive ? styles.activeNavItem : styles.navItem
           }
@@ -45,7 +45,7 @@ const Head = () => {
         </NavLink>
 
         <NavLink
-          to="/SellerProfile/Category"
+          to="/Profile/seller/category"
           className={({ isActive }) =>
             isActive ? styles.activeNavItem : styles.navItem
           }

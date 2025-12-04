@@ -1,5 +1,4 @@
 import { AuthAction } from "./AuthSlice";
-import { ProfileActions } from "./ProfileActions";
 
 export const fetchAuthData = (token) => {
   return async (dispatch) => {
@@ -31,7 +30,6 @@ export const fetchAuthData = (token) => {
       const userId = user.localId;
       dispatch(AuthAction.setUserId(userId));
       // --- Update Profile slice ---
-      dispatch(ProfileActions.fetchProfile(userId));
 
       return user.localId;
     } catch (err) {

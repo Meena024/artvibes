@@ -10,9 +10,9 @@ export const fetchProfile = (userId) => {
 
     dispatch(
       SliceActions.setProfile({
-        name: data.name || "",
-        email: data.email,
-        role: data.role,
+        name: data.userProfile.name || "",
+        email: data.userProfile.email,
+        role: data.userProfile.role,
       })
     );
   };

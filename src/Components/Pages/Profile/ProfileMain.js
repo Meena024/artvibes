@@ -1,17 +1,21 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAuthInitializer } from "../Authentication/AuthInitializer";
 
 const ProfileMain = () => {
+  useAuthInitializer();
   const navigate = useNavigate();
-  const seller = false;
-
+  const role = useSelector((state) => state.profile.role);
   useEffect(() => {
-    if (seller) {
-      navigate("/SellerProfile/Products");
+    if (!role) return; // wait until role is fetched
+
+    if (role === "seller") {
+      navigate("/Profile/seller/products", { replace: true });
     } else {
-      navigate("/UserProfile/Products");
+      navigate("/Profile/user/products", { replace: true });
     }
-  }, [seller, navigate]);
+  }, [role, navigate]);
 
   return null;
 };

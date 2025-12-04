@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Outlet } from "react-router";
 import Header from "./Header";
 import ProtectedRoute from "./Route/ProtectedRoute";
 import PublicRoute from "./Route/PublicRoute";
@@ -11,11 +11,9 @@ import { useAuthInitializer } from "../Components/Pages/Authentication/AuthIniti
 import Head from "./Head";
 import SellerProduct from "./Pages/Profile/Seller/Products/Products";
 import SellerCategory from "./Pages/Profile/Seller/Category/Category";
-import SellerProfile from "./Pages/Profile/SellerProfile";
 import SellerOrders from "./Pages/Profile/Seller/Orders";
-import Modals from "../UI/Modal/Modals";
 import UserProducts from "./Pages/Profile/User/UserProducts";
-import UserProfile from "./Pages/Profile/UserProfile";
+import Modals from "../UI/Modal/Modals";
 
 const Main = () => {
   useAuthInitializer();
@@ -27,6 +25,7 @@ const Main = () => {
       {!isLoggedIn && <Header />}
       {isLoggedIn && <Head />}
       <Routes>
+        {/* Redirects based on user role */}
         <Route
           path="/UserProfile"
           element={
@@ -35,6 +34,8 @@ const Main = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* Public Authentication Routes */}
         <Route
           path="/SignUp"
           element={
@@ -67,31 +68,26 @@ const Main = () => {
             </PublicRoute>
           }
         />
+
+        {/* Unified Profile Routes */}
         <Route
-          path="/SellerProfile/*"
+          path="/Profile/*"
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <SellerProfile />
+              <Outlet />
             </ProtectedRoute>
           }
         >
-          <Route index element={<SellerProduct />} />
-          <Route path="Products" element={<SellerProduct />} />
-          <Route path="Orders" element={<SellerOrders />} />
-          <Route path="Category" element={<SellerCategory />} />
-        </Route>
-        <Route
-          path="/UserProfile/*"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <UserProfile />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<UserProfile />} />
-          <Route path="Products" element={<UserProducts />} />
+          {/* Seller Routes */}
+          <Route path="seller/products" element={<SellerProduct />} />
+          <Route path="seller/orders" element={<SellerOrders />} />
+          <Route path="seller/category" element={<SellerCategory />} />
+
+          {/* User Routes */}
+          <Route path="user/products" element={<UserProducts />} />
         </Route>
 
+        {/* Not Found */}
         <Route path="*" element={<h1>Page Not Found!</h1>} />
       </Routes>
     </>
