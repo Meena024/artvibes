@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const firebaseURL = "https://trial1-c15f7-default-rtdb.firebaseio.com/";
+const firebaseURL = "https://trial1-c15f7-default-rtdb.firebaseio.com";
 
 export const dbApi = {
   get: async (path) => {

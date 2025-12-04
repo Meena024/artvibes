@@ -28,7 +28,7 @@ const UserProducts = () => {
 
           <div className={Styles.categoriesContainer} ref={scrollRef}>
             {categories.map((c) => (
-              <UserCategoryListing category={c} />
+              <UserCategoryListing key={c.id} category={c} />
             ))}
           </div>
 
@@ -39,7 +39,7 @@ const UserProducts = () => {
 
         <div className={Styles.productsContainer}>
           {products.map((p) => (
-            <UserProductsListing product={p} />
+            <UserProductsListing key={p.id} product={p} />
           ))}
         </div>
       </div>

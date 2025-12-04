@@ -4,6 +4,7 @@ import { AuthAction } from "../../../Redux store/AuthSlice";
 import { fetchAuthData } from "../../../Redux store/AuthActions";
 import { ProfileActions } from "../../../Redux store/ProfileActions";
 import { SellerProductsActions } from "../../../Redux store/Seller/SellerProductActions";
+import { CartActions } from "../../../Redux store/CartActions";
 
 export const useAuthInitializer = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export const useAuthInitializer = () => {
       dispatch(ProfileActions.fetchProfile(id));
       dispatch(SellerProductsActions.fetchProducts());
       dispatch(SellerProductsActions.fetchCategories());
+      dispatch(CartActions.fetchCart(id));
     });
   }, [dispatch]);
 };

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { AuthAction } from "../Redux store/AuthSlice";
 import { ProfileActions } from "../Redux store/ProfileActions";
 import { useState } from "react";
+import { ModalActions } from "../Redux store/ModalSlice";
 
 const Head = () => {
   const user_name = useSelector((state) => state.profile.name);
@@ -25,6 +26,21 @@ const Head = () => {
 
     dispatch(ProfileActions.updateName(userId, { name: finalName }));
     setIsEdit(false);
+  };
+
+  const favHandler = () => {
+    dispatch(ModalActions.setModalContent("MyFav"));
+    dispatch(ModalActions.setModal());
+  };
+
+  const cartHandler = () => {
+    dispatch(ModalActions.setModalContent("MyCart"));
+    dispatch(ModalActions.setModal());
+  };
+
+  const ordersHandler = () => {
+    dispatch(ModalActions.setModalContent("MyOrders"));
+    dispatch(ModalActions.setModal());
   };
 
   const logoutHandler = () => {
@@ -117,9 +133,15 @@ const Head = () => {
               className={styles.searchBox}
             />
 
-            <button className={styles.iconBtn}>❤️</button>
-            <button className={styles.iconBtn}>🛒</button>
-            <button className={styles.iconBtn}>📦</button>
+            <button className={styles.iconBtn} onClick={favHandler}>
+              ❤️
+            </button>
+            <button className={styles.iconBtn} onClick={cartHandler}>
+              🛒
+            </button>
+            <button className={styles.iconBtn} onClick={ordersHandler}>
+              📦
+            </button>
           </div>
         )}
 

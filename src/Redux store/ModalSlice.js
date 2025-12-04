@@ -9,7 +9,6 @@ const ModalSlice = createSlice({
   reducers: {
     setModal(state) {
       state.isModalVisible = true;
-      console.log("modal set");
     },
     unsetModal(state) {
       state.isModalVisible = false;

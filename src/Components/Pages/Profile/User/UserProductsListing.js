@@ -1,21 +1,46 @@
 import { useState } from "react";
 import Styles from "../../../../UI/CSS/UserProductsListing.module.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { CartActions } from "../../../../Redux store/CartActions";
 
 const UserProductsListing = ({ product }) => {
-  const [favorite, setFavorite] = useState(false);
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
+  const favItems = useSelector((state) => state.cart.favItems);
+  const isFav = favItems.some((item) => item.id === product.id);
+
   const [qty, setQty] = useState(1);
 
   const increaseQty = () => setQty((prev) => prev + 1);
   const decreaseQty = () => setQty((prev) => (prev > 1 ? prev - 1 : 1));
 
+  const toggleFavorite = () => {
+    if (isFav) {
+      dispatch(CartActions.removeFromFav(userId, product.id));
+    } else {
+      dispatch(
+        CartActions.addToFav(userId, {
+          id: product.id,
+          title: product.title,
+          image: product.image,
+          price: product.price,
+          category: product.category,
+        })
+      );
+    }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(CartActions.addItem({ ...product, qty }));
+    dispatch(CartActions.updateCart(userId));
+    setQty(1);
+  };
+
   return (
     <div className={Styles.productCard}>
-      <div
-        className={Styles.favoriteIcon}
-        onClick={() => setFavorite(!favorite)}
-      >
-        {favorite ? <FaHeart color="red" /> : <FaRegHeart />}
+      <div className={Styles.favoriteIcon} onClick={toggleFavorite}>
+        {isFav ? <FaHeart color="red" /> : <FaRegHeart />}
       </div>
 
       <span className={Styles.categoryTop}>{product.category}</span>
@@ -42,7 +67,9 @@ const UserProductsListing = ({ product }) => {
           <button onClick={increaseQty}>+</button>
         </div>
 
-        <button className={Styles.addCartBtn}>Add to Cart</button>
+        <button className={Styles.addCartBtn} onClick={handleAddToCart}>
+          Add to Cart
+        </button>
       </div>
     </div>
   );
