@@ -1,13 +1,12 @@
 import { ProfileActions as SliceActions } from "./ProfileSlice";
-import { dbApi } from "../../Components/Hooks/DbApi";
+import { dbApi } from "../Components/Hooks/DbApi";
 
 /* ------------------ FETCH PROFILE FROM BACKEND ------------------ */
 
 export const fetchProfile = (userId) => {
   return async (dispatch) => {
-    const data = await dbApi.get(`profiles/${userId}`);
-
-    if (!data) return; // No profile exists yet
+    const data = await dbApi.get(`users/${userId}`);
+    if (!data || !data.userProfile) return;
 
     dispatch(
       SliceActions.setProfile({
@@ -23,7 +22,7 @@ export const fetchProfile = (userId) => {
 
 export const updateProfile = (userId, profileData) => {
   return async (dispatch) => {
-    await dbApi.patch(`profiles/${userId}`, profileData);
+    await dbApi.patch(`users/${userId}`, profileData);
 
     dispatch(
       SliceActions.setProfile({
@@ -45,7 +44,7 @@ export const resetProfile = () => {
 
 /* ------------------ EXPORT ALL ACTIONS ------------------ */
 
-export const ProfileAPI = {
+export const ProfileActions = {
   ...SliceActions,
   fetchProfile,
   updateProfile,
