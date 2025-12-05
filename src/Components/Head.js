@@ -30,11 +30,6 @@ const Head = () => {
     setIsEdit(false);
   };
 
-  const favHandler = () => {
-    dispatch(ModalActions.setModalContent("MyFav"));
-    dispatch(ModalActions.setModal());
-  };
-
   const cartHandler = () => {
     dispatch(ModalActions.setModalContent("MyCart"));
     dispatch(ModalActions.setModal());
@@ -50,7 +45,16 @@ const Head = () => {
   return (
     <header className={styles.head}>
       <div className={styles.left}>
-        <img src={logo} className={styles.logo} alt="logo" />
+        <img
+          src={logo}
+          className={styles.logo}
+          alt="logo"
+          onClick={() =>
+            role === "user"
+              ? navigate("/Profile/user/products")
+              : navigate("/Profile/seller/products")
+          }
+        />
 
         {!isEdit && (
           <div className={styles.nameBox}>
@@ -130,7 +134,10 @@ const Head = () => {
               className={styles.searchBox}
             />
 
-            <button className={styles.iconBtn} onClick={favHandler}>
+            <button
+              className={styles.iconBtn}
+              onClick={() => navigate("Profile/user/favourites")}
+            >
               ❤️
             </button>
             <button className={styles.iconBtn} onClick={cartHandler}>

@@ -42,6 +42,22 @@ export const updateCart = () => {
 
 /* ------------------ FAVORITES ------------------ */
 
+export const fetchFav = () => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const data = await dbApi.get(`fav/${userId}`);
+
+    const favItems = data
+      ? Object.keys(data).map((key) => ({
+          firebaseKey: key,
+          ...data[key],
+        }))
+      : [];
+
+    dispatch(SliceActions.setFav({ favItems }));
+  };
+};
+
 export const addToFav = (item) => {
   return async (dispatch, getState) => {
     const userId = getState().auth.userId;
@@ -114,6 +130,7 @@ export const CartActions = {
   ...SliceActions,
   fetchCart,
   updateCart,
+  fetchFav,
   addToFav,
   removeFromFav,
   fetchOrders,

@@ -24,6 +24,7 @@ export const useAuthInitializer = () => {
       dispatch(SellerProductsActions.fetchCategories());
       dispatch(CartActions.fetchCart());
       dispatch(CartActions.fetchOrders());
+      dispatch(CartActions.fetchFav());
     });
   }, [dispatch]);
 };

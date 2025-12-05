@@ -16,7 +16,6 @@ const Cart = () => {
 
   const increaseQty = (id, qty) => {
     dispatch(CartActions.increaseQty(id));
-    console.log(CartActions.updateCart);
     dispatch(CartActions.updateCart());
   };
 

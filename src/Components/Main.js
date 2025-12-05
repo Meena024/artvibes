@@ -15,6 +15,7 @@ import SellerOrders from "./Pages/Profile/Seller/Orders";
 import UserProducts from "./Pages/Profile/User/UserProducts";
 import Modals from "../UI/Modal/Modals";
 import UserOrders from "./Pages/Profile/User/Cart/UserOrders";
+import Favourites from "./Pages/Profile/User/Cart/Favorites";
 
 const Main = () => {
   useAuthInitializer();
@@ -87,6 +88,7 @@ const Main = () => {
           {/* User Routes */}
           <Route path="user/products" element={<UserProducts />} />
           <Route path="user/orders" element={<UserOrders />} />
+          <Route path="user/favourites" element={<Favourites />} />
         </Route>
 
         {/* Not Found */}

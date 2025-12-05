@@ -50,6 +50,9 @@ const CartSlice = createSlice({
     clearCart: (state) => {
       state.cartItems = [];
     },
+    setFav: (state, action) => {
+      state.favItems = action.payload.favItems ?? [];
+    },
 
     addToFavr: (state, action) => {
       if (!state.favItems.find((i) => i.id === action.payload.id)) {
