@@ -3,6 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   cartItems: [],
   favItems: [],
+  orders: [],
+  cartQty: 0,
+  totalQty: 0,
+  totalAmount: 0,
 };
 
 const CartSlice = createSlice({
@@ -10,7 +14,28 @@ const CartSlice = createSlice({
   initialState,
   reducers: {
     setCart: (state, action) => {
-      state.cartItems = action.payload.cartItems ?? [];
+      const cartItems = action.payload.cartItems ?? [];
+      state.cartItems = cartItems;
+
+      state.cartQty = cartItems.length;
+
+      state.totalQty = cartItems.reduce(
+        (sum, item) => sum + Number(item.qty),
+        0
+      );
+
+      state.totalAmount = cartItems.reduce(
+        (sum, item) => sum + Number(item.price) * Number(item.qty),
+        0
+      );
+    },
+
+    setOrders: (state, action) => {
+      state.orders = action.payload.myOrders ?? [];
+    },
+
+    addOrder: (state, action) => {
+      state.orders.push(action.payload);
     },
 
     addItem: (state, action) => {
@@ -38,14 +63,14 @@ const CartSlice = createSlice({
       state.cartItems = [];
     },
 
-    addToFav: (state, action) => {
+    addToFavr: (state, action) => {
       const exists = state.favItems.find((i) => i.id === action.payload.id);
       if (!exists) {
         state.favItems.push(action.payload);
       }
     },
 
-    removeFromFav: (state, action) => {
+    removeFromFavr: (state, action) => {
       state.favItems = state.favItems.filter((i) => i.id !== action.payload);
     },
 

@@ -6,7 +6,6 @@ import { CartActions } from "../../../../Redux store/CartActions";
 
 const UserProductsListing = ({ product }) => {
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.userId);
   const favItems = useSelector((state) => state.cart.favItems);
   const isFav = favItems.some((item) => item.id === product.id);
 
@@ -17,10 +16,10 @@ const UserProductsListing = ({ product }) => {
 
   const toggleFavorite = () => {
     if (isFav) {
-      dispatch(CartActions.removeFromFav(userId, product.id));
+      dispatch(CartActions.removeFromFav(product.id));
     } else {
       dispatch(
-        CartActions.addToFav(userId, {
+        CartActions.addToFav({
           id: product.id,
           title: product.title,
           image: product.image,
@@ -33,7 +32,7 @@ const UserProductsListing = ({ product }) => {
 
   const handleAddToCart = () => {
     dispatch(CartActions.addItem({ ...product, qty }));
-    dispatch(CartActions.updateCart(userId));
+    dispatch(CartActions.updateCart());
     setQty(1);
   };
 

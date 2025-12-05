@@ -2,8 +2,9 @@ import { CartSliceActions as SliceActions } from "./CartSlice";
 import { dbApi } from "../Components/Hooks/DbApi";
 
 /* ------------------ FETCH CART (Firebase → Redux) ------------------ */
-export const fetchCart = (userId) => {
-  return async (dispatch) => {
+export const fetchCart = () => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     const data = await dbApi.get(`cart/${userId}`);
 
     const cartItems = data
@@ -19,9 +20,10 @@ export const fetchCart = (userId) => {
 
 /* ------------------ UPDATE CART (Redux → Firebase) ------------------ */
 
-export const updateCart = (userId) => {
+export const updateCart = () => {
   return async (dispatch, getState) => {
     const cartItems = getState().cart.cartItems;
+    const userId = getState().auth.userId;
     const formatted = {};
     cartItems.forEach((item) => {
       formatted[item.id] = {
@@ -39,16 +41,18 @@ export const updateCart = (userId) => {
 
 /* ------------------ FAVORITES ------------------ */
 
-export const addToFav = (userId, item) => {
-  return async (dispatch) => {
+export const addToFav = (item) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     await dbApi.post(`fav/${userId}`, item);
 
-    dispatch(SliceActions.addToFav(item));
+    dispatch(SliceActions.addToFavr(item));
   };
 };
 
-export const removeFromFav = (userId, productId) => {
-  return async (dispatch) => {
+export const removeFromFav = (productId) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     const favData = await dbApi.get(`fav/${userId}`);
     if (!favData) return;
 
@@ -60,7 +64,47 @@ export const removeFromFav = (userId, productId) => {
 
     await dbApi.remove(`fav/${userId}/${firebaseKey}`);
 
-    dispatch(SliceActions.removeFromFav(productId));
+    dispatch(SliceActions.removeFromFavr(productId));
+  };
+};
+
+/* ------------------ FETCH ORDERS (Firebase → Redux) ------------------ */
+export const fetchOrders = () => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const data = await dbApi.get(`orders/${userId}`);
+
+    const myOrders = data
+      ? Object.keys(data).map((key) => ({
+          firebaseKey: key,
+          ...data[key],
+        }))
+      : [];
+    dispatch(SliceActions.setOrders({ myOrders }));
+  };
+};
+
+/* ------------------ PLACE ORDER (Firebase → Redux) ------------------ */
+export const PlaceOrder = (order) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+
+    if (!userId) {
+      console.error("No userId found in Redux store.");
+      return;
+    }
+
+    const newOrderRef = await dbApi.put(
+      `orders/${userId}/${order.orderId}`,
+      order
+    );
+
+    dispatch(
+      SliceActions.addOrder({
+        firebaseKey: newOrderRef.name,
+        ...order,
+      })
+    );
   };
 };
 
@@ -71,4 +115,6 @@ export const CartActions = {
   updateCart,
   addToFav,
   removeFromFav,
+  fetchOrders,
+  PlaceOrder,
 };

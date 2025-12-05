@@ -22,7 +22,8 @@ export const useAuthInitializer = () => {
       dispatch(ProfileActions.fetchProfile(id));
       dispatch(SellerProductsActions.fetchProducts());
       dispatch(SellerProductsActions.fetchCategories());
-      dispatch(CartActions.fetchCart(id));
+      dispatch(CartActions.fetchCart());
+      dispatch(CartActions.fetchOrders());
     });
   }, [dispatch]);
 };

@@ -15,6 +15,7 @@ const Head = () => {
   const [newName, setNewName] = useState(user_name);
 
   const role = useSelector((state) => state.profile.role);
+  const cartQty = useSelector((state) => state.cart.cartQty);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -138,6 +139,9 @@ const Head = () => {
             </button>
             <button className={styles.iconBtn} onClick={cartHandler}>
               🛒
+              {cartQty > 0 && (
+                <span className={styles.cartBadge}>{cartQty}</span>
+              )}
             </button>
             <button className={styles.iconBtn} onClick={ordersHandler}>
               📦

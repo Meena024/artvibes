@@ -7,10 +7,9 @@ import { ModalActions } from "../../../../../Redux store/ModalSlice";
 const Cart = () => {
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.auth.userId);
-  const items = useSelector((state) => state.cart.cartItems ?? []);
-  const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
-  const totalAmount = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const items = useSelector((state) => state.cart.cartItems);
+  const totalQty = useSelector((state) => state.cart.totalQty);
+  const totalAmount = useSelector((state) => state.cart.totalQty);
 
   const increaseQty = (id, qty) => {
     dispatch(
@@ -20,7 +19,7 @@ const Cart = () => {
       })
     );
     console.log(CartActions.updateCart);
-    dispatch(CartActions.updateCart(userId));
+    dispatch(CartActions.updateCart());
   };
 
   const decreaseQty = (id, qty) => {
@@ -31,13 +30,13 @@ const Cart = () => {
           qty: qty - 1,
         })
       );
-      dispatch(CartActions.updateCart(userId));
+      dispatch(CartActions.updateCart());
     }
   };
 
   const removeItem = (id) => {
     dispatch(CartActions.removeItem(id));
-    dispatch(CartActions.updateCart(userId));
+    dispatch(CartActions.updateCart());
   };
 
   const checkoutHandler = () => {
