@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Styles from "../../../../../UI/CSS/Checkout.module.css";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import { CartActions } from "../../../../../Redux store/CartActions";
+import { selectTotalQty } from "../../../../../Redux store/CartSelectors";
+import { selectTotalAmount } from "../../../../../Redux store/CartSelectors";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -15,8 +17,8 @@ const Checkout = () => {
   const [error, setError] = useState("");
 
   const items = useSelector((state) => state.cart.cartItems ?? []);
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const totalQty = useSelector((state) => state.cart.totalQty);
+  const totalQty = useSelector(selectTotalQty);
+  const totalAmount = useSelector(selectTotalAmount);
 
   const validateForm = () => {
     if (!name.trim()) {
@@ -50,7 +52,6 @@ const Checkout = () => {
         phone: phone.trim(),
         address: address.trim(),
       },
-      status: "pending",
       createdAt: new Date().toISOString(),
     };
     console.log(order);

@@ -7,6 +7,7 @@ import { AuthAction } from "../Redux store/AuthSlice";
 import { ProfileActions } from "../Redux store/ProfileActions";
 import { useState } from "react";
 import { ModalActions } from "../Redux store/ModalSlice";
+import { selectCartQty } from "../Redux store/CartSelectors";
 
 const Head = () => {
   const user_name = useSelector((state) => state.profile.name);
@@ -15,7 +16,7 @@ const Head = () => {
   const [newName, setNewName] = useState(user_name);
 
   const role = useSelector((state) => state.profile.role);
-  const cartQty = useSelector((state) => state.cart.cartQty);
+  const cartQty = useSelector(selectCartQty);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

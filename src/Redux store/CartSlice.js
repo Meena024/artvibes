@@ -4,9 +4,6 @@ const initialState = {
   cartItems: [],
   favItems: [],
   orders: [],
-  cartQty: 0,
-  totalQty: 0,
-  totalAmount: 0,
 };
 
 const CartSlice = createSlice({
@@ -14,20 +11,7 @@ const CartSlice = createSlice({
   initialState,
   reducers: {
     setCart: (state, action) => {
-      const cartItems = action.payload.cartItems ?? [];
-      state.cartItems = cartItems;
-
-      state.cartQty = cartItems.length;
-
-      state.totalQty = cartItems.reduce(
-        (sum, item) => sum + Number(item.qty),
-        0
-      );
-
-      state.totalAmount = cartItems.reduce(
-        (sum, item) => sum + Number(item.price) * Number(item.qty),
-        0
-      );
+      state.cartItems = action.payload.cartItems ?? [];
     },
 
     setOrders: (state, action) => {
@@ -39,20 +23,24 @@ const CartSlice = createSlice({
     },
 
     addItem: (state, action) => {
-      const newItem = action.payload;
-      const existing = state.cartItems.find((i) => i.id === newItem.id);
+      const item = action.payload;
+      const exists = state.cartItems.find((i) => i.id === item.id);
 
-      if (existing) {
-        existing.qty += newItem.qty;
+      if (exists) {
+        exists.qty += item.qty;
       } else {
-        state.cartItems.push(newItem);
+        state.cartItems.push(item);
       }
     },
 
-    updateQty: (state, action) => {
-      const { id, qty } = action.payload;
-      const item = state.cartItems.find((i) => i.id === id);
-      if (item) item.qty = qty;
+    increaseQty: (state, action) => {
+      const item = state.cartItems.find((i) => i.id === action.payload);
+      if (item) item.qty++;
+    },
+
+    decreaseQty: (state, action) => {
+      const item = state.cartItems.find((i) => i.id === action.payload);
+      if (item && item.qty > 1) item.qty--;
     },
 
     removeItem: (state, action) => {
@@ -64,8 +52,7 @@ const CartSlice = createSlice({
     },
 
     addToFavr: (state, action) => {
-      const exists = state.favItems.find((i) => i.id === action.payload.id);
-      if (!exists) {
+      if (!state.favItems.find((i) => i.id === action.payload.id)) {
         state.favItems.push(action.payload);
       }
     },

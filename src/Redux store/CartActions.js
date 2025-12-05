@@ -32,6 +32,7 @@ export const updateCart = () => {
         price: item.price,
         qty: item.qty,
         image: item.image,
+        status: "pending",
       };
     });
 

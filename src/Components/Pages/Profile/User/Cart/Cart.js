@@ -3,33 +3,26 @@ import Styles from "../../../../../UI/CSS/Cart.module.css";
 import { FaTrash, FaPlus, FaMinus } from "react-icons/fa";
 import { CartActions } from "../../../../../Redux store/CartActions";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
-
+import {
+  selectTotalQty,
+  selectTotalAmount,
+} from "../../../../../Redux store/CartSelectors";
 const Cart = () => {
   const dispatch = useDispatch();
 
   const items = useSelector((state) => state.cart.cartItems);
-  const totalQty = useSelector((state) => state.cart.totalQty);
-  const totalAmount = useSelector((state) => state.cart.totalQty);
+  const totalQty = useSelector(selectTotalQty);
+  const totalAmount = useSelector(selectTotalAmount);
 
   const increaseQty = (id, qty) => {
-    dispatch(
-      CartActions.updateQty({
-        id,
-        qty: Number(qty) + 1,
-      })
-    );
+    dispatch(CartActions.increaseQty(id));
     console.log(CartActions.updateCart);
     dispatch(CartActions.updateCart());
   };
 
   const decreaseQty = (id, qty) => {
     if (qty > 1) {
-      dispatch(
-        CartActions.updateQty({
-          id,
-          qty: qty - 1,
-        })
-      );
+      dispatch(CartActions.decreaseQty(id));
       dispatch(CartActions.updateCart());
     }
   };
