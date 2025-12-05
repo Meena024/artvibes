@@ -39,11 +39,6 @@ const Head = () => {
     dispatch(ModalActions.setModal());
   };
 
-  const ordersHandler = () => {
-    dispatch(ModalActions.setModalContent("MyOrders"));
-    dispatch(ModalActions.setModal());
-  };
-
   const logoutHandler = () => {
     localStorage.removeItem("token");
     dispatch(AuthAction.reset());
@@ -143,7 +138,10 @@ const Head = () => {
                 <span className={styles.cartBadge}>{cartQty}</span>
               )}
             </button>
-            <button className={styles.iconBtn} onClick={ordersHandler}>
+            <button
+              className={styles.iconBtn}
+              onClick={() => navigate("Profile/user/orders")}
+            >
               📦
             </button>
           </div>

@@ -4,7 +4,6 @@ import { ModalActions } from "../../Redux store/ModalSlice";
 import AddProductForm from "../../Components/Pages/Profile/Seller/Products/AddProductForm";
 import AddCategoryForm from "../../Components/Pages/Profile/Seller/Category/AddCategoryForm";
 import Cart from "../../Components/Pages/Profile/User/Cart/Cart";
-import Orders from "../../Components/Pages/Profile/User/Cart/Orders";
 import Fav from "../../Components/Pages/Profile/User/Cart/Fav";
 import Checkout from "../../Components/Pages/Profile/User/Cart/Checkout";
 
@@ -26,8 +25,6 @@ const Modals = () => {
         return <Cart />;
       case "Checkout":
         return <Checkout />;
-      case "MyOrders":
-        return <Orders />;
       case "ZoomImage":
         return (
           <img
