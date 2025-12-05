@@ -25,6 +25,7 @@ const UserProductsListing = ({ product }) => {
           image: product.image,
           price: product.price,
           category: product.category,
+          description: product.description,
         })
       );
     }
