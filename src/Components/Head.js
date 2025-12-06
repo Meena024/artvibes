@@ -8,6 +8,7 @@ import { ProfileActions } from "../Redux store/ProfileActions";
 import { useState } from "react";
 import { ModalActions } from "../Redux store/ModalSlice";
 import { selectCartQty } from "../Redux store/CartSelectors";
+import { SellerProductsActions } from "../Redux store/Seller/SellerProductActions";
 
 const Head = () => {
   const user_name = useSelector((state) => state.profile.name);
@@ -132,6 +133,9 @@ const Head = () => {
               type="text"
               placeholder="Search..."
               className={styles.searchBox}
+              onChange={(e) =>
+                dispatch(SellerProductsActions.setSearchText(e.target.value))
+              }
             />
 
             <button

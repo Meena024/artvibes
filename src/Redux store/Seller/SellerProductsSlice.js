@@ -7,6 +7,8 @@ const SellerProductsSlice = createSlice({
     edit_product: null,
     category: [],
     edit_category: null,
+    selectedCategories: [],
+    searchText: "",
   },
 
   reducers: {
@@ -76,11 +78,32 @@ const SellerProductsSlice = createSlice({
       state.edit_category = null;
     },
 
+    toggleSelectedCategory: (state, action) => {
+      const title = action.payload;
+      if (state.selectedCategories.includes(title)) {
+        state.selectedCategories = state.selectedCategories.filter(
+          (cid) => cid !== title
+        );
+      } else {
+        state.selectedCategories.push(title);
+      }
+    },
+
+    clearSelectedCategories: (state) => {
+      state.selectedCategories = [];
+    },
+
+    setSearchText: (state, action) => {
+      state.searchText = action.payload;
+    },
+
     reset: (state) => {
       state.products = [];
       state.category = [];
       state.edit_product = null;
       state.edit_category = null;
+      state.selectedCategories = [];
+      state.searchText = "";
     },
   },
 });
