@@ -3,35 +3,69 @@ import { useDispatch, useSelector } from "react-redux";
 import Styles from "../../../../../UI/CSS/Checkout.module.css";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import { CartActions } from "../../../../../Redux store/CartActions";
-import { selectTotalQty } from "../../../../../Redux store/CartSelectors";
-import { selectTotalAmount } from "../../../../../Redux store/CartSelectors";
+import {
+  selectTotalQty,
+  selectTotalAmount,
+} from "../../../../../Redux store/CartSelectors";
 
 const Checkout = () => {
   const dispatch = useDispatch();
-  const [payment, setPayment] = useState("cod");
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-
-  const [error, setError] = useState("");
-
+  const profile = useSelector((state) => state.profile);
   const items = useSelector((state) => state.cart.cartItems ?? []);
   const totalQty = useSelector(selectTotalQty);
   const totalAmount = useSelector(selectTotalAmount);
+
+  const [payment, setPayment] = useState("cod");
+
+  const savedName = profile.name ?? "";
+  const savedPhone = profile.phone ?? "";
+  const savedAddresses = profile.address?.length ? profile.address : [];
+
+  const [name, setName] = useState(savedName);
+  const [phone, setPhone] = useState(savedPhone);
+  const [address, setAddress] = useState(savedAddresses[0] ?? "");
+
+  const [error, setError] = useState("");
+  const [orderingForOthers, setOrderingForOthers] = useState(false);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
+
+  const toggleOrderingForOthers = () => {
+    setOrderingForOthers(!orderingForOthers);
+
+    if (!orderingForOthers) {
+      setName("");
+      setPhone("");
+      setAddress("");
+    } else {
+      setName(savedName);
+      setPhone(savedPhone);
+      setAddress(savedAddresses[0] ?? "");
+      setSelectedAddressIndex(0);
+    }
+  };
+
+  const handleAddressSelect = (index) => {
+    setSelectedAddressIndex(index);
+
+    if (index === -1) {
+      setAddress("");
+    } else {
+      setAddress(savedAddresses[index]);
+    }
+  };
 
   const validateForm = () => {
     if (!name.trim()) {
       setError("Please enter full name.");
       return false;
     }
-    const phoneDigits = phone.replace(/\D/g, "");
-    if (phoneDigits.length < 7) {
+    if (phone.replace(/\D/g, "").length < 7) {
       setError("Please enter a valid phone number.");
       return false;
     }
     if (!address.trim()) {
-      setError("Please enter shipping address.");
+      setError("Please select or enter an address.");
       return false;
     }
     setError("");
@@ -54,16 +88,15 @@ const Checkout = () => {
       },
       createdAt: new Date().toISOString(),
     };
-    console.log(order);
-    dispatch(CartActions.PlaceOrder(order));
 
+    console.log(order);
+
+    dispatch(CartActions.PlaceOrder(order));
     window.alert(`Order placed using: ${payment}\nAmount: ₹${totalAmount}`);
+
     dispatch(CartActions.clearCart());
     dispatch(CartActions.updateCart());
     dispatch(ModalActions.unsetModal());
-    setName("");
-    setPhone("");
-    setAddress("");
   };
 
   const cancelHandler = () => {
@@ -72,7 +105,16 @@ const Checkout = () => {
 
   return (
     <div className={Styles.checkoutCard}>
-      <h2 className={Styles.title}>Select Payment Method</h2>
+      <h2 className={Styles.title}>Checkout</h2>
+
+      <label className={Styles.checkboxRow}>
+        <input
+          type="checkbox"
+          checked={orderingForOthers}
+          onChange={toggleOrderingForOthers}
+        />
+        Ordering for someone else?
+      </label>
 
       <div className={Styles.formRow}>
         <label className={Styles.label}>Full name</label>
@@ -80,7 +122,7 @@ const Checkout = () => {
           className={Styles.input}
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Your full name"
+          placeholder="Full name"
         />
       </div>
 
@@ -94,6 +136,25 @@ const Checkout = () => {
           inputMode="tel"
         />
       </div>
+
+      {!orderingForOthers && savedAddresses.length > 0 && (
+        <div className={Styles.formRow}>
+          <label className={Styles.label}>Select Address</label>
+
+          <select
+            className={Styles.input}
+            value={selectedAddressIndex}
+            onChange={(e) => handleAddressSelect(Number(e.target.value))}
+          >
+            {savedAddresses.map((addr, i) => (
+              <option key={i} value={i}>
+                {`Address ${i + 1}`}
+              </option>
+            ))}
+            <option value={-1}>Custom Address</option>
+          </select>
+        </div>
+      )}
 
       <div className={Styles.formRow}>
         <label className={Styles.label}>Address</label>
@@ -111,6 +172,7 @@ const Checkout = () => {
       </div>
 
       {error && <div className={Styles.formError}>{error}</div>}
+      <h3 className={Styles.subTitle}>Select Payment Method</h3>
 
       <div className={Styles.optionsBox}>
         <label className={Styles.option}>
