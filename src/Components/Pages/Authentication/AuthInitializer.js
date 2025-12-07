@@ -18,8 +18,8 @@ export const useAuthInitializer = () => {
     }
 
     dispatch(AuthAction.userAuthenticated(true));
-    dispatch(fetchAuthData(token)).then((id) => {
-      dispatch(ProfileActions.fetchProfile(id));
+    dispatch(fetchAuthData(token)).then(() => {
+      dispatch(ProfileActions.fetchProfile());
       dispatch(SellerProductsActions.fetchProducts());
       dispatch(SellerProductsActions.fetchCategories());
       dispatch(CartActions.fetchCart());

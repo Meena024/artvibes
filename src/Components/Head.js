@@ -5,30 +5,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { AuthAction } from "../Redux store/AuthSlice";
 import { ProfileActions } from "../Redux store/ProfileActions";
-import { useState } from "react";
 import { ModalActions } from "../Redux store/ModalSlice";
 import { selectCartQty } from "../Redux store/CartSelectors";
 import { SellerProductsActions } from "../Redux store/Seller/SellerProductActions";
 
 const Head = () => {
-  const user_name = useSelector((state) => state.profile.name);
-  const userId = useSelector((state) => state.auth.userId);
-  const [isEdit, setIsEdit] = useState(false);
-  const [newName, setNewName] = useState(user_name);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const user_name = useSelector((state) => state.profile.name);
   const role = useSelector((state) => state.profile.role);
   const cartQty = useSelector(selectCartQty);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const displayName = user_name?.trim() ? user_name : "User";
 
   const editHandler = () => {
-    const finalName =
-      typeof newName === "string" && newName.trim().length > 0
-        ? newName.trim()
-        : "User";
-
-    dispatch(ProfileActions.updateName(userId, { name: finalName }));
-    setIsEdit(false);
+    dispatch(ModalActions.setModalContent("User Profile Form"));
+    dispatch(ModalActions.setModal());
   };
 
   const cartHandler = () => {
@@ -57,42 +50,14 @@ const Head = () => {
           }
         />
 
-        {!isEdit && (
-          <div className={styles.nameBox}>
-            <span className={styles.greet}>
-              Hello<strong> {user_name}</strong>,
-            </span>
-            <button className={styles.editBtn} onClick={() => setIsEdit(true)}>
-              ✏️
-            </button>
-          </div>
-        )}
-
-        {isEdit && (
-          <div className={styles.editBox}>
-            <input
-              type="text"
-              placeholder="Enter name"
-              value={newName}
-              onChange={(e) => {
-                let value = e.target.value;
-                value = value.replace(/\s+/g, " ").trim();
-
-                const updated =
-                  value.length > 0
-                    ? value.charAt(0).toUpperCase() + value.slice(1)
-                    : "";
-
-                setNewName(updated);
-              }}
-              className={styles.nameInput}
-            />
-
-            <button onClick={editHandler} className={styles.saveBtn}>
-              Save
-            </button>
-          </div>
-        )}
+        <div className={styles.nameBox}>
+          <span className={styles.greet}>
+            Hello<strong> {displayName}</strong>,
+          </span>
+          <button className={styles.editBtn} onClick={editHandler}>
+            ✏️
+          </button>
+        </div>
       </div>
 
       {role === "seller" && (
@@ -144,12 +109,14 @@ const Head = () => {
             >
               ❤️
             </button>
+
             <button className={styles.iconBtn} onClick={cartHandler}>
               🛒
               {cartQty > 0 && (
                 <span className={styles.cartBadge}>{cartQty}</span>
               )}
             </button>
+
             <button
               className={styles.iconBtn}
               onClick={() => navigate("Profile/user/orders")}

@@ -1,46 +1,40 @@
 import { ProfileActions as SliceActions } from "./ProfileSlice";
 import { dbApi } from "../Components/Hooks/DbApi";
 
-/* ------------------ FETCH PROFILE FROM BACKEND ------------------ */
-
-export const fetchProfile = (userId) => {
-  return async (dispatch) => {
+export const fetchProfile = () => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     const data = await dbApi.get(`users/${userId}`);
+
     if (!data || !data.userProfile) return;
 
     dispatch(
       SliceActions.setProfile({
-        name: data.userProfile.name ?? "user",
         email: data.userProfile.email,
         role: data.userProfile.role,
+        name: data.userProfile.name,
+        phone: data.userProfile.phone,
+        address: data.userProfile.address ?? [],
       })
     );
   };
 };
 
-/* ------------------ UPDATE PROFILE ------------------ */
+export const updateFullProfile = (profileData) => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
 
-export const updateName = (userId, profileData) => {
-  return async (dispatch) => {
     await dbApi.patch(`users/${userId}/userProfile`, profileData);
 
-    dispatch(SliceActions.setName(profileData.name ?? "user"));
+    dispatch(SliceActions.updateProfile(profileData));
   };
 };
 
-/* ------------------ RESET PROFILE ------------------ */
-
-export const resetProfile = () => {
-  return (dispatch) => {
-    dispatch(SliceActions.reset());
-  };
-};
-
-/* ------------------ EXPORT ALL ACTIONS ------------------ */
+export const resetProfile = () => (dispatch) => dispatch(SliceActions.reset());
 
 export const ProfileActions = {
   ...SliceActions,
   fetchProfile,
-  updateName,
+  updateFullProfile,
   resetProfile,
 };

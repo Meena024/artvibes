@@ -4,6 +4,8 @@ const initialState = {
   name: null,
   email: null,
   role: null,
+  phone: null,
+  address: [],
 };
 
 const ProfileSlice = createSlice({
@@ -11,28 +13,20 @@ const ProfileSlice = createSlice({
   initialState,
   reducers: {
     setProfile: (state, action) => {
-      state.name = action.payload.name;
-      state.role = action.payload.role;
-      state.email = action.payload.email;
+      state.name = action.payload.name ?? null;
+      state.email = action.payload.email ?? null;
+      state.role = action.payload.role ?? null;
+      state.phone = action.payload.phone ?? null;
+      state.address = action.payload.address ?? [];
     },
 
-    setName: (state, action) => {
-      state.name = action.payload;
+    updateProfile: (state, action) => {
+      if ("name" in action.payload) state.name = action.payload.name;
+      if ("phone" in action.payload) state.phone = action.payload.phone;
+      if ("address" in action.payload) state.address = action.payload.address;
     },
 
-    setRole: (state, action) => {
-      state.role = action.payload;
-    },
-
-    setEmailInfo: (state, action) => {
-      state.email = action.payload;
-    },
-
-    reset: (state) => {
-      state.name = null;
-      state.role = null;
-      state.email = null;
-    },
+    reset: () => initialState,
   },
 });
 

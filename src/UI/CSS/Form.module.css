@@ -59,7 +59,7 @@
 .form input[type="file"],
 .form select,
 .form textarea {
-  width: 360px; /* 🎯 unified width */
+  width: 360px;
   padding: 13px 18px;
   background: var(--pastel-input-bg);
   border: 1.6px solid var(--pastel-border) !important;
@@ -68,7 +68,6 @@
   color: #3d3d3d;
   text-align: left;
 
-  /* pastel shadow */
   box-shadow: 0 2px 10px rgba(255, 200, 220, 0.25),
     0 0 10px rgba(220, 200, 255, 0.18);
 
@@ -100,7 +99,7 @@
 /* Textarea adjustments */
 .textarea,
 .form textarea {
-  min-height: 120px; /* ✔ slightly bigger vertically */
+  min-height: 120px;
   resize: vertical;
 }
 
@@ -122,9 +121,7 @@
   font-weight: 600;
   letter-spacing: 0.4px;
   cursor: pointer;
-
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 190, 215, 0.4);
-
   transition: all 0.25s ease;
 }
 
@@ -183,8 +180,86 @@
   .fileInput {
     width: 210px;
   }
+}
 
-  .card {
-    padding: 35px 40px !important;
-  }
+/* ----------------------------- */
+/* CUSTOM USER PROFILE OVERRIDES */
+/* ----------------------------- */
+
+/* Left align inputs (override centered email) */
+.upf_left {
+  text-align: left !important;
+}
+
+/* Address header row */
+.upf_address_header_row {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 360px;
+}
+
+.upf_address_label {
+  color: #5b5148;
+}
+
+/* + BUTTON — smaller & fixed size */
+.upf_add_btn {
+  background: #2a2a2a;
+  color: white;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  padding: 0 !important; /* overrides global padding */
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Address row layout */
+.upf_address_row {
+  display: flex;
+  align-items: center;
+  width: 360px;
+  gap: 8px;
+}
+
+/* Address textarea — FORCE equal height */
+.upf_address_input {
+  width: 310px !important;
+  min-height: 90px !important;
+  height: 90px !important;
+  resize: vertical;
+}
+
+/* Override global textarea height rule */
+.form textarea.upf_address_input {
+  min-height: 90px !important;
+  height: 90px !important;
+  margin: 5px 0px;
+}
+
+/* Remove button */
+.upf_remove_btn {
+  background: #2a2a2a;
+  color: white;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  padding: 0 !important; /* overrides global padding */
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Placeholder to align first row */
+.upf_placeholder_btn {
+  width: 32px;
+  height: 32px;
 }

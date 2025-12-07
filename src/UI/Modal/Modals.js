@@ -5,6 +5,7 @@ import AddProductForm from "../../Components/Pages/Profile/Seller/Products/AddPr
 import AddCategoryForm from "../../Components/Pages/Profile/Seller/Category/AddCategoryForm";
 import Cart from "../../Components/Pages/Profile/User/Cart/Cart";
 import Checkout from "../../Components/Pages/Profile/User/Cart/Checkout";
+import UserProfileForm from "../../Components/Pages/Profile/User/UserProfileForm";
 
 const Modals = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const Modals = () => {
 
   const renderContent = () => {
     switch (modalContent) {
+      case "User Profile Form":
+        return <UserProfileForm />;
       case "AddProduct":
         return <AddProductForm />;
       case "AddCategory":
