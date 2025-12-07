@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import UserProductsListing from "./UserProductsListing";
 import UserCategoryListing from "./UserCategoryListing";
 import Styles from "../../../../UI/CSS/UserProducts.module.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const UserProducts = () => {
   const products = useSelector((state) => state.sellerProducts.products);
@@ -13,6 +13,8 @@ const UserProducts = () => {
   const selectedCategories = useSelector(
     (state) => state.sellerProducts.selectedCategories
   );
+
+  const [sortOrder, setSortOrder] = useState("default");
 
   const MyFav = {
     title: "My Favourites",
@@ -31,6 +33,7 @@ const UserProducts = () => {
     scrollRef.current.scrollBy({ left: 250, behavior: "smooth" });
   };
 
+  /* ---------------------- CATEGORY & FAV FILTER ---------------------- */
   const hasFavFilter = selectedCategories.includes("__FAV__");
 
   const normalCategories = selectedCategories.filter((c) => c !== "__FAV__");
@@ -47,40 +50,58 @@ const UserProducts = () => {
   }
 
   const search = searchText.toLowerCase();
-
-  const finalFiltered = filtered.filter((p) => {
-    const titleMatch = p.title.toLowerCase().includes(search);
-    const descMatch = p.description.toLowerCase().includes(search);
-    const priceMatch = String(p.price).includes(search);
-
-    return titleMatch || descMatch || priceMatch;
+  filtered = filtered.filter((p) => {
+    return (
+      p.title.toLowerCase().includes(search) ||
+      p.description.toLowerCase().includes(search) ||
+      String(p.price).includes(search)
+    );
   });
 
+  const sortedProducts = [...filtered];
+
+  if (sortOrder === "low-high") {
+    sortedProducts.sort((a, b) => a.price - b.price);
+  } else if (sortOrder === "high-low") {
+    sortedProducts.sort((a, b) => b.price - a.price);
+  }
+
   return (
-    <div>
-      <div>
-        <div className={Styles.categoryWrapper}>
-          <button className={Styles.scrollBtnLeft} onClick={scrollLeft}>
-            ❮
-          </button>
+    <div className={Styles.pageBackground}>
+      <div className={Styles.categoryWrapper}>
+        <button className={Styles.scrollBtnLeft} onClick={scrollLeft}>
+          ❮
+        </button>
 
-          <div className={Styles.categoriesContainer} ref={scrollRef}>
-            <UserCategoryListing category={MyFav} />
-            {categories.map((c) => (
-              <UserCategoryListing key={c.id} category={c} />
-            ))}
-          </div>
-
-          <button className={Styles.scrollBtnRight} onClick={scrollRight}>
-            ❯
-          </button>
-        </div>
-
-        <div className={Styles.productsContainer}>
-          {finalFiltered.map((p) => (
-            <UserProductsListing key={p.id} product={p} />
+        <div className={Styles.categoriesContainer} ref={scrollRef}>
+          <UserCategoryListing category={MyFav} />
+          {categories.map((c) => (
+            <UserCategoryListing key={c.id} category={c} />
           ))}
         </div>
+
+        <button className={Styles.scrollBtnRight} onClick={scrollRight}>
+          ❯
+        </button>
+      </div>
+
+      <div className={Styles.sortBar}>
+        <label className={Styles.sortLabel}>Sort by Price:</label>
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+          className={Styles.sortSelect}
+        >
+          <option value="default">Default</option>
+          <option value="low-high">Low → High</option>
+          <option value="high-low">High → Low</option>
+        </select>
+      </div>
+
+      <div className={Styles.productsContainer}>
+        {sortedProducts.map((p) => (
+          <UserProductsListing key={p.id} product={p} />
+        ))}
       </div>
     </div>
   );
