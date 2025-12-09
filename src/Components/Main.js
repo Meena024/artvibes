@@ -11,7 +11,7 @@ import { useAuthInitializer } from "../Components/Pages/Authentication/AuthIniti
 import Head from "./Head";
 import SellerProduct from "./Pages/Profile/Seller/Products/Products";
 import SellerCategory from "./Pages/Profile/Seller/Category/Category";
-import SellerOrders from "./Pages/Profile/Seller/Orders";
+import SellerOrders from "./Pages/Profile/Seller/SellerOrders";
 import UserProducts from "./Pages/Profile/User/UserProducts";
 import Modals from "../UI/Modal/Modals";
 import UserOrders from "./Pages/Profile/User/Cart/UserOrders";

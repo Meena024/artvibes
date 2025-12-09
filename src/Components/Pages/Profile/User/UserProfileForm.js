@@ -123,8 +123,15 @@ const UserProfileForm = () => {
               )}
             </div>
           ))}
-
-          <button type="submit">Save Profile</button>
+          <div>
+            <button type="submit">Save Profile</button>
+            <button
+              type="cancel"
+              onClick={() => dispatch(ModalActions.unsetModal())}
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </Card>
     </div>
