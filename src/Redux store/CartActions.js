@@ -155,6 +155,24 @@ export const PlaceOrder = (order) => {
   };
 };
 
+/* ------------------ Update item-order status ------------------ */
+
+export const updateItemStatus = (orderId, pur_userId, itemIndex, status) => {
+  return async (dispatch) => {
+    await dbApi.patch(`orders/${pur_userId}/${orderId}/items/${itemIndex}`, {
+      status,
+    });
+
+    dispatch(
+      SliceActions.updateItemStatus({
+        orderId,
+        itemIndex,
+        status,
+      })
+    );
+  };
+};
+
 /* ------------------ EXPORT ALL ------------------ */
 export const CartActions = {
   ...SliceActions,

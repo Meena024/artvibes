@@ -1,0 +1,102 @@
+.orderCard {
+  width: 80%;
+  margin: 25px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.orderId {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.date,
+.payment {
+  font-size: 14px;
+  color: #555;
+}
+
+.amountBox {
+  text-align: right;
+}
+
+.amountBox h3 {
+  color: #d22;
+  margin: 0;
+}
+
+.statusSelect {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+}
+
+/* ITEMS LIST */
+
+.itemsWrapper {
+  margin-top: 15px;
+}
+
+.itemCard {
+  background: rgba(250, 250, 250, 0.7);
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.itemImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemTitle {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.qty {
+  font-size: 13px;
+  color: #777;
+}
+
+.itemPrice {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* SHIPPING BOX */
+
+.shippingBox {
+  margin-top: 15px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.shippingBox h4 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
