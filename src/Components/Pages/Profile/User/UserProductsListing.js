@@ -32,7 +32,7 @@ const UserProductsListing = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(CartActions.addItem({ ...product, qty }));
+    dispatch(CartActions.addItem({ ...product, qty, status: "pending" }));
     dispatch(CartActions.updateCart());
     setQty(1);
   };

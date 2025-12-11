@@ -120,8 +120,13 @@
 
 /* Status colors */
 .pending {
-  background: #ffe6b3;
-  color: #a86b00;
+  background: #f9ebcd;
+  color: #e7a533;
+}
+
+.shipped {
+  background: #ffdd99;
+  color: #8b6015;
 }
 
 .delivered {
