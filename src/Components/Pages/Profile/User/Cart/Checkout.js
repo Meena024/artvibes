@@ -24,7 +24,9 @@ const Checkout = () => {
 
   const [name, setName] = useState(savedName);
   const [phone, setPhone] = useState(savedPhone);
-  const [address, setAddress] = useState(savedAddresses[0] ?? "");
+
+  // Address now comes from address.place
+  const [address, setAddress] = useState(savedAddresses[0]?.place ?? "");
 
   const [error, setError] = useState("");
   const [orderingForOthers, setOrderingForOthers] = useState(false);
@@ -40,7 +42,7 @@ const Checkout = () => {
     } else {
       setName(savedName);
       setPhone(savedPhone);
-      setAddress(savedAddresses[0] ?? "");
+      setAddress(savedAddresses[0]?.place ?? "");
       setSelectedAddressIndex(0);
     }
   };
@@ -51,7 +53,7 @@ const Checkout = () => {
     if (index === -1) {
       setAddress("");
     } else {
-      setAddress(savedAddresses[index]);
+      setAddress(savedAddresses[index].place);
     }
   };
 
@@ -88,8 +90,6 @@ const Checkout = () => {
       },
       createdAt: new Date().toISOString(),
     };
-
-    console.log(order);
 
     dispatch(CartActions.PlaceOrder(order));
     window.alert(`Order placed using: ${payment}\nAmount: ₹${totalAmount}`);
@@ -148,7 +148,7 @@ const Checkout = () => {
           >
             {savedAddresses.map((addr, i) => (
               <option key={i} value={i}>
-                {`Address ${i + 1}`}
+                {addr.title || `Address ${i + 1}`}
               </option>
             ))}
             <option value={-1}>Custom Address</option>

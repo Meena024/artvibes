@@ -9,23 +9,25 @@ const UserProfileForm = () => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
 
-  const capitalizeFirst = (str) => {
-    if (!str) return "";
-    const trimmed = str.trim();
-    if (trimmed.length === 0) return "";
-    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
-  };
-
   const [name, setName] = useState(profile.name ?? "");
   const [email] = useState(profile.email ?? "");
   const [phone, setPhone] = useState(profile.phone ?? "");
-  const [addresses, setAddresses] = useState(profile.address ?? [""]);
 
-  const addAddress = () => setAddresses([...addresses, ""]);
+  const [addresses, setAddresses] = useState(
+    profile.address?.length
+      ? profile.address.map((a) => ({
+          title: a.title ?? "",
+          place: a.place ?? "",
+        }))
+      : [{ title: "", place: "" }]
+  );
 
-  const updateAddress = (value, index) => {
+  const addAddress = () =>
+    setAddresses([...addresses, { title: "", place: "" }]);
+
+  const updateAddressField = (index, field, value) => {
     const updated = [...addresses];
-    updated[index] = capitalizeFirst(value);
+    updated[index][field] = value;
     setAddresses(updated);
   };
 
@@ -33,20 +35,32 @@ const UserProfileForm = () => {
     setAddresses(addresses.filter((_, i) => i !== index));
   };
 
+  const clean = (val) =>
+    val?.toString().trim().length > 0 ? val.trim() : null;
+
+  const capitalizeLive = (str) => {
+    if (!str) return "";
+
+    const leadingSpaces = str.match(/^ */)[0];
+    const trimmed = str.trimStart();
+
+    if (!trimmed.length) return leadingSpaces;
+
+    return leadingSpaces + trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const clean = (val) =>
-      val?.toString().trim().length > 0 ? val.trim() : null;
 
     const profileData = {
       name: clean(name),
       email: clean(email),
       phone: clean(phone),
-      address: addresses.map((a) => clean(a)),
+      address: addresses.map((a) => ({
+        title: clean(a.title),
+        place: clean(a.place),
+      })),
     };
-
-    console.log("SAVING PROFILE:", profileData);
 
     dispatch(ProfileActions.updateFullProfile(profileData));
     dispatch(ModalActions.unsetModal());
@@ -64,7 +78,7 @@ const UserProfileForm = () => {
               className={`${styles.input} ${styles.upf_left}`}
               placeholder="Full Name"
               value={name}
-              onChange={(e) => setName(capitalizeFirst(e.target.value))}
+              onChange={(e) => setName(capitalizeLive(e.target.value))}
             />
           </div>
 
@@ -103,11 +117,31 @@ const UserProfileForm = () => {
 
           {addresses.map((addr, index) => (
             <div key={index} className={styles.upf_address_row}>
+              <input
+                type="text"
+                className={`${styles.input} ${styles.upf_address_title_input}`}
+                placeholder="Address Title (e.g., Home)"
+                value={addr.title}
+                onChange={(e) =>
+                  updateAddressField(
+                    index,
+                    "title",
+                    capitalizeLive(e.target.value)
+                  )
+                }
+              />
+
               <textarea
                 className={`${styles.textarea} ${styles.upf_address_input}`}
                 placeholder={`Address ${index + 1}`}
-                value={addr}
-                onChange={(e) => updateAddress(e.target.value, index)}
+                value={addr.place}
+                onChange={(e) =>
+                  updateAddressField(
+                    index,
+                    "place",
+                    capitalizeLive(e.target.value)
+                  )
+                }
               />
 
               {index > 0 ? (
@@ -123,10 +157,11 @@ const UserProfileForm = () => {
               )}
             </div>
           ))}
-          <div>
+
+          <div className={styles.upf_btn_row}>
             <button type="submit">Save Profile</button>
             <button
-              type="cancel"
+              type="button"
               onClick={() => dispatch(ModalActions.unsetModal())}
             >
               Cancel

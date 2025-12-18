@@ -42,13 +42,19 @@ const SellerOrders = () => {
 
   return (
     <div>
-      {orders.map((order) => (
-        <SellerOrderListing
-          key={order.orderId}
-          order={order}
-          onItemStatusChange={handleItemStatusChange}
-        />
-      ))}
+      {Array.isArray(orders) && orders.length > 0 ? (
+        orders.map((order) => (
+          <SellerOrderListing
+            key={order.orderId}
+            order={order}
+            onItemStatusChange={handleItemStatusChange}
+          />
+        ))
+      ) : (
+        <p style={{ textAlign: "center", marginTop: "100px" }}>
+          No orders found.
+        </p>
+      )}
     </div>
   );
 };

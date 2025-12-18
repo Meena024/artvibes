@@ -127,7 +127,12 @@ export const fetchOrders = () => {
           ...data[key],
         }))
       : [];
-    dispatch(SliceActions.setOrders({ myOrders }));
+
+    const sortedOrders = myOrders.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
+    dispatch(SliceActions.setOrders({ myOrders: sortedOrders }));
   };
 };
 

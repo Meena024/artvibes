@@ -2,14 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import Card from "../../../UI/Card/Card";
 import form_classes from "../../../UI/CSS/Form.module.css";
-import { AuthAction } from "../../../Redux store/AuthSlice";
-import { useDispatch } from "react-redux";
-import { fetchAuthData } from "../../../Redux store/AuthActions";
 import { useAuthApi } from "../../Hooks/useAuthApi";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { login } = useAuthApi();
 
   const [email, setEmail] = useState("");
@@ -24,12 +20,9 @@ const Login = () => {
 
     try {
       const data = await login({ email, password });
-      console.log("Login success:", data);
-
       localStorage.setItem("token", data.idToken);
 
-      dispatch(AuthAction.userAuthenticated(true));
-      dispatch(fetchAuthData(data.idToken));
+      console.log("Login success:", data);
 
       navigate("/UserProfile");
     } catch (err) {

@@ -19,7 +19,7 @@ const CartSlice = createSlice({
     },
 
     addOrder: (state, action) => {
-      state.orders.push(action.payload);
+      state.orders.unshift(action.payload);
     },
 
     addItem: (state, action) => {
