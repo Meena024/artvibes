@@ -103,7 +103,7 @@ const AddProductForm = () => {
             <input
               type="number"
               name="price"
-              placeholder="Price"
+              placeholder="Price (INR)"
               value={formData.price}
               onChange={handleChange}
               required

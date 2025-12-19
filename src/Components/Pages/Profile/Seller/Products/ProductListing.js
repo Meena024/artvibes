@@ -26,7 +26,7 @@ const ProductListing = ({ product }) => {
           </div>
           <div className={styles.cell}>{product.description}</div>
           <div className={styles.cell}>{product.category}</div>
-          <div className={styles.cell}>${product.price}</div>
+          <div className={styles.cell}>₹{product.price}</div>
           <div className={styles.cell}>
             <img src={product.image} alt="" className={styles.productImage} />
           </div>
