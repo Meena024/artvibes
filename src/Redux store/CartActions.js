@@ -110,7 +110,11 @@ export const fetchAllOrders = () => {
       });
     });
 
-    return allOrders;
+    const sortedOrders = allOrders.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+
+    return sortedOrders;
   };
 };
 

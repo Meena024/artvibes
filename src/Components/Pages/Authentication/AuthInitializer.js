@@ -10,21 +10,22 @@ export const useAuthInitializer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(SellerProductsActions.fetchProducts());
+    dispatch(SellerProductsActions.fetchCategories());
+
     const token = localStorage.getItem("token");
 
     if (!token) {
       dispatch(AuthAction.userAuthenticated(false));
       return;
+    } else {
+      dispatch(AuthAction.userAuthenticated(true));
+      dispatch(fetchAuthData(token)).then(() => {
+        dispatch(ProfileActions.fetchProfile());
+        dispatch(CartActions.fetchCart());
+        dispatch(CartActions.fetchOrders());
+        dispatch(CartActions.fetchFav());
+      });
     }
-
-    dispatch(AuthAction.userAuthenticated(true));
-    dispatch(fetchAuthData(token)).then(() => {
-      dispatch(ProfileActions.fetchProfile());
-      dispatch(SellerProductsActions.fetchProducts());
-      dispatch(SellerProductsActions.fetchCategories());
-      dispatch(CartActions.fetchCart());
-      dispatch(CartActions.fetchOrders());
-      dispatch(CartActions.fetchFav());
-    });
   }, [dispatch]);
 };

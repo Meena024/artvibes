@@ -6,6 +6,7 @@ import { CartActions } from "../../../../Redux store/CartActions";
 
 const UserProductsListing = ({ product }) => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const favItems = useSelector((state) => state.cart.favItems);
   const isFav = favItems.some((item) => item.id === product.id);
 
@@ -15,6 +16,10 @@ const UserProductsListing = ({ product }) => {
   const decreaseQty = () => setQty((prev) => (prev > 1 ? prev - 1 : 1));
 
   const toggleFavorite = () => {
+    if (!isLoggedIn) {
+      alert("You are not Logged In");
+      return;
+    }
     if (isFav) {
       dispatch(CartActions.removeFromFav(product.id));
     } else {
@@ -38,7 +43,9 @@ const UserProductsListing = ({ product }) => {
   };
 
   return (
-    <div className={Styles.productCard}>
+    <div
+      className={`${Styles.productCard} ${isLoggedIn ? Styles.loggedIn : ""}`}
+    >
       <div className={Styles.favoriteIcon} onClick={toggleFavorite}>
         {isFav ? <FaHeart color="red" /> : <FaRegHeart />}
       </div>
@@ -60,17 +67,19 @@ const UserProductsListing = ({ product }) => {
         <p className={Styles.description}>{product.description}</p>
       </div>
 
-      <div className={Styles.cartControls}>
-        <div className={Styles.qtyBox}>
-          <button onClick={decreaseQty}>–</button>
-          <span>{qty}</span>
-          <button onClick={increaseQty}>+</button>
-        </div>
+      {isLoggedIn && (
+        <div className={Styles.cartControls}>
+          <div className={Styles.qtyBox}>
+            <button onClick={decreaseQty}>–</button>
+            <span>{qty}</span>
+            <button onClick={increaseQty}>+</button>
+          </div>
 
-        <button className={Styles.addCartBtn} onClick={handleAddToCart}>
-          Add to Cart
-        </button>
-      </div>
+          <button className={Styles.addCartBtn} onClick={handleAddToCart}>
+            Add to Cart
+          </button>
+        </div>
+      )}
     </div>
   );
 };

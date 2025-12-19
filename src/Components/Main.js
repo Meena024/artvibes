@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux";
-import { Routes, Route, Outlet } from "react-router";
+import { Routes, Route, Outlet, useLocation, Navigate } from "react-router";
 import Header from "./Header";
-import ProtectedRoute from "./Route/ProtectedRoute";
-import PublicRoute from "./Route/PublicRoute";
+// import ProtectedRoute from "./Route/ProtectedRoute";
+// import PublicRoute from "./Route/PublicRoute";
 import ProfileMain from "./Pages/Profile/ProfileMain";
 import Login from "./Pages/Authentication/Login";
 import SignUp from "./Pages/Authentication/SignUp";
@@ -19,79 +18,41 @@ import Favourites from "./Pages/Profile/User/Cart/Favorites";
 
 const Main = () => {
   useAuthInitializer();
-  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  const location = useLocation();
+
+  const authPages = ["/Login", "/SignUp", "/SellerSignUp", "/ForgotPassword"];
+
+  const showHeader = authPages.includes(location.pathname);
 
   return (
     <>
       <Modals />
-      {!isLoggedIn && <Header />}
-      {isLoggedIn && <Head />}
-      <Routes>
-        {/* Redirects based on user role */}
-        <Route
-          path="/UserProfile"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <ProfileMain />
-            </ProtectedRoute>
-          }
-        />
 
-        {/* Public Authentication Routes */}
-        <Route
-          path="/SignUp"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <SignUp />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/SellerSignUp"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <SignUp />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/ForgotPassword"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <ForgotPassword />
-            </PublicRoute>
-          }
-        />
+      {showHeader ? <Header /> : <Head />}
+
+      <Routes>
         <Route
           path="/"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <Login />
-            </PublicRoute>
-          }
+          element={<Navigate to="/Profile/user/products" replace />}
         />
 
-        {/* Unified Profile Routes */}
-        <Route
-          path="/Profile/*"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Outlet />
-            </ProtectedRoute>
-          }
-        >
-          {/* Seller Routes */}
+        <Route path="/UserProfile" element={<ProfileMain />} />
+
+        <Route path="/Login" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/SellerSignUp" element={<SignUp />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+
+        <Route path="/Profile/*" element={<Outlet />}>
           <Route path="seller/products" element={<SellerProduct />} />
           <Route path="seller/orders" element={<SellerOrders />} />
           <Route path="seller/category" element={<SellerCategory />} />
 
-          {/* User Routes */}
           <Route path="user/products" element={<UserProducts />} />
           <Route path="user/orders" element={<UserOrders />} />
           <Route path="user/favourites" element={<Favourites />} />
         </Route>
 
-        {/* Not Found */}
         <Route path="*" element={<h1>Page Not Found!</h1>} />
       </Routes>
     </>

@@ -73,7 +73,9 @@ const CartSlice = createSlice({
       state.favItems = state.favItems.filter((i) => i.id !== action.payload);
     },
 
-    clearFav: (state) => {
+    reset: (state) => {
+      state.cartItems = [];
+      state.orders = [];
       state.favItems = [];
     },
   },

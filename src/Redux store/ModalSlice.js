@@ -12,6 +12,7 @@ const ModalSlice = createSlice({
     },
     unsetModal(state) {
       state.isModalVisible = false;
+      state.modalContent = null;
     },
     setModalContent(state, action) {
       state.modalContent = action.payload;

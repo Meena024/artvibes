@@ -105,8 +105,7 @@
   transition: opacity 0.25s ease, max-height 0.25s ease;
 }
 
-/* hide description on hover */
-.productCard:hover .description {
+.loggedIn.productCard:hover .description {
   opacity: 0;
   max-height: 0;
 }

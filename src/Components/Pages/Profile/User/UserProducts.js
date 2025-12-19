@@ -9,6 +9,7 @@ const UserProducts = () => {
   const categories = useSelector((state) => state.sellerProducts.category);
   const favItems = useSelector((state) => state.cart.favItems);
   const searchText = useSelector((state) => state.sellerProducts.searchText);
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
 
   const selectedCategories = useSelector(
     (state) => state.sellerProducts.selectedCategories
@@ -74,7 +75,7 @@ const UserProducts = () => {
         </button>
 
         <div className={Styles.categoriesContainer} ref={scrollRef}>
-          <UserCategoryListing category={MyFav} />
+          {isLoggedIn && <UserCategoryListing category={MyFav} />}
           {categories.map((c) => (
             <UserCategoryListing key={c.id} category={c} />
           ))}

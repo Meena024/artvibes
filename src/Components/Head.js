@@ -8,11 +8,13 @@ import { ProfileActions } from "../Redux store/ProfileActions";
 import { ModalActions } from "../Redux store/ModalSlice";
 import { selectCartQty } from "../Redux store/CartSelectors";
 import { SellerProductsActions } from "../Redux store/Seller/SellerProductActions";
+import { CartActions } from "../Redux store/CartActions";
 
 const Head = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const user_name = useSelector((state) => state.profile.name);
   const role = useSelector((state) => state.profile.role);
   const cartQty = useSelector(selectCartQty);
@@ -33,7 +35,8 @@ const Head = () => {
     localStorage.removeItem("token");
     dispatch(AuthAction.reset());
     dispatch(ProfileActions.resetProfile());
-    navigate("/");
+    dispatch(CartActions.reset());
+    navigate("/Profile/user/products");
   };
 
   return (
@@ -44,23 +47,24 @@ const Head = () => {
           className={styles.logo}
           alt="logo"
           onClick={() =>
-            role === "user"
-              ? navigate("/Profile/user/products")
-              : navigate("/Profile/seller/products")
+            role === "seller"
+              ? navigate("/Profile/seller/products")
+              : navigate("/Profile/user/products")
           }
         />
-
-        <div className={styles.nameBox}>
-          <span className={styles.greet}>
-            Hello<strong> {displayName}</strong>,
-          </span>
-          <button className={styles.editBtn} onClick={editHandler}>
-            ✏️
-          </button>
-        </div>
+        {isLoggedIn && role === "user" && (
+          <div className={styles.nameBox}>
+            <span className={styles.greet}>
+              Hello<strong> {displayName}</strong>,
+            </span>
+            <button className={styles.editBtn} onClick={editHandler}>
+              ✏️
+            </button>
+          </div>
+        )}
       </div>
 
-      {role === "seller" && (
+      {isLoggedIn && role === "seller" && (
         <nav className={styles.nav}>
           <NavLink
             to="/Profile/seller/products"
@@ -77,7 +81,7 @@ const Head = () => {
               isActive ? styles.activeNavItem : styles.navItem
             }
           >
-            Order Details
+            Orders
           </NavLink>
 
           <NavLink
@@ -92,20 +96,20 @@ const Head = () => {
       )}
 
       <div className={styles.rightBox}>
-        {role === "user" && (
-          <div className={styles.userMenu}>
-            <input
-              type="text"
-              placeholder="Search..."
-              className={styles.searchBox}
-              onChange={(e) =>
-                dispatch(SellerProductsActions.setSearchText(e.target.value))
-              }
-            />
+        <input
+          type="text"
+          placeholder="Search..."
+          className={styles.searchBox}
+          onChange={(e) =>
+            dispatch(SellerProductsActions.setSearchText(e.target.value))
+          }
+        />
 
+        {isLoggedIn && role === "user" && (
+          <>
             <button
               className={styles.iconBtn}
-              onClick={() => navigate("Profile/user/favourites")}
+              onClick={() => navigate("/Profile/user/favourites")}
             >
               ❤️
             </button>
@@ -119,16 +123,25 @@ const Head = () => {
 
             <button
               className={styles.iconBtn}
-              onClick={() => navigate("Profile/user/orders")}
+              onClick={() => navigate("/Profile/user/orders")}
             >
               📦
             </button>
-          </div>
+          </>
         )}
 
-        <button className={styles.logoutBtn} onClick={logoutHandler}>
-          Logout
-        </button>
+        {!isLoggedIn ? (
+          <button
+            className={styles.logoutBtn}
+            onClick={() => navigate("/Login")}
+          >
+            Login
+          </button>
+        ) : (
+          <button className={styles.logoutBtn} onClick={logoutHandler}>
+            Logout
+          </button>
+        )}
       </div>
     </header>
   );
