@@ -3,6 +3,7 @@ import Styles from "../../../../UI/CSS/UserProductsListing.module.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { CartActions } from "../../../../Redux store/CartActions";
+import { ModalActions } from "../../../../Redux store/ModalSlice";
 
 const UserProductsListing = ({ product }) => {
   const dispatch = useDispatch();
@@ -36,6 +37,12 @@ const UserProductsListing = ({ product }) => {
     }
   };
 
+  const detailedViewHandler = () => {
+    dispatch(ModalActions.setModalContent("DetailedView"));
+    dispatch(ModalActions.setModalData(product));
+    dispatch(ModalActions.setModal());
+  };
+
   const handleAddToCart = () => {
     dispatch(CartActions.addItem({ ...product, qty, status: "pending" }));
     dispatch(CartActions.updateCart());
@@ -56,6 +63,7 @@ const UserProductsListing = ({ product }) => {
         src={product.image}
         alt={product.title}
         className={Styles.productImage}
+        onClick={detailedViewHandler}
       />
 
       <div className={Styles.productInfo}>

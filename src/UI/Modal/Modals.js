@@ -6,12 +6,14 @@ import AddCategoryForm from "../../Components/Pages/Profile/Seller/Category/AddC
 import Cart from "../../Components/Pages/Profile/User/Cart/Cart";
 import Checkout from "../../Components/Pages/Profile/User/Cart/Checkout";
 import UserProfileForm from "../../Components/Pages/Profile/User/UserProfileForm";
+import UserProductsDetailedView from "../../Components/Pages/Profile/User/UserProductsDetailedView";
 
 const Modals = () => {
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state) => state.modal.isModalVisible);
   const modalContent = useSelector((state) => state.modal.modalContent);
   const imgURL = useSelector((state) => state.profile.profileUrl);
+  const modalData = useSelector((state) => state.modal.modalData);
 
   const renderContent = () => {
     switch (modalContent) {
@@ -35,6 +37,8 @@ const Modals = () => {
             className="rounded border"
           />
         );
+      case "DetailedView":
+        return <UserProductsDetailedView product={modalData} />;
       default:
         return null;
     }
