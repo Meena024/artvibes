@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const firebaseURL = "https://trial1-c15f7-default-rtdb.firebaseio.com";
+const firebaseURL = process.env.REACT_APP_FIREBASE_DB_URL;
 
 export const dbApi = {
   get: async (path) => {

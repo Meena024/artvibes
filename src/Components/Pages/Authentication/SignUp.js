@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Card from "../../../UI/Card/Card";
 import form_classes from "../../../UI/CSS/Form.module.css";
-import { useDbApi } from "../../Hooks/useDbApi";
+import { dbApi } from "../../Hooks/DbApi";
 import { useAuthApi } from "../../Hooks/useAuthApi";
 
 const SignUp = () => {
@@ -15,7 +15,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const api = useDbApi();
+  const api = dbApi();
   const { signUp } = useAuthApi();
 
   const signupHandler = async (e) => {
@@ -52,7 +52,7 @@ const SignUp = () => {
         }
       }
 
-      navigate("/");
+      navigate("/Login");
     } catch (err) {
       console.error("Signup Error:", err);
 

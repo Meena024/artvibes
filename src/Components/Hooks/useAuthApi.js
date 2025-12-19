@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AuthURL = "https://identitytoolkit.googleapis.com/v1/accounts:";
-const api_key = "AIzaSyBTQ2asMnlPUffJVn8EKwscBGedzGW_e9c";
+const api_key = process.env.REACT_APP_FIREBASE_API_KEY;
 
 export const useAuthApi = () => {
   const sendRequest = async (endpoint, payload) => {
