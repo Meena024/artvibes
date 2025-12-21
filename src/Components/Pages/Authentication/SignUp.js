@@ -15,7 +15,6 @@ const SignUp = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const api = dbApi();
   const { signUp } = useAuthApi();
 
   const signupHandler = async (e) => {
@@ -41,7 +40,7 @@ const SignUp = () => {
       };
 
       try {
-        await api.put(`users/${data.localId}/userProfile`, userObj);
+        await dbApi.put(`users/${data.localId}/userProfile`, userObj);
       } catch (dbErr) {
         console.error("DB Write Failed:", dbErr);
 
@@ -111,10 +110,14 @@ const SignUp = () => {
           </div>
 
           {error && <div className={form_classes.errorText}>{error}</div>}
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Signing up..." : "Sign Up"}
-          </button>
+          <div>
+            <button type="submit" disabled={loading}>
+              {loading ? "Signing up..." : "Sign Up"}
+            </button>
+            <button onClick={() => navigate("/Profile/user/products")}>
+              Cancel
+            </button>
+          </div>
         </form>
 
         <div className={form_classes.linkContainer}>
@@ -139,7 +142,7 @@ const SignUp = () => {
           <button
             type="button"
             className={form_classes.linkBtn}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/Login")}
           >
             Already have an Account? <strong>SIGN IN</strong>
           </button>

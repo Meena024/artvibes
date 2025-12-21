@@ -68,10 +68,14 @@ const Login = () => {
           </div>
 
           {error && <div className={form_classes.errorText}>{error}</div>}
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Sign In"}
-          </button>
+          <div>
+            <button type="submit" disabled={loading}>
+              {loading ? "Logging in..." : "Sign In"}
+            </button>
+            <button onClick={() => navigate("/Profile/user/products")}>
+              Cancel
+            </button>
+          </div>
         </form>
         <div className={form_classes.linkContainer}>
           <button
