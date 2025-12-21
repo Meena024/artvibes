@@ -2,18 +2,27 @@ import { useSelector } from "react-redux";
 import UserProductsListing from "./UserProductsListing";
 import UserCategoryListing from "./UserCategoryListing";
 import Styles from "../../../../UI/CSS/UserProducts.module.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const UserProducts = () => {
+  const navigate = useNavigate();
+
+  const role = useSelector((state) => state.profile.role);
   const products = useSelector((state) => state.sellerProducts.products);
   const categories = useSelector((state) => state.sellerProducts.category);
   const favItems = useSelector((state) => state.cart.favItems);
   const searchText = useSelector((state) => state.sellerProducts.searchText);
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
-
   const selectedCategories = useSelector(
     (state) => state.sellerProducts.selectedCategories
   );
+
+  useEffect(() => {
+    if (role === "seller") {
+      navigate("/Profile/seller/products");
+    }
+  }, [role, navigate]);
 
   const [sortOrder, setSortOrder] = useState("default");
 

@@ -1,10 +1,11 @@
 import Styles from "../../../../UI/CSS/UserProductsDetailedView.module.css";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CartActions } from "../../../../Redux store/CartActions";
 
 const UserProductsDetailedView = ({ product }) => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const [qty, setQty] = useState(1);
 
   if (!product) return null;
@@ -13,8 +14,12 @@ const UserProductsDetailedView = ({ product }) => {
   const decreaseQty = () => setQty((prev) => (prev > 1 ? prev - 1 : 1));
 
   const addToCart = () => {
-    dispatch(CartActions.addItem({ ...product, qty }));
-    dispatch(CartActions.updateCart());
+    if (isLoggedIn) {
+      dispatch(CartActions.addItem({ ...product, qty }));
+      dispatch(CartActions.updateCart());
+    } else {
+      alert("login to place order");
+    }
   };
 
   return (

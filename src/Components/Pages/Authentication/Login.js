@@ -24,7 +24,7 @@ const Login = () => {
 
       console.log("Login success:", data);
 
-      navigate("/UserProfile");
+      navigate("/Profile");
     } catch (err) {
       console.error("LOGIN ERROR:", err);
 
@@ -70,7 +70,7 @@ const Login = () => {
           {error && <div className={form_classes.errorText}>{error}</div>}
           <div>
             <button type="submit" disabled={loading}>
-              {loading ? "Logging in..." : "Sign In"}
+              {loading ? "Signing in..." : "Sign In"}
             </button>
             <button onClick={() => navigate("/Profile/user/products")}>
               Cancel
