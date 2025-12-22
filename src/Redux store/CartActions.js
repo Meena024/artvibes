@@ -85,39 +85,6 @@ export const removeFromFav = (productId) => {
   };
 };
 
-/* ------------------ FETCH ALL ORDERS (Firebase → Redux) ------------------ */
-
-export const fetchAllOrders = () => {
-  return async (dispatch) => {
-    const data = await dbApi.get("orders");
-
-    if (!data) {
-      console.log("No orders found in database.");
-      return;
-    }
-
-    const allOrders = [];
-
-    Object.keys(data).forEach((userId) => {
-      const userOrders = data[userId];
-
-      Object.keys(userOrders).forEach((orderId) => {
-        allOrders.push({
-          userId,
-          orderId,
-          ...userOrders[orderId],
-        });
-      });
-    });
-
-    const sortedOrders = allOrders.sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
-
-    return sortedOrders;
-  };
-};
-
 /* ------------------ FETCH ORDERS (Firebase → Redux) ------------------ */
 
 export const fetchOrders = () => {
@@ -190,7 +157,6 @@ export const CartActions = {
   fetchFav,
   addToFav,
   removeFromFav,
-  fetchAllOrders,
   fetchOrders,
   PlaceOrder,
   updateItemStatus,

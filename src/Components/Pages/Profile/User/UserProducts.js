@@ -54,7 +54,7 @@ const UserProducts = () => {
     filtered = filtered.filter((p) => normalCategories.includes(p.category));
   }
 
-  if (hasFavFilter) {
+  if (hasFavFilter && isLoggedIn) {
     const favIds = favItems.map((item) => item.id);
     filtered = filtered.filter((p) => favIds.includes(p.id));
   }

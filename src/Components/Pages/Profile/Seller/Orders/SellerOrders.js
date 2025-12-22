@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductActions";
 import { CartActions } from "../../../../../Redux store/CartActions";
 import SellerOrderListing from "./SellerOrdersListing";
 
@@ -9,7 +10,7 @@ const SellerOrders = () => {
 
   useEffect(() => {
     const load = async () => {
-      const result = await dispatch(CartActions.fetchAllOrders());
+      const result = await dispatch(SellerProductsActions.fetchAllOrders());
       setOrders(result);
     };
     load();

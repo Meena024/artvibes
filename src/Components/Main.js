@@ -1,6 +1,6 @@
 import { Routes, Route, Outlet, useLocation, Navigate } from "react-router";
 import { useSelector } from "react-redux";
-import { useAuthInitializer } from "../Components/Pages/Authentication/AuthInitializer";
+import { useAuthInitializer } from "./Hooks/AuthInitializer";
 
 import Header from "./Header";
 import Head from "./Head";

@@ -9,6 +9,7 @@ const SellerProductsSlice = createSlice({
     edit_category: null,
     selectedCategories: [],
     searchText: "",
+    allOrders: [],
   },
 
   reducers: {
@@ -97,6 +98,15 @@ const SellerProductsSlice = createSlice({
       state.searchText = action.payload;
     },
 
+    clearFilters(state) {
+      state.searchText = "";
+      state.selectedCategories = [];
+    },
+
+    setAllOrders(state, action) {
+      state.allOrders = action.payload;
+    },
+
     reset: (state) => {
       state.products = [];
       state.category = [];
@@ -104,6 +114,7 @@ const SellerProductsSlice = createSlice({
       state.edit_category = null;
       state.selectedCategories = [];
       state.searchText = "";
+      state.allOrders = [];
     },
   },
 });

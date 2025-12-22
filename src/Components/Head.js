@@ -36,6 +36,7 @@ const Head = () => {
     dispatch(AuthAction.reset());
     dispatch(ProfileActions.resetProfile());
     dispatch(CartActions.reset());
+    dispatch(SellerProductsActions.clearFilters());
     navigate("/user/products");
   };
 

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AuthAction } from "../../../Redux store/AuthSlice";
-import { SellerProductsActions } from "../../../Redux store/Seller/SellerProductActions";
-import { CartActions } from "../../../Redux store/CartActions";
-import { InitializeAuth } from "./InitializeAuth";
+import { AuthAction } from "../../Redux store/AuthSlice";
+import { SellerProductsActions } from "../../Redux store/Seller/SellerProductActions";
+import { InitializeAuth } from "../Pages/Authentication/InitializeAuth";
+import { CartActions } from "../../Redux store/CartActions";
 
 export const useAuthInitializer = () => {
   const dispatch = useDispatch();
@@ -31,9 +31,7 @@ export const useAuthInitializer = () => {
       dispatch(CartActions.fetchOrders());
       dispatch(CartActions.fetchFav());
     } else {
-      dispatch(CartActions.fetchAllOrders());
+      dispatch(SellerProductsActions.fetchAllOrders());
     }
-
-    dispatch(AuthAction.setLoading(false));
   }, [role, dispatch]);
 };
