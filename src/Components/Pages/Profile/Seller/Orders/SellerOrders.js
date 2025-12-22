@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  fetchAllOrders,
-  updateItemStatus,
-} from "../../../../../Redux store/CartActions";
+import { CartActions } from "../../../../../Redux store/CartActions";
 import SellerOrderListing from "./SellerOrdersListing";
 
 const SellerOrders = () => {
@@ -12,7 +9,7 @@ const SellerOrders = () => {
 
   useEffect(() => {
     const load = async () => {
-      const result = await dispatch(fetchAllOrders());
+      const result = await dispatch(CartActions.fetchAllOrders());
       setOrders(result);
     };
     load();
@@ -24,7 +21,9 @@ const SellerOrders = () => {
     itemIndex,
     newStatus
   ) => {
-    await dispatch(updateItemStatus(orderId, pur_UserId, itemIndex, newStatus));
+    await dispatch(
+      CartActions.updateItemStatus(orderId, pur_UserId, itemIndex, newStatus)
+    );
 
     setOrders((prev) =>
       prev.map((order) =>

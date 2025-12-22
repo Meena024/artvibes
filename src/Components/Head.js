@@ -36,7 +36,7 @@ const Head = () => {
     dispatch(AuthAction.reset());
     dispatch(ProfileActions.resetProfile());
     dispatch(CartActions.reset());
-    navigate("/Profile/user/products");
+    navigate("/user/products");
   };
 
   return (
@@ -48,8 +48,8 @@ const Head = () => {
           alt="logo"
           onClick={() =>
             role === "seller"
-              ? navigate("/Profile/seller/products")
-              : navigate("/Profile/user/products")
+              ? navigate("/seller/products")
+              : navigate("/user/products")
           }
         />
         {isLoggedIn && role === "user" && (
@@ -67,7 +67,7 @@ const Head = () => {
       {isLoggedIn && role === "seller" && (
         <nav className={styles.nav}>
           <NavLink
-            to="/Profile/seller/products"
+            to="/seller/products"
             className={({ isActive }) =>
               isActive ? styles.activeNavItem : styles.navItem
             }
@@ -76,7 +76,7 @@ const Head = () => {
           </NavLink>
 
           <NavLink
-            to="/Profile/seller/orders"
+            to="/seller/orders"
             className={({ isActive }) =>
               isActive ? styles.activeNavItem : styles.navItem
             }
@@ -85,7 +85,7 @@ const Head = () => {
           </NavLink>
 
           <NavLink
-            to="/Profile/seller/category"
+            to="/seller/category"
             className={({ isActive }) =>
               isActive ? styles.activeNavItem : styles.navItem
             }
@@ -109,7 +109,7 @@ const Head = () => {
           <>
             <button
               className={styles.iconBtn}
-              onClick={() => navigate("/Profile/user/favourites")}
+              onClick={() => navigate("/user/favourites")}
             >
               ❤️
             </button>
@@ -123,7 +123,7 @@ const Head = () => {
 
             <button
               className={styles.iconBtn}
-              onClick={() => navigate("/Profile/user/orders")}
+              onClick={() => navigate("/user/orders")}
             >
               📦
             </button>

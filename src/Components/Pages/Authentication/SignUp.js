@@ -114,9 +114,7 @@ const SignUp = () => {
             <button type="submit" disabled={loading}>
               {loading ? "Signing up..." : "Sign Up"}
             </button>
-            <button onClick={() => navigate("/Profile/user/products")}>
-              Cancel
-            </button>
+            <button onClick={() => navigate("/user/products")}>Cancel</button>
           </div>
         </form>
 

@@ -3,9 +3,12 @@ import { useNavigate } from "react-router";
 import Card from "../../../UI/Card/Card";
 import form_classes from "../../../UI/CSS/Form.module.css";
 import { useAuthApi } from "../../Hooks/useAuthApi";
+import { InitializeAuth } from "./InitializeAuth";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { login } = useAuthApi();
 
   const [email, setEmail] = useState("");
@@ -24,13 +27,11 @@ const Login = () => {
 
       console.log("Login success:", data);
 
-      navigate("/Profile");
+      await InitializeAuth(dispatch, data.idToken);
+
+      navigate("/");
     } catch (err) {
-      console.error("LOGIN ERROR:", err);
-
-      const safeMessage =
-        err?.message || "An unexpected error occurred. Please try again.";
-
+      const safeMessage = err?.message || "An unexpected error occurred.";
       setError(safeMessage);
     } finally {
       setLoading(false);
@@ -72,9 +73,7 @@ const Login = () => {
             <button type="submit" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </button>
-            <button onClick={() => navigate("/Profile/user/products")}>
-              Cancel
-            </button>
+            <button onClick={() => navigate("/user/products")}>Cancel</button>
           </div>
         </form>
         <div className={form_classes.linkContainer}>

@@ -1,31 +1,43 @@
 import { Routes, Route, Outlet, useLocation, Navigate } from "react-router";
+import { useSelector } from "react-redux";
+import { useAuthInitializer } from "../Components/Pages/Authentication/AuthInitializer";
+
 import Header from "./Header";
+import Head from "./Head";
+import Modals from "../UI/Modal/Modals";
+
 import ProtectedRoute from "./Route/ProtectedRoute";
 import PublicRoute from "./Route/PublicRoute";
 import SellerProtectedRoute from "./Route/SellerProtectedRoute";
-import ProfileMain from "./Pages/Profile/ProfileMain";
+
 import Login from "./Pages/Authentication/Login";
 import SignUp from "./Pages/Authentication/SignUp";
 import ForgotPassword from "./Pages/Authentication/ForgotPassword";
-import { useAuthInitializer } from "../Components/Pages/Authentication/AuthInitializer";
-import Head from "./Head";
+
 import SellerProduct from "./Pages/Profile/Seller/Products/Products";
 import SellerCategory from "./Pages/Profile/Seller/Category/Category";
 import SellerOrders from "./Pages/Profile/Seller/Orders/SellerOrders";
+
 import UserProducts from "./Pages/Profile/User/UserProducts";
-import Modals from "../UI/Modal/Modals";
 import UserOrders from "./Pages/Profile/User/Cart/UserOrders";
 import Favourites from "./Pages/Profile/User/Cart/Favorites";
-import { useSelector } from "react-redux";
 
 const Main = () => {
   useAuthInitializer();
+
   const location = useLocation();
+
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const role = useSelector((state) => state.profile.role);
+  const isLoading = useSelector((state) => state.auth.loading);
+
   const authPages = ["/Login", "/SignUp", "/SellerSignUp", "/ForgotPassword"];
 
   const showHeader = authPages.includes(location.pathname);
+
+  if (isLoggedIn && isLoading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <>
@@ -34,7 +46,20 @@ const Main = () => {
       {showHeader ? <Header /> : <Head />}
 
       <Routes>
-        <Route path="/Profile" element={<ProfileMain />} />
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              role === "seller" ? (
+                <Navigate to="/seller/products" replace />
+              ) : (
+                <Navigate to="/user/products" replace />
+              )
+            ) : (
+              <Navigate to="/user/products" replace />
+            )
+          }
+        />
 
         <Route
           path="/Login"
@@ -72,14 +97,14 @@ const Main = () => {
           }
         />
 
-        <Route path="/Profile/*" element={<Outlet />}>
+        <Route path="/" element={<Outlet />}>
           <Route
             path="seller/products"
             element={
               <SellerProtectedRoute
                 isLoggedIn={isLoggedIn}
                 role={role}
-                allowedRole={"seller"}
+                allowedRole="seller"
               >
                 <SellerProduct />
               </SellerProtectedRoute>
@@ -92,7 +117,7 @@ const Main = () => {
               <SellerProtectedRoute
                 isLoggedIn={isLoggedIn}
                 role={role}
-                allowedRole={"seller"}
+                allowedRole="seller"
               >
                 <SellerOrders />
               </SellerProtectedRoute>
@@ -105,7 +130,7 @@ const Main = () => {
               <SellerProtectedRoute
                 isLoggedIn={isLoggedIn}
                 role={role}
-                allowedRole={"seller"}
+                allowedRole="seller"
               >
                 <SellerCategory />
               </SellerProtectedRoute>
@@ -120,7 +145,7 @@ const Main = () => {
               <ProtectedRoute
                 isLoggedIn={isLoggedIn}
                 role={role}
-                allowedRole={"user"}
+                allowedRole="user"
               >
                 <UserOrders />
               </ProtectedRoute>
@@ -133,7 +158,7 @@ const Main = () => {
               <ProtectedRoute
                 isLoggedIn={isLoggedIn}
                 role={role}
-                allowedRole={"user"}
+                allowedRole="user"
               >
                 <Favourites />
               </ProtectedRoute>
@@ -142,21 +167,16 @@ const Main = () => {
 
           <Route
             path="user/*"
-            element={<Navigate to="/Profile/user/products" replace />}
+            element={<Navigate to="/user/products" replace />}
           />
 
           <Route
             path="seller/*"
-            element={<Navigate to="/Profile/seller/products" replace />}
+            element={<Navigate to="/seller/products" replace />}
           />
         </Route>
 
-        <Route
-          path="/"
-          element={<Navigate to="/Profile/user/products" replace />}
-        />
-
-        <Route path="*" element={<h1>Page Not Found!</h1>} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </>
   );

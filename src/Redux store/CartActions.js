@@ -190,6 +190,8 @@ export const CartActions = {
   fetchFav,
   addToFav,
   removeFromFav,
+  fetchAllOrders,
   fetchOrders,
   PlaceOrder,
+  updateItemStatus,
 };

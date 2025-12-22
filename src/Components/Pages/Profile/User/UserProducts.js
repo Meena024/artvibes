@@ -20,7 +20,7 @@ const UserProducts = () => {
 
   useEffect(() => {
     if (role === "seller") {
-      navigate("/Profile/seller/products");
+      navigate("/seller/products");
     }
   }, [role, navigate]);
 
