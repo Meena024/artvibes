@@ -301,3 +301,21 @@
   min-height: 90px !important;
   resize: vertical;
 }
+
+/* Scrollable address container */
+.upf_address_scroll {
+  max-height: 260px; /* controls visible address area */
+  overflow-y: auto;
+  width: 100%;
+  padding-right: 6px; /* prevents scrollbar overlap */
+}
+
+/* Smooth scrollbar (optional, nice touch) */
+.upf_address_scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.upf_address_scroll::-webkit-scrollbar-thumb {
+  background: #d8b6c8;
+  border-radius: 10px;
+}

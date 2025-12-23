@@ -36,21 +36,6 @@ const UserProfileForm = () => {
     );
   }, [profile]);
 
-  const addAddress = () =>
-    setAddresses((prev) => [...prev, { title: "", place: "" }]);
-
-  const updateAddressField = (index, field, value) => {
-    setAddresses((prev) => {
-      const updated = [...prev];
-      updated[index] = { ...updated[index], [field]: value };
-      return updated;
-    });
-  };
-
-  const removeAddress = (index) => {
-    setAddresses((prev) => prev.filter((_, i) => i !== index));
-  };
-
   const clean = (val) =>
     val?.toString().trim().length > 0 ? val.trim() : null;
 
@@ -63,6 +48,26 @@ const UserProfileForm = () => {
     if (!trimmed.length) return leadingSpaces;
 
     return leadingSpaces + trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+  };
+
+  const addAddress = () => {
+    const last = addresses[addresses.length - 1];
+
+    if (!last.title.trim() || !last.place.trim()) return;
+
+    setAddresses((prev) => [...prev, { title: "", place: "" }]);
+  };
+
+  const updateAddressField = (index, field, value) => {
+    setAddresses((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  };
+
+  const removeAddress = (index) => {
+    setAddresses((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (e) => {
@@ -85,6 +90,9 @@ const UserProfileForm = () => {
     dispatch(ProfileActions.updateFullProfile(profileData));
     dispatch(ModalActions.unsetModal());
   };
+
+  const lastAddress = addresses[addresses.length - 1];
+  const disableAdd = !lastAddress?.title.trim() && !lastAddress?.place.trim();
 
   return (
     <div className={styles.authFormCenter}>
@@ -130,53 +138,56 @@ const UserProfileForm = () => {
               type="button"
               onClick={addAddress}
               className={styles.upf_add_btn}
+              disabled={disableAdd}
             >
               +
             </button>
           </div>
 
-          {addresses.map((addr, index) => (
-            <div key={index} className={styles.upf_address_row}>
-              <input
-                type="text"
-                className={`${styles.input} ${styles.upf_address_title_input}`}
-                placeholder="Address Title (e.g., Home)"
-                value={addr.title}
-                onChange={(e) =>
-                  updateAddressField(
-                    index,
-                    "title",
-                    capitalizeLive(e.target.value)
-                  )
-                }
-              />
+          <div className={styles.upf_address_scroll}>
+            {addresses.map((addr, index) => (
+              <div key={index} className={styles.upf_address_row}>
+                <input
+                  type="text"
+                  className={`${styles.input} ${styles.upf_address_title_input}`}
+                  placeholder="Address Title (e.g., Home)"
+                  value={addr.title}
+                  onChange={(e) =>
+                    updateAddressField(
+                      index,
+                      "title",
+                      capitalizeLive(e.target.value)
+                    )
+                  }
+                />
 
-              <textarea
-                className={`${styles.textarea} ${styles.upf_address_input}`}
-                placeholder={`Address ${index + 1}`}
-                value={addr.place}
-                onChange={(e) =>
-                  updateAddressField(
-                    index,
-                    "place",
-                    capitalizeLive(e.target.value)
-                  )
-                }
-              />
+                <textarea
+                  className={`${styles.textarea} ${styles.upf_address_input}`}
+                  placeholder={`Address `}
+                  value={addr.place}
+                  onChange={(e) =>
+                    updateAddressField(
+                      index,
+                      "place",
+                      capitalizeLive(e.target.value)
+                    )
+                  }
+                />
 
-              {index > 0 ? (
-                <button
-                  type="button"
-                  className={styles.upf_remove_btn}
-                  onClick={() => removeAddress(index)}
-                >
-                  –
-                </button>
-              ) : (
-                <div className={styles.upf_placeholder_btn}></div>
-              )}
-            </div>
-          ))}
+                {index > 0 ? (
+                  <button
+                    type="button"
+                    className={styles.upf_remove_btn}
+                    onClick={() => removeAddress(index)}
+                  >
+                    –
+                  </button>
+                ) : (
+                  <div className={styles.upf_placeholder_btn}></div>
+                )}
+              </div>
+            ))}
+          </div>
 
           <div className={styles.upf_btn_row}>
             <button type="submit">Save Profile</button>
