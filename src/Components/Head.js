@@ -1,6 +1,6 @@
 import styles from "../UI/CSS/Head.module.css";
 import logo from "../Assets/Logo.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthAction } from "../Redux store/AuthSlice";
 import { ProfileActions } from "../Redux store/ProfileActions";
@@ -12,6 +12,9 @@ import { CartActions } from "../Redux store/CartActions";
 const Head = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const showSearch = location.pathname.includes("products");
 
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const user_name = useSelector((state) => state.profile.name);
@@ -96,14 +99,16 @@ const Head = () => {
       )}
 
       <div className={styles.rightBox}>
-        <input
-          type="text"
-          placeholder="Search..."
-          className={styles.searchBox}
-          onChange={(e) =>
-            dispatch(SellerProductsActions.setSearchText(e.target.value))
-          }
-        />
+        {showSearch && (
+          <input
+            type="text"
+            placeholder="Search..."
+            className={styles.searchBox}
+            onChange={(e) =>
+              dispatch(SellerProductsActions.setSearchText(e.target.value))
+            }
+          />
+        )}
 
         {isLoggedIn && role === "user" && (
           <>
