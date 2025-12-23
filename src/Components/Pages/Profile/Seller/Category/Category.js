@@ -5,7 +5,8 @@ import CategoryListing from "./CategoryListing";
 
 const Category = () => {
   const dispatch = useDispatch();
-  const category = useSelector((state) => state.sellerProducts.category);
+  const categories =
+    useSelector((state) => state.sellerProducts.category) || [];
 
   const AddCategoryHandler = () => {
     dispatch(ModalActions.setModalContent("AddCategory"));
@@ -28,8 +29,8 @@ const Category = () => {
         </thead>
 
         <tbody>
-          {category?.length > 0 ? (
-            category.map((cat) => (
+          {categories.length > 0 ? (
+            categories.map((cat) => (
               <tr key={cat.id} className={Styles.spacingRow}>
                 <td colSpan="3">
                   <CategoryListing category={cat} />
@@ -39,7 +40,7 @@ const Category = () => {
           ) : (
             <tr>
               <td colSpan="3" className={Styles.noProducts}>
-                No products added yet.
+                No categories added yet.
               </td>
             </tr>
           )}

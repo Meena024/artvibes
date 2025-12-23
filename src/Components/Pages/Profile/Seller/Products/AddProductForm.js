@@ -5,45 +5,64 @@ import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductActions";
 
+const EMPTY_FORM = {
+  title: "",
+  description: "",
+  price: "",
+  category: "",
+  image: "",
+};
+
 const AddProductForm = () => {
   const dispatch = useDispatch();
+
   const editProduct = useSelector((state) => state.sellerProducts.edit_product);
   const categoriesState = useSelector((state) => state.sellerProducts.category);
 
   const isEdit = Boolean(editProduct);
 
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    price: "",
-    category: "",
-    image: "",
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
 
   useEffect(() => {
     if (editProduct) {
-      setFormData(editProduct);
+      setFormData({
+        title: editProduct.title ?? "",
+        description: editProduct.description ?? "",
+        price: editProduct.price ?? "",
+        category: editProduct.category ?? "",
+        image: editProduct.image ?? "",
+      });
+    } else {
+      setFormData(EMPTY_FORM);
     }
   }, [editProduct]);
 
-  const categories = categoriesState?.map((cat) => cat.title) || [];
+  const categories = Array.isArray(categoriesState)
+    ? categoriesState.map((cat) => cat.title)
+    : [];
 
   const capitalize = (text) =>
     text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
 
-    let newValue = files ? files[0] : value;
+    let newValue = value;
 
-    if (name === "title" || name === "description")
+    if (name === "title" || name === "description") {
       newValue = capitalize(newValue);
+    }
 
     setFormData((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (Number(formData.price) <= 0) {
+      alert("Please enter a valid price.");
+      return;
+    }
 
     if (isEdit) {
       dispatch(
@@ -61,7 +80,7 @@ const AddProductForm = () => {
   };
 
   const handleCancel = () => {
-    dispatch(SellerProductsActions.setEditProduct(null));
+    dispatch(SellerProductsActions.resetEditProduct());
     dispatch(ModalActions.unsetModal());
   };
 
@@ -108,6 +127,7 @@ const AddProductForm = () => {
               onChange={handleChange}
               required
               className={styles.input}
+              min="1"
             />
           </div>
 
@@ -144,7 +164,9 @@ const AddProductForm = () => {
 
           {/* Buttons */}
           <div>
-            <button type="submit">{isEdit ? "Edit" : "Add Product"}</button>
+            <button type="submit">
+              {isEdit ? "Edit Product" : "Add Product"}
+            </button>
 
             <button type="button" onClick={handleCancel}>
               Cancel

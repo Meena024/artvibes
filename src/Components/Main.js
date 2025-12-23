@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet, useLocation, Navigate } from "react-router";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAuthInitializer } from "./Hooks/AuthInitializer";
 
@@ -22,18 +22,26 @@ import UserProducts from "./Pages/Profile/User/UserProducts";
 import UserOrders from "./Pages/Profile/User/Cart/UserOrders";
 import Favourites from "./Pages/Profile/User/Cart/Favorites";
 
+const PublicLayout = () => (
+  <>
+    <Header />
+    <Outlet />
+  </>
+);
+
+const AppLayout = () => (
+  <>
+    <Head />
+    <Outlet />
+  </>
+);
+
 const Main = () => {
   useAuthInitializer();
-
-  const location = useLocation();
 
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const role = useSelector((state) => state.profile.role);
   const isLoading = useSelector((state) => state.auth.loading);
-
-  const authPages = ["/Login", "/SignUp", "/SellerSignUp", "/ForgotPassword"];
-
-  const showHeader = authPages.includes(location.pathname);
 
   if (isLoggedIn && isLoading) {
     return <div>loading...</div>;
@@ -42,8 +50,6 @@ const Main = () => {
   return (
     <>
       <Modals />
-
-      {showHeader ? <Header /> : <Head />}
 
       <Routes>
         <Route
@@ -61,43 +67,42 @@ const Main = () => {
           }
         />
 
-        <Route
-          path="/Login"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <Login />
-            </PublicRoute>
-          }
-        />
+        <Route element={<PublicLayout />}>
+          <Route
+            path="/Login"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/SignUp"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/SellerSignUp"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/ForgotPassword"
+            element={
+              <PublicRoute isLoggedIn={isLoggedIn}>
+                <ForgotPassword />
+              </PublicRoute>
+            }
+          />
+        </Route>
 
-        <Route
-          path="/SignUp"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <SignUp />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/SellerSignUp"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <SignUp />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/ForgotPassword"
-          element={
-            <PublicRoute isLoggedIn={isLoggedIn}>
-              <ForgotPassword />
-            </PublicRoute>
-          }
-        />
-
-        <Route path="/" element={<Outlet />}>
+        <Route element={<AppLayout />}>
           <Route
             path="seller/products"
             element={

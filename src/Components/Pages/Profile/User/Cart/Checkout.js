@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Styles from "../../../../../UI/CSS/Checkout.module.css";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
@@ -12,9 +12,9 @@ const Checkout = () => {
   const dispatch = useDispatch();
 
   const profile = useSelector((state) => state.profile);
-  const items = useSelector((state) => state.cart.cartItems ?? []);
-  const totalQty = useSelector(selectTotalQty);
-  const totalAmount = useSelector(selectTotalAmount);
+  const items = useSelector((state) => state.cart.cartItems) || [];
+  const totalQty = useSelector(selectTotalQty) ?? 0;
+  const totalAmount = useSelector(selectTotalAmount) ?? 0;
 
   const [payment, setPayment] = useState("cod");
 
@@ -24,16 +24,23 @@ const Checkout = () => {
 
   const [name, setName] = useState(savedName);
   const [phone, setPhone] = useState(savedPhone);
-
-  // Address now comes from address.place
   const [address, setAddress] = useState(savedAddresses[0]?.place ?? "");
 
   const [error, setError] = useState("");
   const [orderingForOthers, setOrderingForOthers] = useState(false);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
 
+  useEffect(() => {
+    if (!orderingForOthers) {
+      setName(savedName);
+      setPhone(savedPhone);
+      setAddress(savedAddresses[0]?.place ?? "");
+      setSelectedAddressIndex(0);
+    }
+  }, [profile]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const toggleOrderingForOthers = () => {
-    setOrderingForOthers(!orderingForOthers);
+    setOrderingForOthers((prev) => !prev);
 
     if (!orderingForOthers) {
       setName("");
@@ -53,11 +60,15 @@ const Checkout = () => {
     if (index === -1) {
       setAddress("");
     } else {
-      setAddress(savedAddresses[index].place);
+      setAddress(savedAddresses[index]?.place ?? "");
     }
   };
 
   const validateForm = () => {
+    if (items.length === 0) {
+      setError("Your cart is empty.");
+      return false;
+    }
     if (!name.trim()) {
       setError("Please enter full name.");
       return false;
@@ -172,6 +183,7 @@ const Checkout = () => {
       </div>
 
       {error && <div className={Styles.formError}>{error}</div>}
+
       <h3 className={Styles.subTitle}>Select Payment Method</h3>
 
       <div className={Styles.optionsBox}>

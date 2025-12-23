@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import UserProductsListing from "./UserProductsListing";
 import UserCategoryListing from "./UserCategoryListing";
 import Styles from "../../../../UI/CSS/UserProducts.module.css";
-import { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useRef, useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserProducts = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const UserProducts = () => {
 
   useEffect(() => {
     if (role === "seller") {
-      navigate("/seller/products");
+      navigate("/seller/products", { replace: true });
     }
   }, [role, navigate]);
 
@@ -33,48 +33,59 @@ const UserProducts = () => {
     isFavCategory: true,
   };
 
-  const scrollRef = useRef();
+  const scrollRef = useRef(null);
 
   const scrollLeft = () => {
+    if (!scrollRef.current) return;
     scrollRef.current.scrollBy({ left: -250, behavior: "smooth" });
   };
 
   const scrollRight = () => {
+    if (!scrollRef.current) return;
     scrollRef.current.scrollBy({ left: 250, behavior: "smooth" });
   };
 
-  /* ---------------------- CATEGORY & FAV FILTER ---------------------- */
-  const hasFavFilter = selectedCategories.includes("__FAV__");
+  const sortedProducts = useMemo(() => {
+    let filtered = products;
 
-  const normalCategories = selectedCategories.filter((c) => c !== "__FAV__");
+    const hasFavFilter = selectedCategories.includes("__FAV__");
+    const normalCategories = selectedCategories.filter((c) => c !== "__FAV__");
 
-  let filtered = products;
+    if (normalCategories.length > 0) {
+      filtered = filtered.filter((p) => normalCategories.includes(p.category));
+    }
 
-  if (normalCategories.length > 0) {
-    filtered = filtered.filter((p) => normalCategories.includes(p.category));
-  }
+    if (hasFavFilter && isLoggedIn) {
+      const favIds = favItems.map((item) => item.id);
+      filtered = filtered.filter((p) => favIds.includes(p.id));
+    }
 
-  if (hasFavFilter && isLoggedIn) {
-    const favIds = favItems.map((item) => item.id);
-    filtered = filtered.filter((p) => favIds.includes(p.id));
-  }
+    const search = searchText.toLowerCase();
+    filtered = filtered.filter((p) => {
+      return (
+        p.title.toLowerCase().includes(search) ||
+        p.description.toLowerCase().includes(search) ||
+        String(p.price).includes(search)
+      );
+    });
 
-  const search = searchText.toLowerCase();
-  filtered = filtered.filter((p) => {
-    return (
-      p.title.toLowerCase().includes(search) ||
-      p.description.toLowerCase().includes(search) ||
-      String(p.price).includes(search)
-    );
-  });
+    const result = [...filtered];
 
-  const sortedProducts = [...filtered];
+    if (sortOrder === "low-high") {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortOrder === "high-low") {
+      result.sort((a, b) => b.price - a.price);
+    }
 
-  if (sortOrder === "low-high") {
-    sortedProducts.sort((a, b) => a.price - b.price);
-  } else if (sortOrder === "high-low") {
-    sortedProducts.sort((a, b) => b.price - a.price);
-  }
+    return result;
+  }, [
+    products,
+    selectedCategories,
+    favItems,
+    searchText,
+    sortOrder,
+    isLoggedIn,
+  ]);
 
   return (
     <div className={Styles.pageBackground}>

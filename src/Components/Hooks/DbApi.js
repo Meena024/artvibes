@@ -2,29 +2,47 @@ import axios from "axios";
 
 const firebaseURL = process.env.REACT_APP_FIREBASE_DB_URL;
 
+if (!firebaseURL) {
+  throw new Error(
+    "REACT_APP_FIREBASE_DB_URL is not defined in environment variables"
+  );
+}
+
+const api = axios.create({
+  baseURL: firebaseURL,
+  timeout: 15000,
+});
+
+/**
+ * Normalizes Firebase paths and ensures `.json`
+ */
+const buildPath = (path) => `${path.replace(/^\/+/, "")}.json`;
+
+/**
+ * Centralized error handling
+ */
+const handleRequest = async (request) => {
+  try {
+    const res = await request();
+    return res.data;
+  } catch (err) {
+    console.error("DB API Error:", err);
+
+    const message =
+      err?.response?.data?.error || err?.message || "Database request failed";
+
+    throw new Error(message);
+  }
+};
+
 export const dbApi = {
-  get: async (path) => {
-    const res = await axios.get(`${firebaseURL}/${path}.json`);
-    return res.data;
-  },
+  get: (path) => handleRequest(() => api.get(buildPath(path))),
 
-  post: async (path, data) => {
-    const res = await axios.post(`${firebaseURL}/${path}.json`, data);
-    return res.data;
-  },
+  post: (path, data) => handleRequest(() => api.post(buildPath(path), data)),
 
-  put: async (path, data) => {
-    const res = await axios.put(`${firebaseURL}/${path}.json`, data);
-    return res.data;
-  },
+  put: (path, data) => handleRequest(() => api.put(buildPath(path), data)),
 
-  patch: async (path, data) => {
-    const res = await axios.patch(`${firebaseURL}/${path}.json`, data);
-    return res.data;
-  },
+  patch: (path, data) => handleRequest(() => api.patch(buildPath(path), data)),
 
-  remove: async (path) => {
-    const res = await axios.delete(`${firebaseURL}/${path}.json`);
-    return res.data;
-  },
+  remove: (path) => handleRequest(() => api.delete(buildPath(path))),
 };

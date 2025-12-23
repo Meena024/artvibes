@@ -14,14 +14,20 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-
   const { signUp } = useAuthApi();
 
   const signupHandler = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
+
     setError(null);
 
-    if (password !== confirmPassword) {
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
+    const cleanConfirm = confirmPassword.trim();
+
+    if (cleanPassword !== cleanConfirm) {
       setError("Passwords don't match!");
       return;
     }
@@ -29,8 +35,10 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      const data = await signUp({ email, password });
-      console.log("Signup success:", data);
+      const data = await signUp({
+        email: cleanEmail,
+        password: cleanPassword,
+      });
 
       const role = location.pathname === "/SignUp" ? "user" : "seller";
 
@@ -39,17 +47,7 @@ const SignUp = () => {
         role,
       };
 
-      try {
-        await dbApi.put(`users/${data.localId}/userProfile`, userObj);
-      } catch (dbErr) {
-        console.error("DB Write Failed:", dbErr);
-
-        if (dbErr.response?.data) {
-          throw new Error("Failed to save user profile to database.");
-        } else {
-          throw new Error("Network error while saving profile.");
-        }
-      }
+      await dbApi.put(`users/${data.localId}/userProfile`, userObj);
 
       navigate("/Login");
     } catch (err) {
@@ -59,12 +57,12 @@ const SignUp = () => {
         err?.message || "An unexpected error occurred. Please try again.";
 
       setError(safeMessage);
+    } finally {
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setLoading(false);
     }
-
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
-    setLoading(false);
   };
 
   return (
@@ -110,11 +108,15 @@ const SignUp = () => {
           </div>
 
           {error && <div className={form_classes.errorText}>{error}</div>}
+
           <div>
             <button type="submit" disabled={loading}>
               {loading ? "Signing up..." : "Sign Up"}
             </button>
-            <button onClick={() => navigate("/user/products")}>Cancel</button>
+
+            <button type="button" onClick={() => navigate("/user/products")}>
+              Cancel
+            </button>
           </div>
         </form>
 

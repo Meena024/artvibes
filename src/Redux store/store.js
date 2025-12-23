@@ -13,6 +13,7 @@ const store = configureStore({
     sellerProducts: SellerProductsSlice.reducer,
     cart: CartSlice.reducer,
   },
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export default store;

@@ -18,20 +18,29 @@ const Login = () => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
+    if (loading) return;
+
     setError(null);
+    setLoading(true);
+
+    const cleanEmail = email.trim();
+    const cleanPassword = password.trim();
 
     try {
-      const data = await login({ email, password });
-      localStorage.setItem("token", data.idToken);
+      const data = await login({
+        email: cleanEmail,
+        password: cleanPassword,
+      });
 
-      console.log("Login success:", data);
+      localStorage.setItem("token", data.idToken);
 
       await InitializeAuth(dispatch, data.idToken);
 
       navigate("/");
     } catch (err) {
       const safeMessage = err?.message || "An unexpected error occurred.";
+
       setError(safeMessage);
     } finally {
       setLoading(false);
@@ -69,13 +78,18 @@ const Login = () => {
           </div>
 
           {error && <div className={form_classes.errorText}>{error}</div>}
+
           <div>
             <button type="submit" disabled={loading}>
               {loading ? "Signing in..." : "Sign In"}
             </button>
-            <button onClick={() => navigate("/user/products")}>Cancel</button>
+
+            <button type="button" onClick={() => navigate("/user/products")}>
+              Cancel
+            </button>
           </div>
         </form>
+
         <div className={form_classes.linkContainer}>
           <button
             type="button"

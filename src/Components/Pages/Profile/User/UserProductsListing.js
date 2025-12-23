@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Styles from "../../../../UI/CSS/UserProductsListing.module.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,16 +9,22 @@ const UserProductsListing = ({ product }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const favItems = useSelector((state) => state.cart.favItems);
-  const isFav = favItems.some((item) => item.id === product.id);
+
+  const isFav = useMemo(
+    () => (product ? favItems.some((item) => item.id === product.id) : false),
+    [favItems, product]
+  );
 
   const [qty, setQty] = useState(1);
+
+  if (!product) return null;
 
   const increaseQty = () => setQty((prev) => prev + 1);
   const decreaseQty = () => setQty((prev) => (prev > 1 ? prev - 1 : 1));
 
   const toggleFavorite = () => {
     if (!isLoggedIn) {
-      alert("You are not Logged In");
+      alert("Login to add to favourites");
       return;
     }
     if (isFav) {

@@ -10,11 +10,11 @@ import {
 const Cart = () => {
   const dispatch = useDispatch();
 
-  const items = useSelector((state) => state.cart.cartItems);
-  const totalQty = useSelector(selectTotalQty);
-  const totalAmount = useSelector(selectTotalAmount);
+  const items = useSelector((state) => state.cart.cartItems) || [];
+  const totalQty = useSelector(selectTotalQty) ?? 0;
+  const totalAmount = useSelector(selectTotalAmount) ?? 0;
 
-  const increaseQty = (id, qty) => {
+  const increaseQty = (id) => {
     dispatch(CartActions.increaseQty(id));
     dispatch(CartActions.updateCart());
   };
@@ -57,7 +57,7 @@ const Cart = () => {
                 <FaMinus />
               </button>
               <span>{item.qty}</span>
-              <button onClick={() => increaseQty(item.id, item.qty)}>
+              <button onClick={() => increaseQty(item.id)}>
                 <FaPlus />
               </button>
             </div>

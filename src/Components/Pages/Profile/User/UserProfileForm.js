@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ProfileActions } from "../../../../Redux store/ProfileActions";
 import styles from "../../../../UI/CSS/Form.module.css";
@@ -22,17 +22,33 @@ const UserProfileForm = () => {
       : [{ title: "", place: "" }]
   );
 
+  useEffect(() => {
+    setName(profile.name ?? "");
+    setPhone(profile.phone ?? "");
+
+    setAddresses(
+      profile.address?.length
+        ? profile.address.map((a) => ({
+            title: a.title ?? "",
+            place: a.place ?? "",
+          }))
+        : [{ title: "", place: "" }]
+    );
+  }, [profile]);
+
   const addAddress = () =>
-    setAddresses([...addresses, { title: "", place: "" }]);
+    setAddresses((prev) => [...prev, { title: "", place: "" }]);
 
   const updateAddressField = (index, field, value) => {
-    const updated = [...addresses];
-    updated[index][field] = value;
-    setAddresses(updated);
+    setAddresses((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
   };
 
   const removeAddress = (index) => {
-    setAddresses(addresses.filter((_, i) => i !== index));
+    setAddresses((prev) => prev.filter((_, i) => i !== index));
   };
 
   const clean = (val) =>
@@ -52,14 +68,18 @@ const UserProfileForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const cleanedAddresses = addresses
+      .map((a) => ({
+        title: clean(a.title),
+        place: clean(a.place),
+      }))
+      .filter((a) => a.title || a.place);
+
     const profileData = {
       name: clean(name),
       email: clean(email),
       phone: clean(phone),
-      address: addresses.map((a) => ({
-        title: clean(a.title),
-        place: clean(a.place),
-      })),
+      address: cleanedAddresses,
     };
 
     dispatch(ProfileActions.updateFullProfile(profileData));

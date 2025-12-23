@@ -1,23 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  isModalVisible: false,
+  modalContent: null,
+  modalData: null,
+};
+
 const ModalSlice = createSlice({
   name: "Modal",
-
-  initialState: {
-    isModalVisible: false,
-    modalContent: null,
-    modalData: null,
-  },
-
+  initialState,
   reducers: {
     setModal(state) {
       state.isModalVisible = true;
     },
 
-    unsetModal(state) {
-      state.isModalVisible = false;
-      state.modalContent = null;
-      state.modalData = null;
+    unsetModal() {
+      return initialState;
     },
 
     setModalContent(state, action) {

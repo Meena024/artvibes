@@ -9,20 +9,32 @@ export const useAuthInitializer = () => {
   const dispatch = useDispatch();
   const role = useSelector((state) => state.profile.role);
 
+  // -------- INITIAL LOAD (runs once) --------
   useEffect(() => {
+    let isMounted = true;
+
     dispatch(SellerProductsActions.fetchProducts());
     dispatch(SellerProductsActions.fetchCategories());
 
     const token = localStorage.getItem("token");
+
     if (!token) {
-      dispatch(AuthAction.userAuthenticated(false));
-      dispatch(AuthAction.setLoading(false));
+      if (isMounted) {
+        dispatch(AuthAction.userAuthenticated(false));
+        dispatch(AuthAction.setLoading(false));
+      }
       return;
     }
 
+    // fire-and-forget (InitializeAuth handles loading & errors)
     InitializeAuth(dispatch, token);
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch]);
 
+  // -------- ROLE-BASED DATA --------
   useEffect(() => {
     if (!role) return;
 

@@ -1,11 +1,8 @@
+import { memo } from "react";
 import classes from "./Card.module.css";
 
-const Card = (props) => {
-  return (
-    <div className={`${classes.card} ${props.className || ""}`}>
-      {props.children}
-    </div>
-  );
+const Card = ({ children, className = "" }) => {
+  return <div className={`${classes.card} ${className}`}>{children}</div>;
 };
 
-export default Card;
+export default memo(Card);

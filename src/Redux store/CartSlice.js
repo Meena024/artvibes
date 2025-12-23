@@ -10,73 +10,73 @@ const CartSlice = createSlice({
   name: "Cart",
   initialState,
   reducers: {
-    setCart: (state, action) => {
+    setCart(state, action) {
       state.cartItems = action.payload.cartItems ?? [];
     },
 
-    setOrders: (state, action) => {
+    setOrders(state, action) {
       state.orders = action.payload.myOrders ?? [];
     },
 
-    addOrder: (state, action) => {
+    addOrder(state, action) {
       state.orders.unshift(action.payload);
     },
 
-    addItem: (state, action) => {
+    addItem(state, action) {
       const item = action.payload;
-      const exists = state.cartItems.find((i) => i.id === item.id);
+      const existing = state.cartItems.find((i) => i.id === item.id);
 
-      if (exists) {
-        exists.qty += item.qty;
+      if (existing) {
+        existing.qty += item.qty;
       } else {
         state.cartItems.push(item);
       }
     },
 
-    increaseQty: (state, action) => {
+    increaseQty(state, action) {
       const item = state.cartItems.find((i) => i.id === action.payload);
-      if (item) item.qty++;
+      if (item) item.qty += 1;
     },
 
-    decreaseQty: (state, action) => {
+    decreaseQty(state, action) {
       const item = state.cartItems.find((i) => i.id === action.payload);
-      if (item && item.qty > 1) item.qty--;
+      if (item && item.qty > 1) item.qty -= 1;
     },
 
-    removeItem: (state, action) => {
+    removeItem(state, action) {
       state.cartItems = state.cartItems.filter((i) => i.id !== action.payload);
     },
 
-    clearCart: (state) => {
+    clearCart(state) {
       state.cartItems = [];
     },
 
-    updateItemStatus: (state, action) => {
+    updateItemStatus(state, action) {
       const { orderId, itemIndex, status } = action.payload;
       const order = state.orders.find((o) => o.orderId === orderId);
-      if (order) {
+
+      if (order?.items?.[itemIndex]) {
         order.items[itemIndex].status = status;
       }
     },
 
-    setFav: (state, action) => {
+    setFav(state, action) {
       state.favItems = action.payload.favItems ?? [];
     },
 
-    addToFavr: (state, action) => {
-      if (!state.favItems.find((i) => i.id === action.payload.id)) {
+    addToFavr(state, action) {
+      const exists = state.favItems.some((i) => i.id === action.payload.id);
+      if (!exists) {
         state.favItems.push(action.payload);
       }
     },
 
-    removeFromFavr: (state, action) => {
+    removeFromFavr(state, action) {
       state.favItems = state.favItems.filter((i) => i.id !== action.payload);
     },
 
-    reset: (state) => {
-      state.cartItems = [];
-      state.orders = [];
-      state.favItems = [];
+    reset() {
+      return initialState;
     },
   },
 });

@@ -4,18 +4,23 @@ import Styles from "../../../../UI/CSS/UserCategoryListing.module.css";
 
 const UserCategoryListing = ({ category }) => {
   const dispatch = useDispatch();
-  const selected = useSelector((state) =>
-    category.isFavCategory
-      ? state.sellerProducts.selectedCategories.includes("__FAV__")
-      : state.sellerProducts.selectedCategories.includes(category.title)
+
+  const selectedCategories = useSelector(
+    (state) => state.sellerProducts.selectedCategories
   );
 
+  if (!category) return null;
+
+  const selected = category.isFavCategory
+    ? selectedCategories.includes("__FAV__")
+    : selectedCategories.includes(category.title);
+
   const toggleCategory = () => {
-    if (category.isFavCategory) {
-      dispatch(SellerProductsActions.toggleSelectedCategory("__FAV__"));
-    } else {
-      dispatch(SellerProductsActions.toggleSelectedCategory(category.title));
-    }
+    dispatch(
+      SellerProductsActions.toggleSelectedCategory(
+        category.isFavCategory ? "__FAV__" : category.title
+      )
+    );
   };
 
   return (

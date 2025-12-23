@@ -8,9 +8,12 @@ export const selectCartQty = createSelector(
 );
 
 export const selectTotalQty = createSelector([selectCartItems], (items) =>
-  items.reduce((sum, i) => sum + Number(i.qty), 0)
+  items.reduce((sum, { qty }) => sum + Number(qty || 0), 0)
 );
 
 export const selectTotalAmount = createSelector([selectCartItems], (items) =>
-  items.reduce((sum, i) => sum + Number(i.price) * Number(i.qty), 0)
+  items.reduce(
+    (sum, { price, qty }) => sum + Number(price || 0) * Number(qty || 0),
+    0
+  )
 );

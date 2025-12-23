@@ -20,7 +20,10 @@ const AddCategoryForm = () => {
 
   useEffect(() => {
     if (editCategory) {
-      setFormData(editCategory);
+      setFormData({
+        title: editCategory.title ?? "",
+        image: editCategory.image ?? "",
+      });
     }
   }, [editCategory]);
 
@@ -39,20 +42,20 @@ const AddCategoryForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const cleanedData = {
+      title: formData.title.trim(),
+      image: formData.image.trim(),
+    };
+
     if (isEdit) {
       dispatch(
         SellerProductsActions.updateCategory({
           id: editCategory.id,
-          data: formData,
+          data: cleanedData,
         })
       );
     } else {
-      dispatch(
-        SellerProductsActions.addCategory({
-          title: formData.title,
-          image: formData.image,
-        })
-      );
+      dispatch(SellerProductsActions.addCategory(cleanedData));
     }
 
     dispatch(SellerProductsActions.resetEditCategory());
@@ -60,6 +63,7 @@ const AddCategoryForm = () => {
   };
 
   const handleCancel = () => {
+    setFormData({ title: "", image: "" });
     dispatch(SellerProductsActions.resetEditCategory());
     dispatch(ModalActions.unsetModal());
   };

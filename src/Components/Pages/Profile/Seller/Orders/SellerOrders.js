@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerProductActions";
 import { CartActions } from "../../../../../Redux store/CartActions";
 import SellerOrderListing from "./SellerOrdersListing";
 
 const SellerOrders = () => {
   const dispatch = useDispatch();
-  const [orders, setOrders] = useState([]);
+
+  const orders = useSelector((state) => state.sellerProducts.allOrders) || [];
+
+  const isLoading = useSelector((state) => state.sellerProducts.loading);
 
   useEffect(() => {
-    const load = async () => {
-      const result = await dispatch(SellerProductsActions.fetchAllOrders());
-      setOrders(result);
-    };
-    load();
+    dispatch(SellerProductsActions.fetchAllOrders());
   }, [dispatch]);
 
   const handleItemStatusChange = async (
@@ -26,23 +25,21 @@ const SellerOrders = () => {
       CartActions.updateItemStatus(orderId, pur_UserId, itemIndex, newStatus)
     );
 
-    setOrders((prev) =>
-      prev.map((order) =>
-        order.orderId === orderId
-          ? {
-              ...order,
-              items: order.items.map((item, index) =>
-                index === itemIndex ? { ...item, status: newStatus } : item
-              ),
-            }
-          : order
-      )
-    );
+    // Re-fetch orders to stay in sync
+    dispatch(SellerProductsActions.fetchAllOrders());
   };
+
+  if (isLoading) {
+    return (
+      <p style={{ textAlign: "center", marginTop: "100px" }}>
+        Loading orders...
+      </p>
+    );
+  }
 
   return (
     <div>
-      {Array.isArray(orders) && orders.length > 0 ? (
+      {orders.length > 0 ? (
         orders.map((order) => (
           <SellerOrderListing
             key={order.orderId}

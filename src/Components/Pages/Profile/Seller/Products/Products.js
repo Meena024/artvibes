@@ -5,16 +5,16 @@ import ProductListing from "./ProductListing";
 
 const Product = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.sellerProducts.products);
+  const products = useSelector((state) => state.sellerProducts.products) || [];
 
-  const AddProductHandler = () => {
+  const addProductHandler = () => {
     dispatch(ModalActions.setModalContent("AddProduct"));
     dispatch(ModalActions.setModal());
   };
 
   return (
     <div className={Styles.container}>
-      <button className={Styles.button} onClick={AddProductHandler}>
+      <button className={Styles.button} onClick={addProductHandler}>
         Add Products
       </button>
 
@@ -31,7 +31,7 @@ const Product = () => {
         </thead>
 
         <tbody>
-          {products?.length > 0 ? (
+          {products.length > 0 ? (
             products.map((product) => (
               <ProductListing key={product.id} product={product} />
             ))

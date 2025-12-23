@@ -15,18 +15,21 @@ const ForgotPassword = () => {
 
   const resetPasswordHandler = async (e) => {
     e.preventDefault();
+
+    if (loading) return;
+
     setLoading(true);
     setMessage("");
     setError(null);
 
+    const cleanEmail = email.trim();
+
     try {
-      await forgotPassword(email);
+      await forgotPassword(cleanEmail);
 
       setMessage("Password reset link has been sent!");
       setEmail("");
     } catch (err) {
-      console.error("RESET PASSWORD ERROR:", err);
-
       const safeMessage =
         err?.message || "Something went wrong. Please try again.";
 

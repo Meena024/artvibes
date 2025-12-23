@@ -2,9 +2,13 @@ import { Navigate } from "react-router-dom";
 
 const PublicRoute = ({ isLoggedIn, children }) => {
   const token = localStorage.getItem("token");
-  if (isLoggedIn && token) {
+
+  const isAuthenticated = Boolean(isLoggedIn) && Boolean(token);
+
+  if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
+
   return children;
 };
 

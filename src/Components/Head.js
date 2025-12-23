@@ -1,8 +1,7 @@
 import styles from "../UI/CSS/Head.module.css";
 import logo from "../Assets/Logo.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { AuthAction } from "../Redux store/AuthSlice";
 import { ProfileActions } from "../Redux store/ProfileActions";
 import { ModalActions } from "../Redux store/ModalSlice";

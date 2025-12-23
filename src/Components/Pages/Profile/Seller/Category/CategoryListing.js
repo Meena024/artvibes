@@ -7,6 +7,9 @@ import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerP
 const CategoryListing = ({ category }) => {
   const dispatch = useDispatch();
 
+  // Defensive guard — prevents rare crash scenarios
+  if (!category) return null;
+
   const editHandler = () => {
     dispatch(SellerProductsActions.setEditCategory(category));
     dispatch(ModalActions.setModalContent("AddCategory"));
@@ -24,7 +27,11 @@ const CategoryListing = ({ category }) => {
       </div>
 
       <div className={styles.cell}>
-        <img src={category.image} alt="" className={styles.productImage} />
+        <img
+          src={category.image}
+          alt={category.title}
+          className={styles.productImage}
+        />
       </div>
 
       <div className={styles.actionBtns}>

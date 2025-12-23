@@ -5,7 +5,12 @@ const Header = () => {
   return (
     <header className={head_classes.header}>
       <div className={head_classes.logoContainer}>
-        <img src={logo} alt="Logo" className={head_classes.logo} />
+        <img
+          src={logo}
+          alt=""
+          aria-hidden="true"
+          className={head_classes.logo}
+        />
         <h1 className={head_classes.title}>ArtVibe</h1>
       </div>
 

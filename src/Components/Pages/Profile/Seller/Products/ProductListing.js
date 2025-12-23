@@ -7,6 +7,8 @@ import { SellerProductsActions } from "../../../../../Redux store/Seller/SellerP
 const ProductListing = ({ product }) => {
   const dispatch = useDispatch();
 
+  if (!product) return null;
+
   const editHandler = () => {
     dispatch(SellerProductsActions.setEditProduct(product));
     dispatch(ModalActions.setModalContent("AddProduct"));
@@ -14,6 +16,12 @@ const ProductListing = ({ product }) => {
   };
 
   const deleteHandler = () => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete "${product.title}"?`
+    );
+
+    if (!confirmDelete) return;
+
     dispatch(SellerProductsActions.removeProduct(product.id));
   };
 
@@ -22,13 +30,19 @@ const ProductListing = ({ product }) => {
       <td colSpan="6" className={styles.rowWrapper}>
         <div className={styles.row}>
           <div className={styles.cell}>
-            <h4> {product.title}</h4>
+            <h4>{product.title}</h4>
           </div>
+
           <div className={styles.cell}>{product.description}</div>
           <div className={styles.cell}>{product.category}</div>
           <div className={styles.cell}>₹{product.price}</div>
+
           <div className={styles.cell}>
-            <img src={product.image} alt="" className={styles.productImage} />
+            <img
+              src={product.image}
+              alt={product.title}
+              className={styles.productImage}
+            />
           </div>
 
           <div className={styles.actionBtns}>

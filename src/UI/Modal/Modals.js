@@ -1,4 +1,5 @@
 import "./Modals.css";
+import { useCallback, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ModalActions } from "../../Redux store/ModalSlice";
 import AddProductForm from "../../Components/Pages/Profile/Seller/Products/AddProductForm";
@@ -10,23 +11,29 @@ import UserProductsDetailedView from "../../Components/Pages/Profile/User/UserPr
 
 const Modals = () => {
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state) => state.modal.isModalVisible);
-  const modalContent = useSelector((state) => state.modal.modalContent);
-  const imgURL = useSelector((state) => state.profile.profileUrl);
-  const modalData = useSelector((state) => state.modal.modalData);
 
-  const renderContent = () => {
+  const { isModalVisible, modalContent, modalData } = useSelector(
+    (state) => state.modal
+  );
+  const imgURL = useSelector((state) => state.profile.profileUrl);
+
+  const renderContent = useCallback(() => {
     switch (modalContent) {
       case "User Profile Form":
         return <UserProfileForm />;
+
       case "AddProduct":
         return <AddProductForm />;
+
       case "AddCategory":
         return <AddCategoryForm />;
+
       case "MyCart":
         return <Cart />;
+
       case "Checkout":
         return <Checkout />;
+
       case "ZoomImage":
         return (
           <img
@@ -37,26 +44,26 @@ const Modals = () => {
             className="rounded border"
           />
         );
+
       case "DetailedView":
         return <UserProductsDetailedView product={modalData} />;
+
       default:
         return null;
     }
-  };
+  }, [modalContent, modalData, imgURL]);
 
   const closeModalHandler = () => {
     dispatch(ModalActions.unsetModal());
   };
 
+  if (!isModalVisible) return null;
+
   return (
-    <>
-      {isModalVisible && (
-        <div className="modal-overlay" onClick={closeModalHandler}>
-          <div onClick={(e) => e.stopPropagation()}>{renderContent()}</div>
-        </div>
-      )}
-    </>
+    <div className="modal-overlay" onClick={closeModalHandler}>
+      <div onClick={(e) => e.stopPropagation()}>{renderContent()}</div>
+    </div>
   );
 };
 
-export default Modals;
+export default memo(Modals);

@@ -1,17 +1,25 @@
 import styles from "../../../../../UI/CSS/SellerOrders.module.css";
 
 const SellerOrderListing = ({ order, onItemStatusChange }) => {
+  if (!order) return null;
+
   const {
     orderId,
     userId,
     createdAt,
-    items,
-    totalAmount,
-    paymentMethod,
-    shipping,
+    items = [],
+    totalAmount = 0,
+    paymentMethod = "",
+    shipping = {},
   } = order;
 
-  const date = new Date(createdAt).toLocaleString();
+  const date = createdAt ? new Date(createdAt).toLocaleString() : "N/A";
+
+  const handleStatusChange = (index, value) => {
+    if (typeof onItemStatusChange === "function") {
+      onItemStatusChange(orderId, userId, index, value);
+    }
+  };
 
   return (
     <div className={styles.orderCard}>
@@ -21,7 +29,7 @@ const SellerOrderListing = ({ order, onItemStatusChange }) => {
           <p className={styles.orderId}>Order Id: #{orderId}</p>
           <p className={styles.date}>Date: {date}</p>
           <p className={styles.payment}>
-            Payment: {paymentMethod.toUpperCase()}
+            Payment: {paymentMethod.toUpperCase() || "N/A"}
           </p>
         </div>
 
@@ -32,8 +40,12 @@ const SellerOrderListing = ({ order, onItemStatusChange }) => {
 
       {/* ITEMS LIST */}
       <div className={styles.itemsWrapper}>
+        {items.length === 0 && (
+          <p className={styles.noItems}>No items in this order.</p>
+        )}
+
         {items.map((item, index) => (
-          <div key={item.id} className={styles.itemCard}>
+          <div key={item.id ?? index} className={styles.itemCard}>
             <img
               src={item.image}
               alt={item.title}
@@ -51,9 +63,7 @@ const SellerOrderListing = ({ order, onItemStatusChange }) => {
             <select
               className={styles.statusSelect}
               value={item.status}
-              onChange={(e) =>
-                onItemStatusChange(orderId, userId, index, e.target.value)
-              }
+              onChange={(e) => handleStatusChange(index, e.target.value)}
             >
               <option value="pending">Pending</option>
               <option value="shipped">Shipped</option>
@@ -67,13 +77,13 @@ const SellerOrderListing = ({ order, onItemStatusChange }) => {
       <div className={styles.shippingBox}>
         <h4>Shipping Details</h4>
         <p>
-          <strong>Name:</strong> {shipping.name}
+          <strong>Name:</strong> {shipping.name || "N/A"}
         </p>
         <p>
-          <strong>Phone:</strong> {shipping.phone}
+          <strong>Phone:</strong> {shipping.phone || "N/A"}
         </p>
         <p>
-          <strong>Address:</strong> {shipping.address}
+          <strong>Address:</strong> {shipping.address || "N/A"}
         </p>
       </div>
     </div>

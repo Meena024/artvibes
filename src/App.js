@@ -16,11 +16,11 @@ function App() {
     });
   }, []);
   return (
-    <BrowserRouter>
-      <Provider store={store}>
+    <Provider store={store}>
+      <BrowserRouter>
         <Main />
-      </Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
