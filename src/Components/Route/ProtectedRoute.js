@@ -11,7 +11,7 @@ const ProtectedRoute = ({ isLoggedIn, role, children }) => {
   const isAuthorized = Boolean(isLoggedIn) && Boolean(token) && role === "user";
 
   if (!isAuthorized) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/user/products" replace />;
   }
 
   return children;

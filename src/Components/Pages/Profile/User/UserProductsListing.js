@@ -50,7 +50,7 @@ const UserProductsListing = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(CartActions.addItem({ ...product, qty, status: "pending" }));
+    dispatch(CartActions.addItem({ ...product, qty, status: "Pending" }));
     dispatch(CartActions.updateCart());
     setQty(1);
   };

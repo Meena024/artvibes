@@ -1,7 +1,7 @@
 .head {
   width: 100%;
   padding: 2px 25px;
-  background: linear-gradient(90deg, #e8effb 10%, #f5e0d9 40%, #e8effb 100%);
+  background: linear-gradient(90deg, #f5e0d9 10%, #e8effb 30%, #f5e0d9 100%);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
   display: flex;

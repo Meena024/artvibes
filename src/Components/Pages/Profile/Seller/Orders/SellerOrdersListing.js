@@ -65,9 +65,10 @@ const SellerOrderListing = ({ order, onItemStatusChange }) => {
               value={item.status}
               onChange={(e) => handleStatusChange(index, e.target.value)}
             >
-              <option value="pending">Pending</option>
-              <option value="shipped">Shipped</option>
-              <option value="delivered">Delivered</option>
+              <option value="Pending">Pending</option>
+              <option value="Processing">Processing</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Delivered">Delivered</option>
             </select>
           </div>
         ))}

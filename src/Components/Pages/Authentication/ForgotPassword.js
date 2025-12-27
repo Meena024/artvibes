@@ -27,7 +27,9 @@ const ForgotPassword = () => {
     try {
       await forgotPassword(cleanEmail);
 
-      setMessage("Password reset link has been sent!");
+      setMessage(
+        "If an account exists for this email, a password reset link has been sent."
+      );
       setEmail("");
     } catch (err) {
       const safeMessage =
@@ -69,7 +71,7 @@ const ForgotPassword = () => {
           <button
             type="button"
             className={form_classes.linkBtn}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/Login")}
           >
             Go back to Sign In?
           </button>

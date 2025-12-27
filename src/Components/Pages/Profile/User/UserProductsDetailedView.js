@@ -2,6 +2,7 @@ import Styles from "../../../../UI/CSS/UserProductsDetailedView.module.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CartActions } from "../../../../Redux store/CartActions";
+import { ModalActions } from "../../../../Redux store/ModalSlice";
 
 const UserProductsDetailedView = ({ product }) => {
   const dispatch = useDispatch();
@@ -26,8 +27,9 @@ const UserProductsDetailedView = ({ product }) => {
 
     if (!product) return;
 
-    dispatch(CartActions.addItem({ ...product, qty }));
+    dispatch(CartActions.addItem({ ...product, qty, status: "Pending" }));
     dispatch(CartActions.updateCart());
+    dispatch(ModalActions.unsetModal());
   };
 
   return (

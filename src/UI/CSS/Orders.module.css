@@ -119,17 +119,22 @@
 }
 
 /* Status colors */
-.pending {
+.Pending {
+  background: #dbdbdb;
+  color: #777777;
+}
+
+.Processing {
   background: #c9d4f5;
   color: #353f9b;
 }
 
-.shipped {
+.Shipped {
   background: #ffdd99;
   color: #8b6015;
 }
 
-.delivered {
+.Delivered {
   background: #d4f8df;
   color: #0f8b2f;
 }

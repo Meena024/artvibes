@@ -2,10 +2,14 @@ import Styles from "../../../../../UI/CSS/SellerProducts.module.css";
 import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProductListing from "./ProductListing";
+import { useNavigate } from "react-router";
 
 const Product = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  if (!isLoggedIn) navigate("/user/products");
   const products = useSelector((state) => state.sellerProducts.products) || [];
 
   const searchText =
