@@ -6,7 +6,7 @@ import { CartActions } from "../../../../../Redux store/CartActions";
 import {
   selectTotalQty,
   selectTotalAmount,
-} from "../../../../../Redux store/CartSelectors";
+} from "../../../../Utility/CartSelectors";
 
 const Checkout = () => {
   const dispatch = useDispatch();

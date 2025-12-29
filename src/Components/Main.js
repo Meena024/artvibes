@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useAuthInitializer } from "./Hooks/AuthInitializer";
+import { useAuthInitializer } from "./Hooks/useAuthInitializer";
 
 import Header from "./Header";
 import Head from "./Head";
@@ -44,7 +44,9 @@ const Main = () => {
   const isLoading = useSelector((state) => state.auth.loading);
 
   if (isLoggedIn && isLoading) {
-    return <div>loading...</div>;
+    return (
+      <div style={{ textAlign: "center", marginTop: "30px" }}>Loading...</div>
+    );
   }
 
   return (

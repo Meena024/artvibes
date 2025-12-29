@@ -3,12 +3,6 @@ import { fetchAuthData } from "../../../Redux store/AuthActions";
 import { ProfileActions } from "../../../Redux store/ProfileActions";
 
 export const InitializeAuth = async (dispatch, token) => {
-  if (!token) {
-    dispatch(AuthAction.userAuthenticated(false));
-    dispatch(AuthAction.setLoading(false));
-    return;
-  }
-
   dispatch(AuthAction.userAuthenticated(true));
 
   try {

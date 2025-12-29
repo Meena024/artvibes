@@ -1,5 +1,5 @@
 import { SellerProductsActions as SliceActions } from "./SellerProductsSlice";
-import { dbApi } from "../../Components/Hooks/DbApi";
+import { dbApi } from "../../Components/Utility/DbApi";
 
 /* ------------------ FETCH PRODUCTS ------------------ */
 

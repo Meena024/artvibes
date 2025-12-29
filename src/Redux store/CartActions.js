@@ -1,5 +1,5 @@
 import { CartSliceActions as SliceActions } from "./CartSlice";
-import { dbApi } from "../Components/Hooks/DbApi";
+import { dbApi } from "../Components/Utility/DbApi";
 
 /* ------------------ helpers ------------------ */
 

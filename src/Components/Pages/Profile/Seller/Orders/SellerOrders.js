@@ -25,7 +25,6 @@ const SellerOrders = () => {
       CartActions.updateItemStatus(orderId, pur_UserId, itemIndex, newStatus)
     );
 
-    // Re-fetch orders to stay in sync
     dispatch(SellerProductsActions.fetchAllOrders());
   };
 

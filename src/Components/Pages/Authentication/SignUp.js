@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Card from "../../../UI/Card/Card";
 import form_classes from "../../../UI/CSS/Form.module.css";
-import { dbApi } from "../../Hooks/DbApi";
+import { dbApi } from "../../Utility/DbApi";
 import { useAuthApi } from "../../Hooks/useAuthApi";
 
 const SignUp = () => {

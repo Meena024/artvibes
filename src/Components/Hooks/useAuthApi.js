@@ -13,9 +13,6 @@ const api = axios.create({
   timeout: 15000,
 });
 
-/**
- * Maps Firebase auth error codes to user-friendly messages
- */
 const mapAuthError = (code) => {
   switch (code) {
     case "EMAIL_NOT_FOUND":

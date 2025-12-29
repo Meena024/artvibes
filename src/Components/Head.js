@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AuthAction } from "../Redux store/AuthSlice";
 import { ProfileActions } from "../Redux store/ProfileActions";
 import { ModalActions } from "../Redux store/ModalSlice";
-import { selectCartQty } from "../Redux store/CartSelectors";
+import { selectCartQty } from "./Utility/CartSelectors";
 import { SellerProductsActions } from "../Redux store/Seller/SellerProductActions";
 import { CartActions } from "../Redux store/CartActions";
 

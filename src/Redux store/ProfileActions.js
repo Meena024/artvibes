@@ -1,5 +1,5 @@
 import { ProfileActions as SliceActions } from "./ProfileSlice";
-import { dbApi } from "../Components/Hooks/DbApi";
+import { dbApi } from "../Components/Utility/DbApi";
 
 /* ------------------ FETCH PROFILE ------------------ */
 

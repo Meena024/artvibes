@@ -6,7 +6,7 @@ import { ModalActions } from "../../../../../Redux store/ModalSlice";
 import {
   selectTotalQty,
   selectTotalAmount,
-} from "../../../../../Redux store/CartSelectors";
+} from "../../../../Utility/CartSelectors";
 const Cart = () => {
   const dispatch = useDispatch();
 

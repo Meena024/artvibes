@@ -13,14 +13,8 @@ const api = axios.create({
   timeout: 15000,
 });
 
-/**
- * Normalizes Firebase paths and ensures `.json`
- */
 const buildPath = (path) => `${path.replace(/^\/+/, "")}.json`;
 
-/**
- * Centralized error handling
- */
 const handleRequest = async (request) => {
   try {
     const res = await request();
