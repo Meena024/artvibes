@@ -9,6 +9,8 @@ if (!API_KEY) {
   );
 }
 
+// custom Axios instance.
+// If a request takes longer than 15 seconds → Axios automatically cancels it.
 const api = axios.create({
   timeout: 15000,
 });
