@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import UserProductsListing from "./UserProductsListing";
 import UserCategoryListing from "./UserCategoryListing";
+import ChatBot from "./ChatBot/ChatBot";
 import Styles from "../../../../UI/CSS/UserProducts.module.css";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,7 @@ const UserProducts = () => {
   const searchText = useSelector((state) => state.sellerProducts.searchText);
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const selectedCategories = useSelector(
-    (state) => state.sellerProducts.selectedCategories
+    (state) => state.sellerProducts.selectedCategories,
   );
 
   useEffect(() => {
@@ -124,6 +125,7 @@ const UserProducts = () => {
           <UserProductsListing key={p.id} product={p} />
         ))}
       </div>
+      <ChatBot />
     </div>
   );
 };

@@ -21,6 +21,7 @@ import SellerOrders from "./Pages/Profile/Seller/Orders/SellerOrders";
 import UserProducts from "./Pages/Profile/User/UserProducts";
 import UserOrders from "./Pages/Profile/User/Cart/UserOrders";
 import Favourites from "./Pages/Profile/User/Cart/Favorites";
+import ChatBot from "./Pages/Profile/User/ChatBot/ChatBot";
 
 const PublicLayout = () => (
   <>
@@ -29,12 +30,18 @@ const PublicLayout = () => (
   </>
 );
 
-const AppLayout = () => (
-  <>
-    <Head />
-    <Outlet />
-  </>
-);
+const AppLayout = () => {
+  const role = useSelector((state) => state.profile.role);
+
+  return (
+    <>
+      <Head />
+      <Outlet />
+
+      {role === "user" && <ChatBot />}
+    </>
+  );
+};
 
 const Main = () => {
   useAuthInitializer();
