@@ -32,13 +32,13 @@ const PublicLayout = () => (
 
 const AppLayout = () => {
   const role = useSelector((state) => state.profile.role);
-
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
+  console.log("isLoggedIn", isLoggedIn);
   return (
     <>
       <Head />
       <Outlet />
-
-      {role === "user" && <ChatBot />}
+      {isLoggedIn && role === "user" && <ChatBot />}
     </>
   );
 };

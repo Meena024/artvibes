@@ -49,6 +49,7 @@ export const handleLocalIntent = ({
     query.includes("all products") ||
     query.includes("clear filters")
   ) {
+    navigate("/user/products");
     dispatch(SellerProductsActions.clearSelectedCategories());
 
     dispatch(SellerProductsActions.setSearchText(""));
@@ -63,7 +64,9 @@ export const handleLocalIntent = ({
 
   if (query.startsWith("search ")) {
     const searchText = query.replace("search ", "").trim();
-
+    console.log(searchText);
+    navigate("/user/products");
+    dispatch(SellerProductsActions.clearSelectedCategories());
     dispatch(SellerProductsActions.setSearchText(searchText));
 
     return {
@@ -78,6 +81,7 @@ export const handleLocalIntent = ({
     query.includes(category.title.toLowerCase()),
   );
 
+  navigate("/user/products");
   if (matchedCategory) {
     dispatch(SellerProductsActions.clearSelectedCategories());
 
@@ -97,19 +101,17 @@ export const handleLocalIntent = ({
     const amount = Number(query.match(/\d+/)?.[0]);
 
     if (!isNaN(amount)) {
-      const matches = products.filter(
-        (product) => Number(product.price) <= amount,
-      );
+      navigate("/user/products");
+
+      dispatch(SellerProductsActions.clearSelectedCategories());
+
+      dispatch(SellerProductsActions.setSearchText(""));
+
+      dispatch(SellerProductsActions.setPriceFilter(amount));
 
       return {
         handled: true,
-        response:
-          matches.length > 0
-            ? `Found ${matches.length} products under ₹${amount}\n\n${matches
-                .slice(0, 5)
-                .map((product) => `• ${product.title} - ₹${product.price}`)
-                .join("\n")}`
-            : `No products found under ₹${amount}`,
+        response: `Showing products under ₹${amount}`,
       };
     }
   }
@@ -236,14 +238,17 @@ export const handleLocalIntent = ({
   );
 
   if (matchingProducts.length > 0) {
+    navigate("/user/products");
+
+    dispatch(SellerProductsActions.clearSelectedCategories());
+
+    dispatch(SellerProductsActions.clearPriceFilter());
+
+    dispatch(SellerProductsActions.setSearchText(query));
+
     return {
       handled: true,
-      response:
-        "Matching products:\n\n" +
-        matchingProducts
-          .slice(0, 5)
-          .map((product) => `• ${product.title} - ₹${product.price}`)
-          .join("\n"),
+      response: `Showing ${matchingProducts.length} matching products.`,
     };
   }
 

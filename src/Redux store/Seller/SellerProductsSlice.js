@@ -7,6 +7,7 @@ const initialState = {
   edit_category: null,
   selectedCategories: [],
   searchText: "",
+  priceFilter: null,
   allOrders: [],
 };
 
@@ -34,7 +35,7 @@ const SellerProductsSlice = createSlice({
 
     removeProduct(state, action) {
       state.products = state.products.filter(
-        (product) => product.id !== action.payload
+        (product) => product.id !== action.payload,
       );
     },
 
@@ -66,7 +67,7 @@ const SellerProductsSlice = createSlice({
 
     removeCategory(state, action) {
       state.category = state.category.filter(
-        (cat) => cat.id !== action.payload
+        (cat) => cat.id !== action.payload,
       );
     },
 
@@ -102,9 +103,18 @@ const SellerProductsSlice = createSlice({
       state.searchText = action.payload;
     },
 
+    setPriceFilter(state, action) {
+      state.priceFilter = action.payload;
+    },
+
+    clearPriceFilter(state) {
+      state.priceFilter = null;
+    },
+
     clearFilters(state) {
       state.searchText = "";
       state.selectedCategories = [];
+      state.priceFilter = null;
     },
 
     setAllOrders(state, action) {

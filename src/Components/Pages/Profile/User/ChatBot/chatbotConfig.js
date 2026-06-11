@@ -1,31 +1,8 @@
-export const SUGGESTIONS = [
-  "Show all products",
-  "Show favourites",
-  "Show orders",
-  "Products under 1000",
-  "Cheapest products",
-  "Frames",
-  "Paintings",
-];
-
 export const INITIAL_MESSAGES = [
   {
     id: "welcome-message",
     sender: "bot",
-    text: `Hi 👋 I'm ArtVibes Assistant.
-
-I can help you with:
-• Product search
-• Categories
-• Favourites
-• Orders
-• Product recommendations
-
-Try asking:
-• Show all products
-• Products under 1000
-• Show favourites
-• Cheapest products`,
+    text: `Hi 👋 I'm ArtVibes Assistant. I can help you with: Product search, Categories, Favourites, Orders, Product recommendations`,
     timestamp: new Date().toISOString(),
   },
 ];

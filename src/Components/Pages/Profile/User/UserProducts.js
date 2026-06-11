@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import UserProductsListing from "./UserProductsListing";
 import UserCategoryListing from "./UserCategoryListing";
-import ChatBot from "./ChatBot/ChatBot";
 import Styles from "../../../../UI/CSS/UserProducts.module.css";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +17,7 @@ const UserProducts = () => {
   const selectedCategories = useSelector(
     (state) => state.sellerProducts.selectedCategories,
   );
+  const priceFilter = useSelector((state) => state.sellerProducts.priceFilter);
 
   useEffect(() => {
     if (role === "seller") {
@@ -70,6 +70,10 @@ const UserProducts = () => {
       );
     });
 
+    if (priceFilter !== null) {
+      filtered = filtered.filter((p) => Number(p.price) <= priceFilter);
+    }
+
     const result = [...filtered];
 
     if (sortOrder === "low-high") {
@@ -84,6 +88,7 @@ const UserProducts = () => {
     selectedCategories,
     favItems,
     searchText,
+    priceFilter,
     sortOrder,
     isLoggedIn,
   ]);
@@ -125,7 +130,6 @@ const UserProducts = () => {
           <UserProductsListing key={p.id} product={p} />
         ))}
       </div>
-      <ChatBot />
     </div>
   );
 };

@@ -20,7 +20,6 @@ import {
 import {
   CHATBOT_TITLE,
   CHATBOT_PLACEHOLDER,
-  SUGGESTIONS,
   QUICK_ACTIONS,
 } from "./chatbotConfig";
 
@@ -158,18 +157,6 @@ const ChatBot = () => {
 
           {messages.length <= 1 && (
             <>
-              <div className={styles.suggestions}>
-                {SUGGESTIONS.map((item) => (
-                  <button
-                    key={item}
-                    className={styles.suggestionBtn}
-                    onClick={() => sendMessage(item)}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-
               <div className={styles.quickActions}>
                 {QUICK_ACTIONS.map((action) => (
                   <button
